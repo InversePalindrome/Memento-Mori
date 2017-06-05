@@ -30,6 +30,7 @@ void SplashState::update(sf::Time deltaTime)
 	if (this->introTime.asSeconds() <= 0.f)
 	{
 		this->stateMachine.popState();
+		this->stateMachine.pushState(StateMachine::StateID::Menu);
 	}
 }
 

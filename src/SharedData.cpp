@@ -8,11 +8,14 @@ InversePalindrome.com
 #include "SharedData.hpp"
 
 
-SharedData::SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& hud, TextureHolder& textures, SoundHolder& sounds) :
+SharedData::SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& hud, TextureHolder& textures,
+	ImageHolder& images, SoundHolder& sounds, KeyBindings& keyBindings) :
 	window(window),
 	gui(gui),
 	hud(hud),
 	textures(textures),
-	sounds(sounds)
+	images(images),
+	sounds(sounds),
+	keyBindings(keyBindings)
 {
 }

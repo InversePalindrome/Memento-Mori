@@ -6,6 +6,12 @@ InversePalindrome.com
 
 
 #include "StateMachine.hpp"
+#include "LeaderboardState.hpp"
+#include "SettingsState.hpp"
+#include "SplashState.hpp"
+#include "GameState.hpp"
+#include "MenuState.hpp"
+#include "PauseState.hpp"
 
 
 StateMachine::StateMachine(SharedData& sharedData) :
@@ -14,6 +20,11 @@ StateMachine::StateMachine(SharedData& sharedData) :
 	stateFactory()
 {
 	registerState<SplashState>(StateID::Splash, sharedData);
+	registerState<MenuState>(StateID::Menu, sharedData);
+	registerState<GameState>(StateID::Game, sharedData);
+	registerState<SettingsState>(StateID::Settings, sharedData);
+	registerState<LeaderboardState>(StateID::Leaderboard, sharedData);
+	registerState<PauseState>(StateID::Pause, sharedData);
 }
 
 void StateMachine::handleEvent(const sf::Event& event)

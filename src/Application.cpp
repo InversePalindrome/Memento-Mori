@@ -19,8 +19,10 @@ Application::Application() :
 	gui(),
 	hud(),
 	textures(),
+	images(),
 	sounds(),
-	sharedData(window, gui, hud, textures, sounds),
+	keyBindings(),
+	sharedData(window, gui, hud, textures, images, sounds, keyBindings),
 	stateMachine(sharedData)
 {
 	loadTextures();
@@ -54,9 +56,14 @@ void Application::processInput()
 {
 	sf::Event event;
 
+	this->keyBindings.clearEvents();
+
 	while (this->window.pollEvent(event))
 	{
+		this->hud.HandleEvent(event);
 		this->stateMachine.handleEvent(event);
+
+		this->keyBindings.pushEvent(event);
 
 		switch (event.type)
 		{
@@ -68,8 +75,9 @@ void Application::processInput()
 
 void Application::update(sf::Time deltaTime)
 {
-	this->hud.Update(deltaTime.asMicroseconds());
 	this->stateMachine.update(deltaTime);
+	this->hud.Update(deltaTime.asMicroseconds());
+	this->keyBindings.update(this->window);
 }
 
 void Application::render()
@@ -77,11 +85,25 @@ void Application::render()
 	this->window.clear(sf::Color::White);
 
 	this->stateMachine.draw();
-
+	this->gui.Display(this->window);
 	this->window.display();
 }
 
 void Application::loadTextures()
 {
 	this->textures.acquire(Textures::ID::Logo, thor::Resources::fromFile<sf::Texture>("Resources/Images/InversePalindromeLogo.png"));
+	this->textures.acquire(Textures::ID::MenuBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/MenuBackground.png"));
+	this->textures.acquire(Textures::ID::AttackingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/AttackingSkeleton.png"));
+	this->textures.acquire(Textures::ID::JumpingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/JumpingSkeleton.png"));
+	this->textures.acquire(Textures::ID::StarParticle, thor::Resources::fromFile<sf::Texture>("Resources/Images/StarParticle.png"));
+	this->textures.acquire(Textures::ID::PauseMenu, thor::Resources::fromFile<sf::Texture>("Resources/Images/PauseMenu.png"));
+
+	this->images.acquire(Images::ID::PlayButton, thor::Resources::fromFile<sf::Image>("Resources/Images/PlayButton.png"));
+	this->images.acquire(Images::ID::SettingsButton, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton.png"));
+	this->images.acquire(Images::ID::LeaderboardButton, thor::Resources::fromFile<sf::Image>("Resources/Images/LeaderboardButton.png"));
+	this->images.acquire(Images::ID::BackButton, thor::Resources::fromFile<sf::Image>("Resources/Images/BackButton.png"));
+	this->images.acquire(Images::ID::ResumeButton, thor::Resources::fromFile<sf::Image>("Resources/Images/ResumeButton.png"));
+	this->images.acquire(Images::ID::RestartButton, thor::Resources::fromFile<sf::Image>("Resources/Images/RestartButton.png"));
+	this->images.acquire(Images::ID::SettingsButton2, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton2.png"));
+	this->images.acquire(Images::ID::QuitButton, thor::Resources::fromFile<sf::Image>("Resources/Images/QuitButton.png"));
 }
