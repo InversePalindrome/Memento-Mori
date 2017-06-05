@@ -9,7 +9,6 @@ InversePalindrome.com
 
 #include "State.hpp"
 #include "SharedData.hpp"
-#include "SplashState.hpp"
 
 #include <vector>
 #include <memory>
@@ -22,7 +21,7 @@ class StateMachine
 	using StatePtr = std::unique_ptr<State>;
 
 public:
-	enum class StateID { Undefined, Splash };
+	enum class StateID { Undefined, Splash, Menu, Game, Settings, Leaderboard, Pause };
 	enum class StackAction { Undefined, Push, Pop, Clear };
 
 	StateMachine(SharedData& data);

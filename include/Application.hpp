@@ -11,8 +11,6 @@ InversePalindrome.com
 #include "StateMachine.hpp"
 #include "ResourceIdentifiers.hpp"
 
-#include <SFGUI/SFGUI.hpp>
-#include <SFGUI/Desktop.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -32,7 +30,10 @@ private:
 	sfg::Desktop hud;
 
 	TextureHolder textures;
+	ImageHolder images;
 	SoundHolder sounds;
+
+	KeyBindings keyBindings;
 
 	SharedData sharedData;
 	StateMachine stateMachine;

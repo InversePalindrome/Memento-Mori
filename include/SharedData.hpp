@@ -7,6 +7,7 @@ InversePalindrome.com
 
 #pragma once
 
+#include "KeyBindings.hpp"
 #include "ResourceIdentifiers.hpp"
 
 #include <SFGUI/SFGUI.hpp>
@@ -17,11 +18,14 @@ InversePalindrome.com
 
 struct SharedData
 {
-	SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& hud, TextureHolder& textures, SoundHolder& sounds);
+	SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& hud, TextureHolder& textures,
+		ImageHolder& images, SoundHolder& sounds, KeyBindings& keyBindings);
 
 	sf::RenderWindow& window;
 	sfg::SFGUI& gui;
 	sfg::Desktop& hud;
 	TextureHolder& textures;
+	ImageHolder& images;
 	SoundHolder& sounds;
+	KeyBindings& keyBindings;
 };
