@@ -8,12 +8,17 @@ InversePalindrome.com
 #include "Component.hpp"
 
 
-Component::Component(ComponentID componentID) :
+Component::Component(ID componentID) :
 	componentID(componentID)
 {
 }
 
-Component::ComponentID Component::getID() const
+Component::~Component()
+{
+
+}
+
+Component::ID Component::getID() const
 {
 	return this->componentID;
 }

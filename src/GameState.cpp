@@ -10,8 +10,11 @@ InversePalindrome.com
 
 
 GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
-	State(stateMachine, sharedData)
+	State(stateMachine, sharedData),
+	entityManager(systemManager),
+	systemManager()
 {
+	systemManager.setEntityManager(entityManager);
 }
 
 void GameState::handleEvent(const sf::Event& event)
@@ -20,11 +23,13 @@ void GameState::handleEvent(const sf::Event& event)
 	{
 		stateMachine.pushState(StateMachine::StateID::Pause);
 	}
+
+	this->systemManager.handleEvent();
 }
 
 void GameState::update(sf::Time deltaTime)
 {
-
+	this->systemManager.update(deltaTime);
 }
 
 void GameState::draw()
