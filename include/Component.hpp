@@ -11,12 +11,14 @@ InversePalindrome.com
 class Component
 {
 public:
-	enum class ComponentID {};
+	enum class ID { Position, Velocity, Draw };
 
-	Component(ComponentID componentID);
+	virtual ~Component();
 
-	ComponentID getID() const;
+	Component(ID componentID);
+
+    ID getID() const;
 
 private:
-	ComponentID componentID;
+	ID componentID;
 };

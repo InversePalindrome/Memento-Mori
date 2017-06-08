@@ -8,6 +8,8 @@ InversePalindrome.com
 #pragma once
 
 #include "State.hpp"
+#include "EntityManager.hpp"
+#include "SystemManager.hpp"
 
 
 class GameState : public State
@@ -20,4 +22,6 @@ public:
 	virtual void draw() override;
 
 private:
+	EntityManager entityManager;
+	SystemManager systemManager;
 };
