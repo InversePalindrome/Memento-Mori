@@ -8,6 +8,7 @@ InversePalindrome.com
 #include "SystemManager.hpp"
 #include "EntityManager.hpp"
 #include "EntityEvents.hpp"
+#include "RenderSystem.hpp"
 #include "MovementSystem.hpp"
 
 
@@ -18,6 +19,7 @@ SystemManager::SystemManager() :
 	entityManager(nullptr)
 {
 	systems.push_back(std::make_unique<MovementSystem>(*this));
+	systems.push_back(std::make_unique<RenderSystem>(*this));
 }
 
 EntityManager* SystemManager::getEntityManager()
@@ -62,9 +64,17 @@ void SystemManager::handleEvent()
 	}
 }
 
-void SystemManager::draw()
+void SystemManager::draw(sf::RenderWindow& window)
 {
+	auto renderItr = std::find_if(std::begin(this->systems), std::end(this->systems),
+		[](const auto& system) { return system->getID() == System::ID::Render; });
 
+	if (renderItr != std::end(this->systems))
+	{
+		auto* renderSystem = dynamic_cast<RenderSystem*>(renderItr->get());
+		
+		renderSystem->render(window);
+	}
 }
 
 void SystemManager::addEvent(std::size_t entityID, std::size_t eventID)
@@ -80,7 +90,7 @@ void SystemManager::removeEntity(std::size_t entityID)
 	}
 }
 
-void SystemManager::adaptEntityChanges(std::size_t entityID, const Entity::BitMask& entityComposition)
+void SystemManager::adaptEntityChanges(std::size_t entityID, const EntityManager::EntityComposition& entityComposition)
 {
 	for (auto& system : this->systems)
 	{
@@ -88,7 +98,7 @@ void SystemManager::adaptEntityChanges(std::size_t entityID, const Entity::BitMa
 		{
 			system->addEntity(entityID);
 		}
-		else if (system->hasEntity(entityID))
+		else if (!system->passesRequirements(entityComposition) && system->hasEntity(entityID))
 		{
 			system->removeEntity(entityID);
 		}

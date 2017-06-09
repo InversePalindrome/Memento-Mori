@@ -26,10 +26,10 @@ System::ID System::getID() const
 
 void System::addEntity(std::size_t entityID)
 {
-	if (std::find(std::begin(this->entitiesIDs), std::end(this->entitiesIDs), entityID) != std::end(this->entitiesIDs))
-	{
-		this->entitiesIDs.push_back(entityID);
-	}
+	if (!this->hasEntity(entityID))
+    {
+	    this->entitiesIDs.push_back(entityID);
+    }
 }
 
 void System::removeEntity(std::size_t entityID)
@@ -42,7 +42,7 @@ bool System::hasEntity(std::size_t entityID) const
 	return std::find(std::begin(this->entitiesIDs), std::end(this->entitiesIDs), entityID) != std::end(this->entitiesIDs);
 }
 
-bool System::passesRequirements(const Entity::BitMask& entityComposition) const
+bool System::passesRequirements(const EntityManager::EntityComposition& entityComposition) const
 {
 	return std::find_if(std::begin(this->componentRequirements), std::end(this->componentRequirements), 
 		[&](const auto& entityRequirements) { return entityRequirements == entityComposition; }) != std::end(this->componentRequirements);

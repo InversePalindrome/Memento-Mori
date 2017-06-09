@@ -15,18 +15,23 @@ InversePalindrome.com
 MovementSystem::MovementSystem(SystemManager& systemManager) :
 	System(System::ID::Movement, systemManager)
 {
-	Entity::BitMask entityRequirements;
+	EntityManager::EntityComposition entityComposition;
 
-	entityRequirements[static_cast<std::size_t>(Component::ID::Position)] = 1u;
-	entityRequirements[static_cast<std::size_t>(Component::ID::Velocity)] = 1u;
+	entityComposition[static_cast<std::size_t>(Component::ID::Position)] = true;
+	entityComposition[static_cast<std::size_t>(Component::ID::Velocity)] = true;
 
-	componentRequirements.push_back(entityRequirements);
+	componentRequirements.push_back(entityComposition);
+}
+
+void MovementSystem::handleEvent(std::size_t eventID, EntityEvents event)
+{
+
 }
 
 void MovementSystem::update(sf::Time deltaTime)
 {
 	auto* entityManager = this->systemManager->getEntityManager();
-
+	
 	for (auto& entity : this->entitiesIDs)
 	{
 		auto* position = entityManager->getComponent<PositionComponent>(entity, Component::ID::Position);
@@ -34,12 +39,6 @@ void MovementSystem::update(sf::Time deltaTime)
 
 		position->move(velocity->getVelocity() * deltaTime.asSeconds());
 	}
-	
-}
-
-void MovementSystem::handleEvent(std::size_t eventID, EntityEvents event)
-{
-
 }
 
 void MovementSystem::notify(const Message& message)

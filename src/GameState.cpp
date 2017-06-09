@@ -7,11 +7,12 @@ InversePalindrome.com
 
 #include "GameState.hpp"
 #include "StateMachine.hpp"
+#include "SpriteComponent.hpp"
 
 
 GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
 	State(stateMachine, sharedData),
-	entityManager(systemManager),
+	entityManager(systemManager, sharedData.textures),
 	systemManager()
 {
 	systemManager.setEntityManager(entityManager);
@@ -34,5 +35,5 @@ void GameState::update(sf::Time deltaTime)
 
 void GameState::draw()
 {
-
+	this->systemManager.draw(this->sharedData.window);
 }
