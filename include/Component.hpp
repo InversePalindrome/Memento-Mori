@@ -11,7 +11,7 @@ InversePalindrome.com
 class Component
 {
 public:
-	enum class ID { Position, Velocity, Draw };
+	enum class ID { Position, Velocity, Sprite };
 
 	virtual ~Component();
 

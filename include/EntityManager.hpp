@@ -7,8 +7,10 @@ InversePalindrome.com
 
 #pragma once
 
-#include "Entity.hpp"
+#include "Component.hpp"
+#include "ResourceIdentifiers.hpp"
 
+#include <bitset>
 #include <vector>
 #include <functional>
 #include <unordered_map>
@@ -19,23 +21,29 @@ class SystemManager;
 class EntityManager
 {
 public:
-	EntityManager(SystemManager& systemManager);
+	using EntityID = std::size_t;
+	using EntityComposition = std::bitset<32>;
+	using ComponentPtr = std::unique_ptr<Component>;
+	using EntityData = std::pair<EntityComposition, std::vector<ComponentPtr>>;
+
+	EntityManager(SystemManager& systemManager, TextureHolder& textures);
 
 	template<typename T>
-	T* getComponent(std::size_t entityID, Component::ID componentID);
+	T* getComponent(EntityID entityID, Component::ID componentID);
 
-	void addEntity(const Entity::BitMask& entityComposition);
-	void addComponent(std::size_t entityID, Component::ID componentID);
+	void addEntity(const EntityComposition& entityComposition);
+	void addComponent(EntityID entityID, Component::ID componentID);
 
-	void removeEntity(std::size_t entityID);
-	void removeComponent(std::size_t entityID, Component::ID componentID);
-
+	void removeEntity(EntityID entityID);
+	void removeComponent(EntityID entityID, Component::ID componentID);
+	
 private:
 	std::size_t entityCount;
-	std::vector<Entity> entities;
-	std::unordered_map<Component::ID, std::function<Entity::ComponentPtr()>> componentFactory;
+	std::unordered_map<EntityID, EntityData> entities;
+	std::unordered_map<Component::ID, std::function<ComponentPtr()>> componentFactory;
 
 	SystemManager* systemManager;
+	TextureHolder* textures;
 
 	template<typename T>
 	void registerComponent(Component::ID componentID);
@@ -43,13 +51,24 @@ private:
 
 
 template<typename T>
-T* EntityManager::getComponent(std::size_t entityID, Component::ID componentID)
+T* EntityManager::getComponent(EntityID entityID, Component::ID componentID)
 {
-	auto entityItr = std::find_if(std::begin(this->entities), std::end(this->entities),
-		[entityID](const auto& entity) { return entity.getID() == entityID; });
+	auto entityItr = this->entities.find(entityID);
 
-	return (entityItr != std::end(this->entities) ?
-		entityItr->getComponent<T>(componentID) : nullptr);
+	if (entityItr != std::end(this->entities) && 
+		entityItr->second.first[static_cast<std::size_t>(componentID)])
+	{
+		auto& components = entityItr->second.second;
+
+		auto component = std::find_if(std::begin(components), std::end(components),
+			[componentID](const ComponentPtr& component) { return component->getID() == componentID; });
+
+		return (component != std::end(components) ? dynamic_cast<T*>(component->get()) : nullptr);
+	}
+	else
+	{
+		return nullptr;
+	}	
 }
 
 template<typename T>

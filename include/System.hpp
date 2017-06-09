@@ -7,9 +7,9 @@ InversePalindrome.com
 
 #pragma once
 
-#include "Entity.hpp"
 #include "Observer.hpp"
 #include "EntityEvents.hpp"
+#include "EntityManager.hpp"
 
 #include <SFML/System/Time.hpp>
 
@@ -20,15 +20,15 @@ class SystemManager;
 
 class System : public Observer
 {
-	using ComponentsBitMasks = std::vector<Entity::BitMask>;
+	using ComponentsBitMasks = std::vector<EntityManager::EntityComposition>;
 
 public:
-	enum class ID { Movement };
+	enum class ID { Movement, Render };
 
 	System(ID systemID, SystemManager& systemManager);
 
-	virtual void update(sf::Time deltaTime) = 0;
 	virtual void handleEvent(std::size_t entityID, EntityEvents event) = 0;
+	virtual void update(sf::Time deltaTime) = 0;
 
 	ID getID() const;
 
@@ -36,7 +36,7 @@ public:
 	void removeEntity(std::size_t entityID);
 
 	bool hasEntity(std::size_t entityID) const;
-	bool passesRequirements(const Entity::BitMask& entityComposition) const;
+	bool passesRequirements(const EntityManager::EntityComposition& entityComposition) const;
 
 protected:
 	ID systemID;

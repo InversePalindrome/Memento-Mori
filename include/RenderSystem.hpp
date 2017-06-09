@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2017 InversePalindrome
-Memento Mori - MovementSystem.hpp
+Memento Mori - RenderSystem.hpp
 InversePalindrome.com
 */
 
@@ -9,13 +9,17 @@ InversePalindrome.com
 
 #include "System.hpp"
 
+#include <SFML/Graphics/RenderWindow.hpp>
 
-class MovementSystem : public System
+
+class RenderSystem : public System
 {
 public:
-	MovementSystem(SystemManager& systemManager);
+	RenderSystem(SystemManager& systemManager);
 
 	virtual void handleEvent(std::size_t entityID, EntityEvents event) override;
 	virtual void update(sf::Time deltaTime) override;
-	virtual void notify(const Message& message) override;
+	virtual void notify(const Message& message);
+
+	void render(sf::RenderWindow& window);
 };

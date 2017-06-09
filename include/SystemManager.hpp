@@ -11,6 +11,8 @@ InversePalindrome.com
 #include "EventQueue.hpp"
 #include "MessageHandler.hpp"
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include <memory>
 #include <vector>
 #include <algorithm>
@@ -36,12 +38,12 @@ public:
 
 	void update(sf::Time deltaTime);
 	void handleEvent();
-	void draw();
+	void draw(sf::RenderWindow& window);
 
 	void addEvent(std::size_t entityID, std::size_t eventID);
 
 	void removeEntity(std::size_t entityID);
-	void adaptEntityChanges(std::size_t entityID, const Entity::BitMask& entityComposition);
+	void adaptEntityChanges(std::size_t entityID, const EntityManager::EntityComposition& entityComposition);
 
 private:
 	std::vector<SystemPtr> systems;
@@ -56,7 +58,7 @@ template<typename T>
 T* SystemManager::getSystem(System::ID systemID)
 {
 	auto systemItr = std::find_if(std::begin(this->systems), std::end(this->systems),
-		[&](const auto& system) { return system->getID() == systemID; });
+		[systemID](const auto& system) { return system->getID() == systemID; });
 
 	return (systemItr != std::end(this->systems) ? 
 		dynamic_cast<T*>(systemItr->get()) : nullptr);
