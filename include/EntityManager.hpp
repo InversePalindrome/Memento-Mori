@@ -16,13 +16,14 @@ InversePalindrome.com
 #include <unordered_map>
 
 
+using EntityID = std::size_t;
+using EntityComposition = std::bitset<32>;
+
 class SystemManager;
 
 class EntityManager
 {
 public:
-	using EntityID = std::size_t;
-	using EntityComposition = std::bitset<32>;
 	using ComponentPtr = std::unique_ptr<Component>;
 	using EntityData = std::pair<EntityComposition, std::vector<ComponentPtr>>;
 

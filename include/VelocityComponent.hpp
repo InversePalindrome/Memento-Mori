@@ -12,14 +12,21 @@ InversePalindrome.com
 #include <SFML/System/Vector2.hpp>
 
 
+enum class Direction { Up, Down, Right, Left };
+
 class VelocityComponent : public Component
 {
 public:
 	VelocityComponent();
 
 	sf::Vector2f getVelocity() const;
-	void setVelocity(sf::Vector2f velocity);
+	float getSpeed() const;
+	Direction getDirection() const;
+
+	void setDirection(Direction direction);
+	void setSpeed(float speed);
 
 private:
-	sf::Vector2f velocity;
+	float speed;
+	Direction direction;
 };

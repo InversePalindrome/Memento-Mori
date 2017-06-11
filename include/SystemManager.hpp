@@ -8,8 +8,6 @@ InversePalindrome.com
 #pragma once
 
 #include "System.hpp"
-#include "EventQueue.hpp"
-#include "MessageHandler.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -29,7 +27,6 @@ public:
 	SystemManager();
 
 	EntityManager* getEntityManager();
-	MessageHandler* getMessageHandler();
 
 	void setEntityManager(EntityManager& entityManager);
 
@@ -40,15 +37,11 @@ public:
 	void handleEvent();
 	void draw(sf::RenderWindow& window);
 
-	void addEvent(std::size_t entityID, std::size_t eventID);
-
-	void removeEntity(std::size_t entityID);
-	void adaptEntityChanges(std::size_t entityID, const EntityManager::EntityComposition& entityComposition);
+	void removeEntity(EntityID entityID);
+	void adaptEntityChanges(EntityID entityID, const EntityComposition& entityComposition);
 
 private:
 	std::vector<SystemPtr> systems;
-	MessageHandler messages;
-	std::unordered_map<std::size_t, EventQueue> entitiesEvents;
 
 	EntityManager* entityManager;
 };

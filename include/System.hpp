@@ -7,8 +7,6 @@ InversePalindrome.com
 
 #pragma once
 
-#include "Observer.hpp"
-#include "EntityEvents.hpp"
 #include "EntityManager.hpp"
 
 #include <SFML/System/Time.hpp>
@@ -18,29 +16,29 @@ InversePalindrome.com
 
 class SystemManager;
 
-class System : public Observer
+class System 
 {
-	using ComponentsBitMasks = std::vector<EntityManager::EntityComposition>;
+	using ComponentsBitMasks = std::vector<EntityComposition>;
 
 public:
-	enum class ID { Movement, Render };
+	enum class ID { Movement, Control, State, Render };
 
 	System(ID systemID, SystemManager& systemManager);
 
-	virtual void handleEvent(std::size_t entityID, EntityEvents event) = 0;
+	virtual void handleEvent() = 0;
 	virtual void update(sf::Time deltaTime) = 0;
 
 	ID getID() const;
 
-	void addEntity(std::size_t entityID);
-	void removeEntity(std::size_t entityID);
+	void addEntity(EntityID entityID);
+	void removeEntity(EntityID entityID);
 
-	bool hasEntity(std::size_t entityID) const;
-	bool passesRequirements(const EntityManager::EntityComposition& entityComposition) const;
+	bool hasEntity(EntityID entityID) const;
+	bool passesRequirements(const EntityComposition& entityComposition) const;
 
 protected:
 	ID systemID;
-	std::vector<std::size_t> entitiesIDs;
+	std::vector<EntityID> entitiesIDs;
 	ComponentsBitMasks componentRequirements;
 
 	SystemManager* systemManager;

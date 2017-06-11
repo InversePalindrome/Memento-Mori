@@ -15,7 +15,6 @@ class MovementSystem : public System
 public:
 	MovementSystem(SystemManager& systemManager);
 
-	virtual void handleEvent(std::size_t entityID, EntityEvents event) override;
+	virtual void handleEvent() override;
 	virtual void update(sf::Time deltaTime) override;
-	virtual void notify(const Message& message) override;
 };
