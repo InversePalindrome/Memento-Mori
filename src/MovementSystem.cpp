@@ -15,7 +15,7 @@ InversePalindrome.com
 MovementSystem::MovementSystem(SystemManager& systemManager) :
 	System(System::ID::Movement, systemManager)
 {
-	EntityManager::EntityComposition entityComposition;
+	EntityComposition entityComposition;
 
 	entityComposition[static_cast<std::size_t>(Component::ID::Position)] = true;
 	entityComposition[static_cast<std::size_t>(Component::ID::Velocity)] = true;
@@ -23,7 +23,7 @@ MovementSystem::MovementSystem(SystemManager& systemManager) :
 	componentRequirements.push_back(entityComposition);
 }
 
-void MovementSystem::handleEvent(std::size_t eventID, EntityEvents event)
+void MovementSystem::handleEvent()
 {
 
 }
@@ -39,9 +39,4 @@ void MovementSystem::update(sf::Time deltaTime)
 
 		position->move(velocity->getVelocity() * deltaTime.asSeconds());
 	}
-}
-
-void MovementSystem::notify(const Message& message)
-{
-
 }

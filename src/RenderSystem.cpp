@@ -15,7 +15,7 @@ InversePalindrome.com
 RenderSystem::RenderSystem(SystemManager& systemManager) :
 	System(System::ID::Render, systemManager)
 {
-	EntityManager::EntityComposition entityComposition;
+	EntityComposition entityComposition;
 
 	entityComposition[static_cast<std::size_t>(Component::ID::Sprite)] = true;
 	entityComposition[static_cast<std::size_t>(Component::ID::Position)] = true;
@@ -23,7 +23,7 @@ RenderSystem::RenderSystem(SystemManager& systemManager) :
 	componentRequirements.push_back(entityComposition);
 }
 
-void RenderSystem::handleEvent(std::size_t eventID, EntityEvents event)
+void RenderSystem::handleEvent()
 {
 
 }
@@ -39,11 +39,6 @@ void RenderSystem::update(sf::Time deltaTime)
 
 		sprite->updatePosition(position->getPosition());
 	}
-}
-
-void RenderSystem::notify(const Message& message)
-{
-
 }
 
 void RenderSystem::render(sf::RenderWindow& window)

@@ -24,7 +24,7 @@ System::ID System::getID() const
 	return this->systemID;
 }
 
-void System::addEntity(std::size_t entityID)
+void System::addEntity(EntityID entityID)
 {
 	if (!this->hasEntity(entityID))
     {
@@ -32,18 +32,18 @@ void System::addEntity(std::size_t entityID)
     }
 }
 
-void System::removeEntity(std::size_t entityID)
+void System::removeEntity(EntityID entityID)
 {
 	this->entitiesIDs.erase(std::remove(std::begin(this->entitiesIDs), std::end(this->entitiesIDs), entityID), std::end(this->entitiesIDs));
 }
 
-bool System::hasEntity(std::size_t entityID) const
+bool System::hasEntity(EntityID entityID) const
 {
 	return std::find(std::begin(this->entitiesIDs), std::end(this->entitiesIDs), entityID) != std::end(this->entitiesIDs);
 }
 
-bool System::passesRequirements(const EntityManager::EntityComposition& entityComposition) const
+bool System::passesRequirements(const EntityComposition& entityComposition) const
 {
 	return std::find_if(std::begin(this->componentRequirements), std::end(this->componentRequirements), 
-		[&](const auto& entityRequirements) { return entityRequirements == entityComposition; }) != std::end(this->componentRequirements);
+		[&](const auto& entityRequirements) { return (entityRequirements & entityComposition) == entityRequirements; }) != std::end(this->componentRequirements);
 }

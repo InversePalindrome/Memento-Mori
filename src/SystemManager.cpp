@@ -7,15 +7,12 @@ InversePalindrome.com
 
 #include "SystemManager.hpp"
 #include "EntityManager.hpp"
-#include "EntityEvents.hpp"
 #include "RenderSystem.hpp"
 #include "MovementSystem.hpp"
 
 
 SystemManager::SystemManager() :
 	systems(),
-	messages(),
-	entitiesEvents(),
 	entityManager(nullptr)
 {
 	systems.push_back(std::make_unique<MovementSystem>(*this));
@@ -25,11 +22,6 @@ SystemManager::SystemManager() :
 EntityManager* SystemManager::getEntityManager()
 {
 	return this->entityManager;
-}
-
-MessageHandler* SystemManager::getMessageHandler()
-{
-	return &this->messages;
 }
 
 void SystemManager::setEntityManager(EntityManager& entityManager)
@@ -47,21 +39,7 @@ void SystemManager::update(sf::Time deltaTime)
 
 void SystemManager::handleEvent()
 {
-	for (auto& event : this->entitiesEvents)
-	{
-		std::size_t eventID = 0;
-
-		while (event.second.processEvent(eventID))
-		{
-			for (auto& system : this->systems)
-			{
-				if (system->hasEntity(event.first))
-				{
-					system->handleEvent(event.first, static_cast<EntityEvents>(eventID));
-				}
-			}
-		}
-	}
+	
 }
 
 void SystemManager::draw(sf::RenderWindow& window)
@@ -77,12 +55,7 @@ void SystemManager::draw(sf::RenderWindow& window)
 	}
 }
 
-void SystemManager::addEvent(std::size_t entityID, std::size_t eventID)
-{
-	this->entitiesEvents[entityID].addEvent(eventID);
-}
-
-void SystemManager::removeEntity(std::size_t entityID)
+void SystemManager::removeEntity(EntityID entityID)
 {
 	for (auto& system : this->systems)
 	{
@@ -90,7 +63,7 @@ void SystemManager::removeEntity(std::size_t entityID)
 	}
 }
 
-void SystemManager::adaptEntityChanges(std::size_t entityID, const EntityManager::EntityComposition& entityComposition)
+void SystemManager::adaptEntityChanges(EntityID entityID, const EntityComposition& entityComposition)
 {
 	for (auto& system : this->systems)
 	{

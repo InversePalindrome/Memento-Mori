@@ -8,6 +8,7 @@ InversePalindrome.com
 #include "GameState.hpp"
 #include "StateMachine.hpp"
 #include "SpriteComponent.hpp"
+#include "VelocityComponent.hpp"
 
 
 GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
