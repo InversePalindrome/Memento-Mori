@@ -20,13 +20,19 @@ public:
 	VelocityComponent();
 
 	sf::Vector2f getVelocity() const;
+
 	float getSpeed() const;
+
 	Direction getDirection() const;
 
-	void setDirection(Direction direction);
+	void setVelocity(sf::Vector2f velocity);
+
 	void setSpeed(float speed);
 
+	void setDirection(Direction direction);
+
 private:
+	sf::Vector2f velocity;
 	float speed;
 	Direction direction;
 };

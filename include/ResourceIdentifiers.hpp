@@ -18,7 +18,8 @@ namespace Textures
 {
 	enum class ID
 	{
-		Logo, MenuBackground, AttackingSkeleton, JumpingSkeleton, StarParticle, PauseMenu
+		Logo, MenuBackground, DecoAttackingSkeleton, DecoJumpingSkeleton, StarParticle, PauseMenu, IdleSkeleton, WalkingSkeleton,
+		AttackingSkeleton
 	};
 }
 

@@ -11,11 +11,10 @@ InversePalindrome.com
 class Component
 {
 public:
-	enum class ID { Position, Velocity, Sprite };
-
-	virtual ~Component();
+	enum class ID { Position, Velocity, Control, State, Sprite, Animation };
 
 	Component(ID componentID);
+	virtual ~Component();
 
     ID getID() const;
 

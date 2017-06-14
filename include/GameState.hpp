@@ -24,4 +24,6 @@ public:
 private:
 	EntityManager entityManager;
 	SystemManager systemManager;
+
+	static constexpr EntityID playerID = 0u;
 };

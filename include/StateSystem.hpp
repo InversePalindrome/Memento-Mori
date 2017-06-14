@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2017 InversePalindrome
-Memento Mori - MovementSystem.hpp
+Memento Mori - StateSystem.hpp
 InversePalindrome.com
 */
 
@@ -8,15 +8,18 @@ InversePalindrome.com
 #pragma once
 
 #include "System.hpp"
-#include "VelocityComponent.hpp"
+#include "StateComponent.hpp"
 
 
-class MovementSystem : public System
+class StateSystem : public System
 {
 public:
-	MovementSystem(SystemManager& systemManager);
+	StateSystem(SystemManager& systemManager);
 
 	virtual void handleEvent(EntityID entityID, EntityEvent event) override;
 	virtual void update(sf::Time deltaTime) override;
 	virtual void notify(const Message& message) override;
+
+private:
+	void changeState(EntityID entityID, EntityState entityState);
 };

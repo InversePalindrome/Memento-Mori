@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2017 InversePalindrome
-Memento Mori - MovementSystem.hpp
+Memento Mori - ControllerSystem.hpp
 InversePalindrome.com
 */
 
@@ -11,12 +11,15 @@ InversePalindrome.com
 #include "VelocityComponent.hpp"
 
 
-class MovementSystem : public System
+class ControllerSystem : public System
 {
 public:
-	MovementSystem(SystemManager& systemManager);
+	ControllerSystem(SystemManager& systemManager);
 
 	virtual void handleEvent(EntityID entityID, EntityEvent event) override;
 	virtual void update(sf::Time deltaTime) override;
 	virtual void notify(const Message& message) override;
+
+private:
+	void moveEntity(EntityID entityID, Direction direction);
 };

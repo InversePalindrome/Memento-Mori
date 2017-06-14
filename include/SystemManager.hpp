@@ -8,12 +8,14 @@ InversePalindrome.com
 #pragma once
 
 #include "System.hpp"
+#include "EventQueue.hpp"
+#include "MessageHandler.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include <memory>
-#include <vector>
 #include <algorithm>
+#include <unordered_set>
 #include <unordered_map>
 
 
@@ -26,22 +28,28 @@ class SystemManager
 public:
 	SystemManager();
 
-	EntityManager* getEntityManager();
-
-	void setEntityManager(EntityManager& entityManager);
-
 	template<typename T>
 	T* getSystem(System::ID systemID);
+
+	EntityManager* getEntityManager();
+
+	MessageHandler* getMessageHandler();
+
+	void setEntityManager(EntityManager& entityManager);
 
 	void update(sf::Time deltaTime);
 	void handleEvent();
 	void draw(sf::RenderWindow& window);
 
+	void addEvent(EntityID entityID, EntityEvent event);
+
 	void removeEntity(EntityID entityID);
 	void adaptEntityChanges(EntityID entityID, const EntityComposition& entityComposition);
 
 private:
-	std::vector<SystemPtr> systems;
+	std::unordered_set<SystemPtr> systems;
+	std::unordered_map<EntityID, EventQueue> events;
+	MessageHandler messageHandler;
 
 	EntityManager* entityManager;
 };

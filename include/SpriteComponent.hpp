@@ -18,6 +18,8 @@ class SpriteComponent : public Component
 public:
 	SpriteComponent();
 
+	sf::Sprite& getSprite();
+
 	void updatePosition(sf::Vector2f position);
 	void draw(sf::RenderWindow& window);
 
@@ -25,6 +27,8 @@ public:
 
 	void setTexture(const sf::Texture& texture);
 	void setTextureRect(const sf::IntRect& rect);
+
+	void setScale(sf::Vector2f scale);
 
 private:
 	sf::Sprite sprite;
