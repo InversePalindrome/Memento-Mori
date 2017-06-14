@@ -21,14 +21,16 @@ class AnimationComponent : public Component
 public:
 	AnimationComponent();
 
+	AnimationID getAnimation() const;
 	AnimationDirection getAnimationDirection() const;
 
+	void setAnimation(AnimationID animation);
 	void setAnimationDirection(AnimationDirection animationDirection);
 
 	void update(sf::Time deltaTime);
 	void animate(sf::Sprite& sprite) const;
 
-	void playAnimation(AnimationID animationID, bool loop);
+	void playAnimation(bool loop);
 	void stopAnimation();
 
 	void addAnimation(AnimationID animationID, AnimationDirection direction, const thor::Animator<sf::Sprite, std::pair<AnimationID, AnimationDirection>>::AnimationFunction& animation, sf::Time duration);
@@ -37,5 +39,6 @@ public:
 
 private:
 	thor::Animator <sf::Sprite, std::pair<AnimationID, AnimationDirection>> animations;
+	AnimationID animation;
 	AnimationDirection animationDirection;
 };

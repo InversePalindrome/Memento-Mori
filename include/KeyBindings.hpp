@@ -13,7 +13,7 @@ InversePalindrome.com
 class KeyBindings
 {
 public:
-	enum class ActionID { Escape, MoveUp, MoveDown, MoveRight, MoveLeft };
+	enum class ActionID { Escape, MoveUp, MoveDown, MoveRight, MoveLeft, Attack };
 
 	KeyBindings();
 
