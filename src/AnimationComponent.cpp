@@ -10,13 +10,24 @@ InversePalindrome.com
 
 AnimationComponent::AnimationComponent() :
 	Component(Component::ID::Animation),
+	animation(AnimationID::Idle),
 	animationDirection(AnimationDirection::FaceUp)
 {
+}
+
+AnimationID AnimationComponent::getAnimation() const
+{
+	return this->animation;
 }
 
 AnimationDirection AnimationComponent::getAnimationDirection() const
 {
 	return this->animationDirection;
+}
+
+void AnimationComponent::setAnimation(AnimationID animation)
+{
+	this->animation = animation;
 }
 
 void AnimationComponent::setAnimationDirection(AnimationDirection animationDiretion)
@@ -34,9 +45,9 @@ void AnimationComponent::animate(sf::Sprite& sprite) const
 	this->animations.animate(sprite);
 }
 
-void AnimationComponent::playAnimation(AnimationID animationID, bool loop)
+void AnimationComponent::playAnimation(bool loop)
 {
-	this->animations.playAnimation(std::make_pair(animationID, this->getAnimationDirection()), loop);
+	this->animations.playAnimation(std::make_pair(this->getAnimation(), this->getAnimationDirection()), loop);
 }
 
 void AnimationComponent::stopAnimation()

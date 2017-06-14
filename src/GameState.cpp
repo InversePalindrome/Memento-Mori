@@ -7,7 +7,10 @@ InversePalindrome.com
 
 #include "GameState.hpp"
 #include "StateMachine.hpp"
+#include "StateComponent.hpp"
+#include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
+#include "AnimationComponent.hpp"
 
 
 GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
@@ -52,12 +55,17 @@ void GameState::handleEvent(const sf::Event& event)
 
 		this->systemManager.getMessageHandler()->dispatch(message);
 	}
+	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::Attack))
+	{
+		Message message(EntityMessage::ChangeState);
+		message.data[DataID::State] = static_cast<std::size_t>(EntityState::Attacking);
+
+		this->systemManager.getMessageHandler()->dispatch(message);
+	}
 	else
 	{
 		this->systemManager.addEvent(this->playerID, EntityEvent::BecameIdle);
 	}
-	
-	this->systemManager.handleEvent();
 }
 
 void GameState::update(sf::Time deltaTime)

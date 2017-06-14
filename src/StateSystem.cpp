@@ -36,7 +36,7 @@ void StateSystem::handleEvent(EntityID entityID, EntityEvent event)
 
 void StateSystem::update(sf::Time deltaTime)
 {
-	
+	auto* state = this->systemManager->getEntityManager()->getComponent<StateComponent>(0, Component::ID::State);
 }
 
 void StateSystem::notify(const Message& message)

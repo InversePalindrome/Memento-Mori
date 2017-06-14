@@ -16,6 +16,7 @@ KeyBindings::KeyBindings() :
 	keyBindings[ActionID::MoveDown] = thor::Action(sf::Keyboard::S);
 	keyBindings[ActionID::MoveRight] = thor::Action(sf::Keyboard::D);
 	keyBindings[ActionID::MoveLeft] = thor::Action(sf::Keyboard::A);
+	keyBindings[ActionID::Attack] = thor::Action(sf::Keyboard::Space);
 }
 
 void KeyBindings::update(sf::Window& window)

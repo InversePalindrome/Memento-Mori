@@ -48,6 +48,7 @@ void SystemManager::update(sf::Time deltaTime)
 	{
 		system->update(deltaTime);
 	}
+	this->handleEvent();
 }
 
 void SystemManager::handleEvent()

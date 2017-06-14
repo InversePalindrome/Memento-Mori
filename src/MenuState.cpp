@@ -31,6 +31,7 @@ MenuState::MenuState(StateMachine& stateMachine, SharedData& sharedData) :
 {
 	background.setScale(static_cast<float>(sharedData.window.getSize().x) / background.getLocalBounds().width,
 		static_cast<float>(sharedData.window.getSize().y) / background.getLocalBounds().height);
+
 	attackingSkeleton.setPosition(sf::Vector2f(60.f, 700.f));
 	jumpingSkeleton.setPosition(sf::Vector2f(2000.f, 700.f));
 
