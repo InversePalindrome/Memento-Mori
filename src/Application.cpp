@@ -26,7 +26,7 @@ Application::Application() :
 	stateMachine(sharedData)
 {
 	loadTextures();
-
+	
 	stateMachine.pushState(StateMachine::StateID::Splash);
 }
 
@@ -93,11 +93,11 @@ void Application::loadTextures()
 {
 	this->textures.acquire(Textures::ID::Logo, thor::Resources::fromFile<sf::Texture>("Resources/Images/InversePalindromeLogo.png"));
 	this->textures.acquire(Textures::ID::MenuBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/MenuBackground.png"));
-	this->textures.acquire(Textures::ID::AttackingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/AttackingSkeleton.png"));
-	this->textures.acquire(Textures::ID::JumpingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/JumpingSkeleton.png"));
+	this->textures.acquire(Textures::ID::DecoAttackingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/DecoAttackingSkeleton.png"));
+	this->textures.acquire(Textures::ID::DecoJumpingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/DecoJumpingSkeleton.png"));
 	this->textures.acquire(Textures::ID::StarParticle, thor::Resources::fromFile<sf::Texture>("Resources/Images/StarParticle.png"));
 	this->textures.acquire(Textures::ID::PauseMenu, thor::Resources::fromFile<sf::Texture>("Resources/Images/PauseMenu.png"));
-
+	
 	this->images.acquire(Images::ID::PlayButton, thor::Resources::fromFile<sf::Image>("Resources/Images/PlayButton.png"));
 	this->images.acquire(Images::ID::SettingsButton, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton.png"));
 	this->images.acquire(Images::ID::LeaderboardButton, thor::Resources::fromFile<sf::Image>("Resources/Images/LeaderboardButton.png"));

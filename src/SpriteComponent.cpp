@@ -15,9 +15,14 @@ SpriteComponent::SpriteComponent() :
 	sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f);
 }
 
+sf::Sprite& SpriteComponent::getSprite()
+{
+	return this->sprite;
+}
+
 void SpriteComponent::updatePosition(sf::Vector2f position)
 {
-	sprite.setPosition(position);
+	this->sprite.setPosition(position);
 }
 
 void SpriteComponent::draw(sf::RenderWindow& window)
@@ -38,4 +43,9 @@ void SpriteComponent::setTexture(const sf::Texture& texture)
 void SpriteComponent::setTextureRect(const sf::IntRect& rect)
 {
 	this->sprite.setTextureRect(rect);
+}
+
+void SpriteComponent::setScale(sf::Vector2f scale)
+{
+	this->sprite.setScale(scale);
 }

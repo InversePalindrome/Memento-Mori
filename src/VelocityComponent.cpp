@@ -10,6 +10,7 @@ InversePalindrome.com
 
 VelocityComponent::VelocityComponent() :
 	Component(Component::ID::Velocity),
+	velocity(0.f, 0.f),
 	speed(0.f),
 	direction(Direction::Up)
 {
@@ -17,19 +18,7 @@ VelocityComponent::VelocityComponent() :
 
 sf::Vector2f VelocityComponent::getVelocity() const
 {
-	switch (this->direction)
-	{
-	case Direction::Up:
-		return sf::Vector2f(0.f, -this->speed);
-	case Direction::Down:
-		return sf::Vector2f(0.f, this->speed);
-	case Direction::Right:
-		return sf::Vector2f(this->speed, 0.f);
-	case Direction::Left:
-		return sf::Vector2f(-this->speed, 0.f);
-	default:
-		return sf::Vector2f(0.f, 0.f);
-	}
+	return this->velocity;
 }
 
 float VelocityComponent::getSpeed() const
@@ -40,6 +29,11 @@ float VelocityComponent::getSpeed() const
 Direction VelocityComponent::getDirection() const
 {
 	return this->direction;
+}
+
+void VelocityComponent::setVelocity(sf::Vector2f velocity)
+{
+	this->velocity = velocity;
 }
 
 void VelocityComponent::setSpeed(float speed)

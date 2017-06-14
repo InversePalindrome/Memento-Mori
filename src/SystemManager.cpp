@@ -7,21 +7,34 @@ InversePalindrome.com
 
 #include "SystemManager.hpp"
 #include "EntityManager.hpp"
+#include "StateSystem.hpp"
 #include "RenderSystem.hpp"
 #include "MovementSystem.hpp"
+#include "AnimatorSystem.hpp"
+#include "ControllerSystem.hpp"
 
 
 SystemManager::SystemManager() :
 	systems(),
+	events(),
+	messageHandler(),
 	entityManager(nullptr)
 {
-	systems.push_back(std::make_unique<MovementSystem>(*this));
-	systems.push_back(std::make_unique<RenderSystem>(*this));
+	systems.insert(std::make_unique<MovementSystem>(*this));
+	systems.insert(std::make_unique<ControllerSystem>(*this));
+	systems.insert(std::make_unique<AnimatorSystem>(*this));
+	systems.insert(std::make_unique<RenderSystem>(*this));
+	systems.insert(std::make_unique<StateSystem>(*this));
 }
 
 EntityManager* SystemManager::getEntityManager()
 {
 	return this->entityManager;
+}
+
+MessageHandler* SystemManager::getMessageHandler()
+{
+	return &this->messageHandler;
 }
 
 void SystemManager::setEntityManager(EntityManager& entityManager)
@@ -39,7 +52,21 @@ void SystemManager::update(sf::Time deltaTime)
 
 void SystemManager::handleEvent()
 {
-	
+	for (auto& eventQueue : this->events)
+	{
+		EntityEvent entityEvent;
+
+		while (eventQueue.second.processEvent(entityEvent))
+		{
+			for (auto& system : this->systems)
+			{
+				if (system->hasEntity(eventQueue.first))
+				{
+					system->handleEvent(eventQueue.first, entityEvent);
+				}
+			}
+		}
+	}
 }
 
 void SystemManager::draw(sf::RenderWindow& window)
@@ -53,6 +80,11 @@ void SystemManager::draw(sf::RenderWindow& window)
 		
 		renderSystem->render(window);
 	}
+}
+
+void SystemManager::addEvent(EntityID entityID, EntityEvent event)
+{
+	this->events[entityID].addEvent(event);
 }
 
 void SystemManager::removeEntity(EntityID entityID)

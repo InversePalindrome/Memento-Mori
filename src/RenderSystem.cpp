@@ -23,31 +23,32 @@ RenderSystem::RenderSystem(SystemManager& systemManager) :
 	componentRequirements.push_back(entityComposition);
 }
 
-void RenderSystem::handleEvent()
+void RenderSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
 
 }
 
 void RenderSystem::update(sf::Time deltaTime)
 {
-	auto* entityManager = this->systemManager->getEntityManager();
-	
 	for (auto& entity : this->entitiesIDs)
 	{
-		auto* position = entityManager->getComponent<PositionComponent>(entity, Component::ID::Position);
-		auto* sprite = entityManager->getComponent<SpriteComponent>(entity, Component::ID::Sprite);
+		auto* position = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entity, Component::ID::Position);
+		auto* sprite = this->systemManager->getEntityManager()->getComponent<SpriteComponent>(entity, Component::ID::Sprite);
 
 		sprite->updatePosition(position->getPosition());
 	}
 }
 
+void RenderSystem::notify(const Message& message)
+{
+
+}
+
 void RenderSystem::render(sf::RenderWindow& window)
 {
-	auto* entityManager = this->systemManager->getEntityManager();
-	
 	for (auto& entity : this->entitiesIDs)
 	{
-		auto* sprite = entityManager->getComponent<SpriteComponent>(entity, Component::ID::Sprite);
+		auto* sprite = this->systemManager->getEntityManager()->getComponent<SpriteComponent>(entity, Component::ID::Sprite);
 		sprite->draw(window);
 	}
 }

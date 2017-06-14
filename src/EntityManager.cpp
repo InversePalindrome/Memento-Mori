@@ -7,9 +7,11 @@ InversePalindrome.com
 
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
+#include "StateComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "PositionComponent.hpp"
 #include "VelocityComponent.hpp"
+#include "AnimationComponent.hpp"
 
 #include <algorithm>
 
@@ -24,6 +26,8 @@ EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textur
 	registerComponent<PositionComponent>(Component::ID::Position);
 	registerComponent<VelocityComponent>(Component::ID::Velocity);
 	registerComponent<SpriteComponent>(Component::ID::Sprite);
+	registerComponent<AnimationComponent>(Component::ID::Animation);
+	registerComponent<StateComponent>(Component::ID::State);
 }
 
 void EntityManager::addEntity(const EntityComposition& entityComposition)
@@ -43,6 +47,7 @@ void EntityManager::addEntity(const EntityComposition& entityComposition)
 	}
 
 	this->systemManager->adaptEntityChanges(entityID, entityComposition);
+	this->systemManager->addEvent(entityID, EntityEvent::Spawned);
 }
 
 void EntityManager::addComponent(EntityID entityID, Component::ID componentID)

@@ -11,11 +11,11 @@ InversePalindrome.com
 KeyBindings::KeyBindings() :
 	keyBindings()
 {
-	keyBindings[KeyBindings::ActionID::Escape] = thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce);
-	keyBindings[KeyBindings::ActionID::MoveUp] = thor::Action(sf::Keyboard::W, thor::Action::PressOnce);
-	keyBindings[KeyBindings::ActionID::MoveDown] = thor::Action(sf::Keyboard::S, thor::Action::PressOnce);
-	keyBindings[KeyBindings::ActionID::MoveRight] = thor::Action(sf::Keyboard::D, thor::Action::PressOnce);
-	keyBindings[KeyBindings::ActionID::MoveLeft] = thor::Action(sf::Keyboard::A, thor::Action::PressOnce);
+	keyBindings[ActionID::Escape] = thor::Action(sf::Keyboard::Escape);
+	keyBindings[ActionID::MoveUp] = thor::Action(sf::Keyboard::W);
+	keyBindings[ActionID::MoveDown] = thor::Action(sf::Keyboard::S);
+	keyBindings[ActionID::MoveRight] = thor::Action(sf::Keyboard::D);
+	keyBindings[ActionID::MoveLeft] = thor::Action(sf::Keyboard::A);
 }
 
 void KeyBindings::update(sf::Window& window)

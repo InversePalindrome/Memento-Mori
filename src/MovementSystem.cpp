@@ -9,7 +9,6 @@ InversePalindrome.com
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
 #include "PositionComponent.hpp"
-#include "VelocityComponent.hpp"
 
 
 MovementSystem::MovementSystem(SystemManager& systemManager) :
@@ -21,22 +20,37 @@ MovementSystem::MovementSystem(SystemManager& systemManager) :
 	entityComposition[static_cast<std::size_t>(Component::ID::Velocity)] = true;
 
 	componentRequirements.push_back(entityComposition);
+
+
 }
 
-void MovementSystem::handleEvent()
+void MovementSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
-
+	switch (event)
+	{
+	case EntityEvent::BecameIdle:
+	{
+		auto* velocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);
+		velocity->setVelocity(sf::Vector2f(0.f, 0.f));
+	}
+	break;
+	}
 }
 
 void MovementSystem::update(sf::Time deltaTime)
 {
-	auto* entityManager = this->systemManager->getEntityManager();
-	
 	for (auto& entity : this->entitiesIDs)
 	{
-		auto* position = entityManager->getComponent<PositionComponent>(entity, Component::ID::Position);
-		auto* velocity = entityManager->getComponent<VelocityComponent>(entity, Component::ID::Velocity);
+		auto* position = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entity, Component::ID::Position);
+		auto* velocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entity, Component::ID::Velocity);
 
 		position->move(velocity->getVelocity() * deltaTime.asSeconds());
+
+		velocity->setVelocity(sf::Vector2f(0.f, 0.f));
 	}
+}
+
+void MovementSystem::notify(const Message& message)
+{
+	
 }

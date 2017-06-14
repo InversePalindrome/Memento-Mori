@@ -19,8 +19,8 @@ InversePalindrome.com
 MenuState::MenuState(StateMachine& stateMachine, SharedData& sharedData) :
 	State(stateMachine, sharedData),
 	background(sharedData.textures[Textures::ID::MenuBackground]),
-	attackingSkeleton(sharedData.textures[Textures::ID::AttackingSkeleton]),
-	jumpingSkeleton(sharedData.textures[Textures::ID::JumpingSkeleton]),
+	attackingSkeleton(sharedData.textures[Textures::ID::DecoAttackingSkeleton]),
+	jumpingSkeleton(sharedData.textures[Textures::ID::DecoJumpingSkeleton]),
 	playButton(sfg::Button::Create()),
 	settingsButton(sfg::Button::Create()),
 	leaderboardButton(sfg::Button::Create()),
