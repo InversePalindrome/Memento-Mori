@@ -7,6 +7,7 @@ InversePalindrome.com
 
 #pragma once
 
+#include "Map.hpp"
 #include "State.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
@@ -24,6 +25,7 @@ public:
 private:
 	EntityManager entityManager;
 	SystemManager systemManager;
+	Map map;
 
 	static constexpr EntityID playerID = 0u;
 };
