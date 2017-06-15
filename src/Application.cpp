@@ -97,6 +97,7 @@ void Application::loadTextures()
 	this->textures.acquire(Textures::ID::DecoJumpingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/DecoJumpingSkeleton.png"));
 	this->textures.acquire(Textures::ID::StarParticle, thor::Resources::fromFile<sf::Texture>("Resources/Images/StarParticle.png"));
 	this->textures.acquire(Textures::ID::PauseMenu, thor::Resources::fromFile<sf::Texture>("Resources/Images/PauseMenu.png"));
+	this->textures.acquire(Textures::ID::TileMap, thor::Resources::fromFile<sf::Texture>("Resources/Images/TileMap.png"));
 	this->textures.acquire(Textures::ID::Skeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/Skeleton.png"));
 
 	this->images.acquire(Images::ID::PlayButton, thor::Resources::fromFile<sf::Image>("Resources/Images/PlayButton.png"));

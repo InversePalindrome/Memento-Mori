@@ -16,7 +16,8 @@ InversePalindrome.com
 GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
 	State(stateMachine, sharedData),
 	entityManager(systemManager, sharedData.textures),
-	systemManager()
+	systemManager(),
+	map(sharedData.textures[Textures::ID::TileMap], 18u, 32u, 32u, 6u, sf::Vector2f(2.5f, 2.5f))
 {
 	systemManager.setEntityManager(entityManager);
 }
@@ -75,5 +76,6 @@ void GameState::update(sf::Time deltaTime)
 
 void GameState::draw()
 {
+	this->sharedData.window.draw(this->map);
 	this->systemManager.draw(this->sharedData.window);
 }
