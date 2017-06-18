@@ -11,6 +11,7 @@ InversePalindrome.com
 #include "RenderSystem.hpp"
 #include "MovementSystem.hpp"
 #include "AnimatorSystem.hpp"
+#include "CollisionSystem.hpp"
 #include "ControllerSystem.hpp"
 
 
@@ -22,6 +23,7 @@ SystemManager::SystemManager() :
 {
 	systems.insert(std::make_unique<MovementSystem>(*this));
 	systems.insert(std::make_unique<ControllerSystem>(*this));
+	systems.insert(std::make_unique<CollisionSystem>(*this));
 	systems.insert(std::make_unique<AnimatorSystem>(*this));
 	systems.insert(std::make_unique<RenderSystem>(*this));
 	systems.insert(std::make_unique<StateSystem>(*this));

@@ -51,7 +51,27 @@ void StateMachine::draw()
 {
 	if (!this->stateStack.empty())
 	{
-		this->stateStack.back()->draw();
+		if (this->stateStack.back()->isTransparent() && this->stateStack.size() > 1)
+		{
+			auto itr = std::end(this->stateStack);
+
+			for (; itr != std::begin(this->stateStack); --itr)
+			{
+				if (itr != std::end(this->stateStack) && !(*itr)->isTransparent())
+				{
+					break;
+				}
+			}
+
+			for (; itr != std::end(this->stateStack); ++itr)
+			{
+				(*itr)->draw();
+			}
+		}
+		else
+		{
+			this->stateStack.back()->draw();
+		}
 	}
 }
 

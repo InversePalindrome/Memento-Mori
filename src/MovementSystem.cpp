@@ -20,20 +20,18 @@ MovementSystem::MovementSystem(SystemManager& systemManager) :
 	entityComposition[static_cast<std::size_t>(Component::ID::Velocity)] = true;
 
 	componentRequirements.push_back(entityComposition);
-
-
 }
 
 void MovementSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
 	switch (event)
 	{
-	case EntityEvent::BecameIdle:
-	{
-		auto* velocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);
-		velocity->setVelocity(sf::Vector2f(0.f, 0.f));
-	}
-	break;
+	case EntityEvent::Moved:
+		this->moveEntity(entityID);
+	    break;
+	case EntityEvent::Collided:
+		this->stopEntity(entityID);
+		break;
 	}
 }
 
@@ -53,4 +51,46 @@ void MovementSystem::update(sf::Time deltaTime)
 void MovementSystem::notify(const Message& message)
 {
 	
+}
+
+void MovementSystem::moveEntity(EntityID entityID)
+{
+	auto* velocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);
+	
+	switch (velocity->getDirection())
+	{
+	case Direction::Up:
+		velocity->setVelocity(sf::Vector2f(0.f, -velocity->getSpeed()));
+		break;
+	case Direction::Down:
+		velocity->setVelocity(sf::Vector2f(0.f, velocity->getSpeed()));
+		break;
+	case Direction::Right:
+		velocity->setVelocity(sf::Vector2f(velocity->getSpeed(), 0.f));
+		break;
+	case Direction::Left:
+		velocity->setVelocity(sf::Vector2f(-velocity->getSpeed(), 0.f));
+		break;
+	}
+}
+
+void MovementSystem::stopEntity(EntityID entityID)
+{
+	auto* velocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);
+	
+	switch (velocity->getDirection())
+	{
+	case Direction::Up:
+		velocity->setVelocity(sf::Vector2f(0.f, velocity->getSpeed()));
+		break;
+	case Direction::Down:
+		velocity->setVelocity(sf::Vector2f(0.f, -velocity->getSpeed()));
+		break;
+	case Direction::Right:
+		velocity->setVelocity(sf::Vector2f(-velocity->getSpeed(), 0.f));
+		break;
+	case Direction::Left:
+		velocity->setVelocity(sf::Vector2f(velocity->getSpeed(), 0.f));
+		break;
+	}
 }

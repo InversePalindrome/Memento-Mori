@@ -29,16 +29,16 @@ void ControllerSystem::handleEvent(EntityID entityID, EntityEvent event)
 	switch (event)
 	{
 	case EntityEvent::MoveUp:
-		this->moveEntity(entityID, Direction::Up);
+		this->directEntity(entityID, Direction::Up);
 		break;
 	case EntityEvent::MoveDown:
-		this->moveEntity(entityID, Direction::Down);
+		this->directEntity(entityID, Direction::Down);
 		break;
 	case EntityEvent::MoveRight:
-		this->moveEntity(entityID, Direction::Right);
+		this->directEntity(entityID, Direction::Right);
 		break;
 	case EntityEvent::MoveLeft:
-		this->moveEntity(entityID, Direction::Left);
+		this->directEntity(entityID, Direction::Left);
 		break;
 	}
 }
@@ -53,35 +53,35 @@ void ControllerSystem::notify(const Message& message)
 
 }
 
-void ControllerSystem::moveEntity(EntityID entityID, Direction direction)
+void ControllerSystem::directEntity(EntityID entityID, Direction direction)
 {
 	auto* velocity = this->systemManager->getEntityManager()
 		->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);
 
-	switch (direction)
-	{
-	case Direction::Up:
-		velocity->setVelocity(sf::Vector2f(0.f, -velocity->getSpeed()));
-		break;
-	case Direction::Down:
-		velocity->setVelocity(sf::Vector2f(0.f, velocity->getSpeed()));
-		break;
-	case Direction::Right:
-		velocity->setVelocity(sf::Vector2f(velocity->getSpeed(), 0.f));
-		break;
-	case Direction::Left:
-		velocity->setVelocity(sf::Vector2f(-velocity->getSpeed(), 0.f));
-		break;
-	}
-
 	if (velocity->getDirection() != direction)
 	{
-		velocity->setDirection(direction);
-
 		Message message(EntityMessage::DirectionChanged);
 		message.receiverID = entityID;
 		message.data[DataID::Direction] = static_cast<std::size_t>(direction);
 
 		this->systemManager->getMessageHandler()->dispatch(message);
 	}
+
+	switch (direction)
+	{
+	case Direction::Up:
+		velocity->setDirection(Direction::Up);
+		break;
+	case Direction::Down:
+		velocity->setDirection(Direction::Down);
+		break;
+	case Direction::Right:
+		velocity->setDirection(Direction::Right);
+		break;
+	case Direction::Left:
+		velocity->setDirection(Direction::Left);
+		break;
+	}
+
+	this->systemManager->addEvent(entityID, EntityEvent::Moved);
 }

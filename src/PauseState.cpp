@@ -61,6 +61,11 @@ void PauseState::draw()
 	this->sharedData.window.draw(this->pauseMenu);
 }
 
+bool PauseState::isTransparent()
+{
+	return true;
+}
+
 void PauseState::transitionToGame()
 {
 	this->resumeButton->Show(false);

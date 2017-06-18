@@ -36,6 +36,11 @@ void SettingsState::draw()
 
 }
 
+bool SettingsState::isTransparent()
+{
+	return false;
+}
+
 void SettingsState::transitionToMenu()
 {
 	this->backButton->Show(false);

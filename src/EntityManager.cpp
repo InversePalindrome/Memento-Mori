@@ -12,6 +12,7 @@ InversePalindrome.com
 #include "PositionComponent.hpp"
 #include "VelocityComponent.hpp"
 #include "AnimationComponent.hpp"
+#include "CollidableComponent.hpp"
 
 #include <algorithm>
 
@@ -25,6 +26,7 @@ EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textur
 {
 	registerComponent<PositionComponent>(Component::ID::Position);
 	registerComponent<VelocityComponent>(Component::ID::Velocity);
+	registerComponent<CollidableComponent>(Component::ID::Collidable);
 	registerComponent<SpriteComponent>(Component::ID::Sprite);
 	registerComponent<AnimationComponent>(Component::ID::Animation);
 	registerComponent<StateComponent>(Component::ID::State);

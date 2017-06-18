@@ -16,7 +16,8 @@ InversePalindrome.com
 Map::Map(const sf::Texture& tileset, std::size_t rows, std::size_t columns, std::size_t tileSize, std::size_t numOfTiles, sf::Vector2f tileScale) :
 	vertices(sf::Quads, rows * columns * 4u),
 	tileset(tileset),
-	tileScale(tileScale)
+	tileScale(tileScale),
+	mapSize(columns * tileSize * tileScale.x, rows * tileSize * tileScale.y)
 {
 	std::vector<std::vector<std::size_t>> map(rows, std::vector<std::size_t>(columns));
 
@@ -50,6 +51,11 @@ Map::Map(const sf::Texture& tileset, std::size_t rows, std::size_t columns, std:
 			quad[3].texCoords = sf::Vector2f(tu* tileSize, (tv + 1) * tileSize);
 		}
 	}
+}
+
+sf::Vector2u Map::getSize() const
+{
+	return this->mapSize;
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const

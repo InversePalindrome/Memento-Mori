@@ -36,6 +36,11 @@ void LeaderboardState::draw()
 	
 }
 
+bool LeaderboardState::isTransparent()
+{
+	return false;
+}
+
 void LeaderboardState::transitionToMenu()
 {
 	this->backButton->Show(false);

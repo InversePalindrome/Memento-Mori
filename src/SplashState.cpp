@@ -38,3 +38,8 @@ void SplashState::draw()
 {
 	this->sharedData.window.draw(this->logo);
 }
+
+bool SplashState::isTransparent()
+{
+	return false;
+}

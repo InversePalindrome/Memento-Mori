@@ -132,6 +132,11 @@ void MenuState::draw()
 	this->sharedData.window.draw(this->particleSystem);
 }
 
+bool MenuState::isTransparent()
+{
+	return false;
+}
+
 void MenuState::transitionToGame()
 {
 	this->playButton->Show(false);

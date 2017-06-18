@@ -35,7 +35,7 @@ void RenderSystem::update(sf::Time deltaTime)
 		auto* position = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entity, Component::ID::Position);
 		auto* sprite = this->systemManager->getEntityManager()->getComponent<SpriteComponent>(entity, Component::ID::Sprite);
 
-		sprite->updatePosition(position->getPosition());
+		sprite->setPosition(position->getPosition());
 	}
 }
 
@@ -49,6 +49,7 @@ void RenderSystem::render(sf::RenderWindow& window)
 	for (auto& entity : this->entitiesIDs)
 	{
 		auto* sprite = this->systemManager->getEntityManager()->getComponent<SpriteComponent>(entity, Component::ID::Sprite);
+		
 		sprite->draw(window);
 	}
 }
