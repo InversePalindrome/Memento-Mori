@@ -1,1 +1,6 @@
-
+Composition 1111111
+Component 0 1320 800
+Component 1 500 0
+Component 4 0
+Component 5 8 3 3 192 96 32 32
+Component 6 Resources/Files/PlayerAnimations.txt
