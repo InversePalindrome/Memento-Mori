@@ -13,12 +13,12 @@ Component::Component(ID componentID) :
 {
 }
 
-Component::~Component()
-{
-
-}
-
 Component::ID Component::getID() const
 {
 	return this->componentID;
+}
+
+std::istringstream& operator>>(std::istringstream& iStream, Component& component)
+{
+	return component.readStream(iStream);
 }

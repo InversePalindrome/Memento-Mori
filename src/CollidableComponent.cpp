@@ -13,6 +13,11 @@ CollidableComponent::CollidableComponent() :
 {
 }
 
+std::istringstream& CollidableComponent::readStream(std::istringstream& iStream)
+{
+	return iStream;
+}
+
 sf::FloatRect CollidableComponent::getBoundingBox() const
 {
 	return this->boundingBox;

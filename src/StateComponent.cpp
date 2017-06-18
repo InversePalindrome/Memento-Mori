@@ -14,6 +14,17 @@ StateComponent::StateComponent() :
 {
 }
 
+std::istringstream& StateComponent::readStream(std::istringstream& iStream)
+{
+	std::size_t iState = 0;
+
+	iStream >> iState;
+
+	this->state = static_cast<EntityState>(iState);
+
+	return iStream;
+}
+
 EntityState StateComponent::getState() const
 {
 	return this->state;

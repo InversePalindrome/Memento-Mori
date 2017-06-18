@@ -16,6 +16,19 @@ VelocityComponent::VelocityComponent() :
 {
 }
 
+std::istringstream& VelocityComponent::readStream(std::istringstream& iStream)
+{
+	iStream >> this->speed;
+
+	std::size_t iDirection = 0;
+
+	iStream >> iDirection;
+
+	this->direction = static_cast<Direction>(iDirection);
+
+	return iStream;
+}
+
 sf::Vector2f VelocityComponent::getVelocity() const
 {
 	return this->velocity;

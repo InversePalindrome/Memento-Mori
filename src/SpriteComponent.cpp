@@ -10,9 +10,37 @@ InversePalindrome.com
 
 SpriteComponent::SpriteComponent() :
 	Component(Component::ID::Sprite),
-	sprite()
+	sprite(),
+	textureID(Textures::ID::Undefined)
 {
 	sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f);
+}
+
+std::istringstream& SpriteComponent::readStream(std::istringstream& iStream)
+{
+	std::size_t iTextureID = 0;
+
+	iStream >> iTextureID;
+
+	this->textureID = static_cast<Textures::ID>(iTextureID);
+
+	float iScaleX = 0;
+	float iScaleY = 0;
+
+	iStream >> iScaleX >> iScaleY;
+
+	this->sprite.setScale(iScaleX, iScaleY);
+	
+	std::size_t iLeft = 0;
+	std::size_t iTop = 0;
+	std::size_t iWidth = 0;
+	std::size_t iHeight = 0;
+
+	iStream >> iLeft >> iTop >> iWidth >> iHeight;
+
+	this->sprite.setTextureRect(sf::IntRect(iLeft, iTop, iWidth, iHeight));
+
+	return iStream;
 }
 
 sf::Sprite& SpriteComponent::getSprite() 
@@ -55,9 +83,9 @@ void SpriteComponent::draw(sf::RenderWindow& window)
 	window.draw(this->sprite);
 }
 
-void SpriteComponent::setTexture(const sf::Texture& texture)
+void SpriteComponent::setTexture(const TextureHolder& textures)
 {
-	this->sprite.setTexture(texture);
+	this->sprite.setTexture(textures[this->textureID]);
 }
 
 void SpriteComponent::setTextureRect(const sf::IntRect& rect)

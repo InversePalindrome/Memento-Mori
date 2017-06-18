@@ -14,6 +14,13 @@ PositionComponent::PositionComponent() :
 {
 }
 
+std::istringstream& PositionComponent::readStream(std::istringstream& iStream)
+{
+	iStream >> this->position.x >> this->position.y;
+
+	return iStream;
+}
+
 sf::Vector2f PositionComponent::getPosition() const
 {
 	return this->position;

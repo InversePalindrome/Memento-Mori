@@ -7,13 +7,16 @@ InversePalindrome.com
 
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
+#include "Component.hpp"
 #include "StateComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
 #include "VelocityComponent.hpp"
 #include "AnimationComponent.hpp"
 #include "CollidableComponent.hpp"
 
+#include <fstream>
 #include <algorithm>
 
 
@@ -26,6 +29,7 @@ EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textur
 {
 	registerComponent<PositionComponent>(Component::ID::Position);
 	registerComponent<VelocityComponent>(Component::ID::Velocity);
+	registerComponent<ControlComponent>(Component::ID::Control);
 	registerComponent<CollidableComponent>(Component::ID::Collidable);
 	registerComponent<SpriteComponent>(Component::ID::Sprite);
 	registerComponent<AnimationComponent>(Component::ID::Animation);
@@ -50,6 +54,51 @@ void EntityManager::addEntity(const EntityComposition& entityComposition)
 
 	this->systemManager->adaptEntityChanges(entityID, entityComposition);
 	this->systemManager->addEvent(entityID, EntityEvent::Spawned);
+}
+
+void EntityManager::addEntity(const std::string& fileName)
+{
+	std::ifstream inFile(fileName);
+	std::string line;
+
+	auto entityID = this->entityCount;
+
+	while (std::getline(inFile, line))
+	{
+		std::istringstream iStream(line);
+
+		std::string category;
+
+		iStream >> category;
+
+		if (category == "Composition")
+		{
+			std::string entityBitset;
+
+			iStream >> entityBitset;
+
+			EntityComposition entityComposition(entityBitset);
+
+			this->addEntity(entityComposition);
+		}
+		else if (category == "Component")
+		{
+			std::size_t componentID = 0;
+
+			iStream >> componentID;
+
+			auto* component = this->systemManager->getEntityManager()->getComponent<Component>(entityID, static_cast<Component::ID>(componentID));
+
+			iStream >> *component;
+
+			if (component->getID() == Component::ID::Sprite)
+			{
+				auto* sprite = dynamic_cast<SpriteComponent*>(component);
+				
+				sprite->setTexture(*this->textures);
+			}
+		}
+	}
 }
 
 void EntityManager::addComponent(EntityID entityID, Component::ID componentID)
