@@ -21,6 +21,8 @@ public:
 	virtual void update(sf::Time deltaTime) override;
 	virtual void draw() override;
 
+	virtual bool isTransparent();
+
 private:
 	sfg::Button::Ptr backButton;
 

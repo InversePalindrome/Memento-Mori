@@ -23,6 +23,8 @@ public:
 	virtual void update(sf::Time deltaTime) = 0;
 	virtual void draw() = 0;
 
+	virtual bool isTransparent() = 0;
+
 protected:
 	StateMachine& stateMachine;
 	SharedData& sharedData;

@@ -23,7 +23,7 @@ class System : public Observer
 	using ComponentsBitMasks = std::vector<EntityComposition>;
 
 public:
-	enum class ID { Movement, Controller , State, Render, Animator };
+	enum class ID { Movement, Controller , Collision, State, Render, Animator };
 
 	System(ID systemID, SystemManager& systemManager);
 

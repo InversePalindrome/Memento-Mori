@@ -19,4 +19,8 @@ public:
 	virtual void handleEvent(EntityID entityID, EntityEvent event) override;
 	virtual void update(sf::Time deltaTime) override;
 	virtual void notify(const Message& message) override;
+
+private:
+	void moveEntity(EntityID entityID);
+	void stopEntity(EntityID entityID);
 };

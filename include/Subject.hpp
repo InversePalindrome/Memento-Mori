@@ -9,7 +9,7 @@ InversePalindrome.com
 
 #include "Observer.hpp"
 
-#include <set>
+#include <unordered_set>
 
 
 class Subject
@@ -22,5 +22,5 @@ public:
 	void broadcast(const Message& message);
 
 private:
-	std::set<Observer*> observers;
+	std::unordered_set<Observer*> observers;
 };

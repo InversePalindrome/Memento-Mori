@@ -21,5 +21,5 @@ public:
 	virtual void notify(const Message& message) override;
 
 private:
-	void moveEntity(EntityID entityID, Direction direction);
+	void directEntity(EntityID entityID, Direction direction);
 };

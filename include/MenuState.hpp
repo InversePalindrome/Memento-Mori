@@ -24,6 +24,8 @@ public:
 	virtual void update(sf::Time deltaTime) override;
 	virtual void draw() override;
 
+	virtual bool isTransparent() override;
+
 private:
 	sf::Sprite background;
 	sf::Sprite attackingSkeleton;

@@ -20,10 +20,16 @@ public:
 
 	sf::Sprite& getSprite();
 
-	void updatePosition(sf::Vector2f position);
-	void draw(sf::RenderWindow& window);
+	sf::Vector2f getPosition() const;
+	sf::Vector2f getOrigin() const;
 
 	sf::FloatRect getLocalBounds() const;
+	sf::FloatRect getGlobalBounds() const;
+
+	void setPosition(sf::Vector2f position);
+	void setOrigin(sf::Vector2f origin);
+
+	void draw(sf::RenderWindow& window);
 
 	void setTexture(const sf::Texture& texture);
 	void setTextureRect(const sf::IntRect& rect);
