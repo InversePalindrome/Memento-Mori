@@ -19,6 +19,8 @@ class VelocityComponent : public Component
 public:
 	VelocityComponent();
 
+	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+
 	sf::Vector2f getVelocity() const;
 
 	float getSpeed() const;

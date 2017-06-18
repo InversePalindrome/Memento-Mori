@@ -14,4 +14,6 @@ class ControlComponent : public Component
 {
 public:
 	ControlComponent();
+
+	virtual std::istringstream& readStream(std::istringstream& iStream) override;
 };

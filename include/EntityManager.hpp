@@ -33,6 +33,8 @@ public:
 	T* getComponent(EntityID entityID, Component::ID componentID);
 
 	void addEntity(const EntityComposition& entityComposition);
+	void addEntity(const std::string& fileName);
+
 	void addComponent(EntityID entityID, Component::ID componentID);
 
 	void removeEntity(EntityID entityID);

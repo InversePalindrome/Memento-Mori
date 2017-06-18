@@ -11,6 +11,7 @@ InversePalindrome.com
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <Thor/Animations/Animator.hpp>
+#include <Thor/Animations/FrameAnimation.hpp>
 
 
 enum class AnimationID { Idle, Walking, Attacking };
@@ -21,11 +22,15 @@ class AnimationComponent : public Component
 public:
 	AnimationComponent();
 
-	AnimationID getAnimation() const;
+	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+
+	AnimationID getAnimationID() const;
 	AnimationDirection getAnimationDirection() const;
 
 	void setAnimation(AnimationID animation);
 	void setAnimationDirection(AnimationDirection animationDirection);
+
+	void setAnimationsFrameFile(const std::string& fileName);
 
 	void update(sf::Time deltaTime);
 	void animate(sf::Sprite& sprite) const;
@@ -33,12 +38,14 @@ public:
 	void playAnimation(bool loop);
 	void stopAnimation();
 
-	void addAnimation(AnimationID animationID, AnimationDirection direction, const thor::Animator<sf::Sprite, std::pair<AnimationID, AnimationDirection>>::AnimationFunction& animation, sf::Time duration);
+	void addAnimation(AnimationID animationID, AnimationDirection direction, const thor::FrameAnimation& animation, sf::Time duration);
+	void addAnimations();
 
 	bool isPlayingAnimation() const;
 
 private:
 	thor::Animator <sf::Sprite, std::pair<AnimationID, AnimationDirection>> animations;
-	AnimationID animation;
+	AnimationID animationID;
 	AnimationDirection animationDirection;
+	std::string animationFramesFile;
 };

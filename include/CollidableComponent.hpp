@@ -18,6 +18,8 @@ class CollidableComponent : public Component
 public:
 	CollidableComponent();
 
+	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+
 	sf::FloatRect getBoundingBox() const;
 
 	void setBoundingBox(const sf::FloatRect& boundingBox);

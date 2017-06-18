@@ -7,6 +7,8 @@ InversePalindrome.com
 
 #pragma once
 
+#include <sstream>
+
 
 class Component
 {
@@ -14,9 +16,13 @@ public:
 	enum class ID { Position, Velocity, Control, Collidable, State, Sprite, Animation };
 
 	Component(ID componentID);
-	virtual ~Component();
 
     ID getID() const;
+
+	friend std::istringstream& operator>>(std::istringstream& iStream, Component& component);
+
+protected:
+	virtual std::istringstream& readStream(std::istringstream& iStream) = 0;
 
 private:
 	ID componentID;

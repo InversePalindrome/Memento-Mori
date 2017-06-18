@@ -17,6 +17,8 @@ class StateComponent : public Component
 public:
 	StateComponent();
 
+	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+
 	EntityState getState() const;
 
 	void setState(EntityState state);

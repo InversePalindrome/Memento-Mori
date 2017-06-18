@@ -17,6 +17,8 @@ class PositionComponent : public Component
 public:
 	PositionComponent();
 
+	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+
 	sf::Vector2f getPosition() const;
 	void setPosition(sf::Vector2f position);
 
