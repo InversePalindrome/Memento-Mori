@@ -27,7 +27,7 @@ public:
 	AnimationID getAnimationID() const;
 	AnimationDirection getAnimationDirection() const;
 
-	void setAnimation(AnimationID animation);
+	void setAnimation(AnimationID animationID);
 	void setAnimationDirection(AnimationDirection animationDirection);
 
 	void setAnimationsFrameFile(const std::string& fileName);

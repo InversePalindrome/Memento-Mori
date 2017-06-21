@@ -15,7 +15,6 @@ InversePalindrome.com
 
 #include <memory>
 #include <algorithm>
-#include <unordered_set>
 #include <unordered_map>
 
 
@@ -47,7 +46,7 @@ public:
 	void adaptEntityChanges(EntityID entityID, const EntityComposition& entityComposition);
 
 private:
-	std::unordered_set<SystemPtr> systems;
+	std::unordered_map<System::ID, SystemPtr> systems;
 	std::unordered_map<EntityID, EventQueue> events;
 	MessageHandler messageHandler;
 
@@ -58,9 +57,8 @@ private:
 template<typename T>
 T* SystemManager::getSystem(System::ID systemID)
 {
-	auto systemItr = std::find_if(std::begin(this->systems), std::end(this->systems),
-		[systemID](const auto& system) { return system->getID() == systemID; });
+	auto system = this->systems.find(systemID);
 
-	return (systemItr != std::end(this->systems) ? 
-		dynamic_cast<T*>(systemItr->get()) : nullptr);
+	return (system != std::end(this->systems) ? 
+		dynamic_cast<T*>(system->second.get()) : nullptr);
 }

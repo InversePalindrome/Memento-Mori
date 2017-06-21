@@ -28,6 +28,4 @@ private:
 	EntityManager entityManager;
 	SystemManager systemManager;
 	Map map;
-
-	static constexpr EntityID playerID = 0u;
 };

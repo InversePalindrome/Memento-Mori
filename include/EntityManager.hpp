@@ -39,6 +39,8 @@ public:
 
 	void removeEntity(EntityID entityID);
 	void removeComponent(EntityID entityID, Component::ID componentID);
+
+	static EntityID getPlayerID();
 	
 private:
 	std::size_t entityCount;

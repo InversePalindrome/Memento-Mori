@@ -19,7 +19,7 @@ namespace Textures
 	enum class ID
 	{
 		Undefined, Logo, MenuBackground, DecoAttackingSkeleton, DecoJumpingSkeleton, StarParticle, PauseMenu, TileMap, Skeleton,
-		ObjectsSheet
+		Goblin, ObjectsSheet
 	};
 }
 
