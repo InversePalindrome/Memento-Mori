@@ -10,7 +10,7 @@ InversePalindrome.com
 
 StateComponent::StateComponent() :
 	Component(Component::ID::State),
-	state(EntityState::Idle)
+	state(EntityState::Walking)
 {
 }
 

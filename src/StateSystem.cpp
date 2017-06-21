@@ -28,6 +28,9 @@ void StateSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
 	switch (event)
 	{
+	case EntityEvent::Spawned:
+		this->changeState(entityID, EntityState::Idle);
+		break;
 	case EntityEvent::BecameIdle:
 		this->changeState(entityID, EntityState::Idle);
 		break;
@@ -36,7 +39,7 @@ void StateSystem::handleEvent(EntityID entityID, EntityEvent event)
 
 void StateSystem::update(sf::Time deltaTime)
 {
-	auto* state = this->systemManager->getEntityManager()->getComponent<StateComponent>(0, Component::ID::State);
+
 }
 
 void StateSystem::notify(const Message& message)
@@ -84,14 +87,14 @@ void StateSystem::changeState(EntityID entityID, EntityState entityState)
 {
 	auto* state = this->systemManager->getEntityManager()->getComponent<StateComponent>(entityID, Component::ID::State);
 
-	if (state->getState() != EntityState::Dead && state->getState() != entityState)
+	if (state->getState() != EntityState::Dead)
 	{
 		state->setState(entityState);
-
+	
 		Message message(EntityMessage::StateChanged);
 		message.receiverID = entityID;
 		message.data[DataID::State] = static_cast<std::size_t>(entityState);
-
+		
 		this->systemManager->getMessageHandler()->dispatch(message);
 	}
 }

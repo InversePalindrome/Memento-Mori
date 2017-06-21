@@ -9,6 +9,7 @@ InversePalindrome.com
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
 #include "SpriteComponent.hpp"
+#include "AttackComponent.hpp"
 
 
 CollisionSystem::CollisionSystem(SystemManager& systemManager) :
@@ -67,6 +68,32 @@ void CollisionSystem::processEntityCollisions()
 			{
 				this->systemManager->addEvent(*entity1, EntityEvent::Collided);
 				this->systemManager->addEvent(*entity2, EntityEvent::Collided);
+			}
+
+			auto* attack1 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(*entity1, Component::ID::Attack);
+			auto* attack2 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(*entity2, Component::ID::Attack);
+
+			if (!attack1 && !attack2)
+			{
+				return;
+			}
+
+			if (attack1 && attack1->getAttackArea().intersects(collidable2->getBoundingBox()))
+			{
+				Message message(EntityMessage::ReadyToAttack);
+				message.senderID = *entity1;
+				message.receiverID = *entity2;
+
+				this->systemManager->getMessageHandler()->dispatch(message);
+			}
+
+			if (attack2 && attack2->getAttackArea().intersects(collidable1->getBoundingBox()))
+			{
+				Message message(EntityMessage::ReadyToAttack);
+				message.senderID = *entity2;
+				message.receiverID = *entity1;
+
+				this->systemManager->getMessageHandler()->dispatch(message);
 			}
 		}
 	}

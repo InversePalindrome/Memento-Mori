@@ -29,15 +29,7 @@ AnimatorSystem::AnimatorSystem(SystemManager& systemManager) :
 
 void AnimatorSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
-	switch (event)
-	{
-	case EntityEvent::Spawned:
-		if (this->hasEntity(entityID))
-		{
-			this->changeAnimation(entityID, AnimationID::Idle, true);
-		}
-		break;
-	}
+	
 }
 
 void AnimatorSystem::update(sf::Time deltaTime)
@@ -46,12 +38,18 @@ void AnimatorSystem::update(sf::Time deltaTime)
 	{
 		auto* sprite = this->systemManager->getEntityManager()->getComponent<SpriteComponent>(entity, Component::ID::Sprite);
 		auto* animation = this->systemManager->getEntityManager()->getComponent<AnimationComponent>(entity, Component::ID::Animation);
-
-		if (animation->isPlayingAnimation())
+		
+		if (!animation->isPlayingAnimation())
 		{
-			animation->update(deltaTime);
-			animation->animate(sprite->getSprite());
+			Message message(EntityMessage::ChangeState);
+			message.receiverID = entity;
+			message.data[DataID::State] = static_cast<std::size_t>(EntityState::Idle);
+
+			this->systemManager->getMessageHandler()->dispatch(message);
 		}
+
+		animation->update(deltaTime);
+		animation->animate(sprite->getSprite());
 	}
 }
 
@@ -88,10 +86,13 @@ void AnimatorSystem::notify(const Message& message)
 void AnimatorSystem::changeAnimation(EntityID entityID, AnimationID animationID, bool loop)
 {
 	auto* animation = this->systemManager->getEntityManager()->getComponent<AnimationComponent>(entityID, Component::ID::Animation);
-
-	animation->setAnimation(animationID);
 	
-	animation->playAnimation(loop);
+	if (animation->getAnimationID() != animationID)
+	{
+		animation->setAnimation(animationID);
+
+		animation->playAnimation(loop);
+	}
 }
 
 

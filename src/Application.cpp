@@ -100,6 +100,7 @@ void Application::loadTextures()
 	this->textures.acquire(Textures::ID::TileMap, thor::Resources::fromFile<sf::Texture>("Resources/Images/TileMap.png"));
 	this->textures.acquire(Textures::ID::ObjectsSheet, thor::Resources::fromFile<sf::Texture>("Resources/Images/ObjectsSheet.png"));
 	this->textures.acquire(Textures::ID::Skeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/Skeleton.png"));
+	this->textures.acquire(Textures::ID::Goblin, thor::Resources::fromFile<sf::Texture>("Resources/Images/Goblin.png"));
 
 	this->images.acquire(Images::ID::PlayButton, thor::Resources::fromFile<sf::Image>("Resources/Images/PlayButton.png"));
 	this->images.acquire(Images::ID::SettingsButton, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton.png"));

@@ -7,8 +7,10 @@ InversePalindrome.com
 
 #include "SystemManager.hpp"
 #include "EntityManager.hpp"
+#include "AISystem.hpp"
 #include "StateSystem.hpp"
 #include "RenderSystem.hpp"
+#include "CombatSystem.hpp"
 #include "MovementSystem.hpp"
 #include "AnimatorSystem.hpp"
 #include "CollisionSystem.hpp"
@@ -21,12 +23,14 @@ SystemManager::SystemManager() :
 	messageHandler(),
 	entityManager(nullptr)
 {
-	systems.insert(std::make_unique<MovementSystem>(*this));
-	systems.insert(std::make_unique<ControllerSystem>(*this));
-	systems.insert(std::make_unique<CollisionSystem>(*this));
-	systems.insert(std::make_unique<AnimatorSystem>(*this));
-	systems.insert(std::make_unique<RenderSystem>(*this));
-	systems.insert(std::make_unique<StateSystem>(*this));
+	systems[System::ID::Movement] = std::make_unique<MovementSystem>(*this);
+	systems[System::ID::Controller] = std::make_unique<ControllerSystem>(*this);
+	systems[System::ID::Collision] = std::make_unique<CollisionSystem>(*this);
+	systems[System::ID::State] = std::make_unique<StateSystem>(*this);
+	systems[System::ID::AI] = std::make_unique<AISystem>(*this);
+	systems[System::ID::Combat] = std::make_unique<CombatSystem>(*this);
+	systems[System::ID::Animator] = std::make_unique<AnimatorSystem>(*this);
+	systems[System::ID::Render] = std::make_unique<RenderSystem>(*this);
 }
 
 EntityManager* SystemManager::getEntityManager()
@@ -48,7 +52,7 @@ void SystemManager::update(sf::Time deltaTime)
 {
 	for (auto& system : this->systems)
 	{
-		system->update(deltaTime);
+		system.second->update(deltaTime);
 	}
 	this->handleEvent();
 }
@@ -63,9 +67,9 @@ void SystemManager::handleEvent()
 		{
 			for (auto& system : this->systems)
 			{
-				if (system->hasEntity(eventQueue.first))
+				if (system.second->hasEntity(eventQueue.first))
 				{
-					system->handleEvent(eventQueue.first, entityEvent);
+					system.second->handleEvent(eventQueue.first, entityEvent);
 				}
 			}
 		}
@@ -74,12 +78,11 @@ void SystemManager::handleEvent()
 
 void SystemManager::draw(sf::RenderWindow& window)
 {
-	auto renderItr = std::find_if(std::begin(this->systems), std::end(this->systems),
-		[](const auto& system) { return system->getID() == System::ID::Render; });
+	auto render = this->systems.find(System::ID::Render);
 
-	if (renderItr != std::end(this->systems))
+	if (render != std::end(this->systems))
 	{
-		auto* renderSystem = dynamic_cast<RenderSystem*>(renderItr->get());
+		auto* renderSystem = dynamic_cast<RenderSystem*>(render->second.get());
 		
 		renderSystem->render(window);
 	}
@@ -94,7 +97,7 @@ void SystemManager::removeEntity(EntityID entityID)
 {
 	for (auto& system : this->systems)
 	{
-		system->removeEntity(entityID);
+		system.second->removeEntity(entityID);
 	}
 }
 
@@ -102,13 +105,13 @@ void SystemManager::adaptEntityChanges(EntityID entityID, const EntityCompositio
 {
 	for (auto& system : this->systems)
 	{
-		if (system->passesRequirements(entityComposition) && !system->hasEntity(entityID))
+		if (system.second->passesRequirements(entityComposition) && !system.second->hasEntity(entityID))
 		{
-			system->addEntity(entityID);
+			system.second->addEntity(entityID);
 		}
-		else if (!system->passesRequirements(entityComposition) && system->hasEntity(entityID))
+		else if (!system.second->passesRequirements(entityComposition) && system.second->hasEntity(entityID))
 		{
-			system->removeEntity(entityID);
+			system.second->removeEntity(entityID);
 		}
 	}
 }

@@ -39,9 +39,9 @@ AnimationDirection AnimationComponent::getAnimationDirection() const
 	return this->animationDirection;
 }
 
-void AnimationComponent::setAnimation(AnimationID animation)
+void AnimationComponent::setAnimation(AnimationID animationID)
 {
-	this->animationID = animation;
+	this->animationID = animationID;
 }
 
 void AnimationComponent::setAnimationDirection(AnimationDirection animationDiretion)

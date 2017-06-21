@@ -8,8 +8,11 @@ InversePalindrome.com
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
 #include "Component.hpp"
+#include "AIComponent.hpp"
 #include "StateComponent.hpp"
+#include "HealthComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "AttackComponent.hpp"
 #include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
 #include "VelocityComponent.hpp"
@@ -31,9 +34,12 @@ EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textur
 	registerComponent<VelocityComponent>(Component::ID::Velocity);
 	registerComponent<ControlComponent>(Component::ID::Control);
 	registerComponent<CollidableComponent>(Component::ID::Collidable);
+	registerComponent<StateComponent>(Component::ID::State);
+	registerComponent<AIComponent>(Component::ID::AI);
+	registerComponent<AttackComponent>(Component::ID::Attack);
+	registerComponent<HealthComponent>(Component::ID::Health);
 	registerComponent<SpriteComponent>(Component::ID::Sprite);
 	registerComponent<AnimationComponent>(Component::ID::Animation);
-	registerComponent<StateComponent>(Component::ID::State);
 }
 
 void EntityManager::addEntity(const EntityComposition& entityComposition)
@@ -148,4 +154,9 @@ void EntityManager::removeComponent(EntityID entityID, Component::ID componentID
 	}
 
 	this->systemManager->adaptEntityChanges(entityID, entityItr->second.first);
+}
+
+EntityID EntityManager::getPlayerID()
+{
+	return 0u;
 }

@@ -8,11 +8,8 @@ InversePalindrome.com
 #include "GameState.hpp"
 #include "StateMachine.hpp"
 #include "StateComponent.hpp"
-#include "SpriteComponent.hpp"
 #include "CollisionSystem.hpp"
 #include "VelocityComponent.hpp"
-#include "AnimationComponent.hpp"
-#include "CollidableComponent.hpp"
 
 
 GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
@@ -26,6 +23,7 @@ GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
 	systemManager.getSystem<CollisionSystem>(System::ID::Collision)->setMap(map);
 
 	entityManager.addEntity("Resources/Files/Player.txt");
+	entityManager.addEntity("Resources/Files/Goblin.txt");
 }
 
 void GameState::handleEvent(const sf::Event& event)
@@ -37,6 +35,7 @@ void GameState::handleEvent(const sf::Event& event)
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveUp))
 	{
 		Message message(EntityMessage::Move);
+		message.receiverID = this->entityManager.getPlayerID();
 		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Up);
 
 		this->systemManager.getMessageHandler()->dispatch(message);
@@ -44,6 +43,7 @@ void GameState::handleEvent(const sf::Event& event)
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveDown))
 	{
 		Message message(EntityMessage::Move);
+		message.receiverID = this->entityManager.getPlayerID();
 		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Down);
 
 		this->systemManager.getMessageHandler()->dispatch(message);
@@ -51,6 +51,7 @@ void GameState::handleEvent(const sf::Event& event)
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveRight))
 	{
 		Message message(EntityMessage::Move);
+		message.receiverID = this->entityManager.getPlayerID();
 		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Right);
 
 		this->systemManager.getMessageHandler()->dispatch(message);
@@ -58,6 +59,7 @@ void GameState::handleEvent(const sf::Event& event)
     else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveLeft))
 	{
 		Message message(EntityMessage::Move);
+		message.receiverID = this->entityManager.getPlayerID();
 		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Left);
 
 		this->systemManager.getMessageHandler()->dispatch(message);
@@ -65,13 +67,14 @@ void GameState::handleEvent(const sf::Event& event)
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::Attack))
 	{
 		Message message(EntityMessage::ChangeState);
+		message.receiverID = this->entityManager.getPlayerID();
 		message.data[DataID::State] = static_cast<std::size_t>(EntityState::Attacking);
 
 		this->systemManager.getMessageHandler()->dispatch(message);
 	}
 	else
 	{
-		this->systemManager.addEvent(this->playerID, EntityEvent::BecameIdle);
+		this->systemManager.addEvent(this->entityManager.getPlayerID(), EntityEvent::BecameIdle);
 	}
 }
 

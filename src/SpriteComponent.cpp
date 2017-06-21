@@ -19,7 +19,7 @@ SpriteComponent::SpriteComponent() :
 std::istringstream& SpriteComponent::readStream(std::istringstream& iStream)
 {
 	std::size_t iTextureID = 0;
-
+	
 	iStream >> iTextureID;
 
 	this->textureID = static_cast<Textures::ID>(iTextureID);
