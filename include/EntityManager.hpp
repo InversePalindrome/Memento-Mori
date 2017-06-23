@@ -33,6 +33,7 @@ public:
 	T* getComponent(EntityID entityID, Component::ID componentID);
 
 	std::size_t getEntityCount() const;
+	std::size_t getCurrentEntityID() const;
 
 	void addEntity(const EntityComposition& entityComposition);
 	void addEntity(const std::string& fileName);
@@ -46,6 +47,7 @@ public:
 	
 private:
 	std::size_t entityCount;
+	std::size_t currentEntityID;
 	std::unordered_map<EntityID, EntityData> entities;
 	std::unordered_map<Component::ID, std::function<ComponentPtr()>> componentFactory;
 

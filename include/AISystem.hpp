@@ -8,6 +8,7 @@ InversePalindrome.com
 #pragma once
 
 #include "System.hpp"
+#include "Direction.hpp"
 
 
 class AISystem : public System
@@ -21,4 +22,6 @@ public:
 
 private:
 	void targetPlayer(EntityID entityID);
+	void moveAI(EntityID entityID, Direction direction);
+	void moveAI(EntityID entityID, Direction directionChoice1, Direction directionChoice2);
 };

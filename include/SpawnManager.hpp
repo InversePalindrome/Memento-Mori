@@ -24,12 +24,11 @@ public:
 
 private:
 	EntityManager& entityManager;
-	std::size_t entityCount;
 	sf::Time spawnInterval;
 	const sf::Vector2f spawnZonePerimeter;
 
-	static constexpr std::size_t maxNumOfEntities = 16u;
-	static constexpr float spawnOffset = 50.f;
+	static constexpr std::size_t maxNumOfEntities = 24u;
+	static constexpr float spawnOffset = 100.f;
 	static const std::unordered_map<AI_ID, std::string> entityFiles;
 
 	void spawnEntity(AI_ID entity, Direction direction);

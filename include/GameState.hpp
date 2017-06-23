@@ -10,6 +10,7 @@ InversePalindrome.com
 #include "Map.hpp"
 #include "State.hpp"
 #include "HealthBar.hpp"
+#include "Direction.hpp"
 #include "SpawnManager.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
@@ -34,4 +35,5 @@ private:
 	HealthBar healthBar;
 
 	void updateHealth();
+	void movePlayer(Direction direction);
 };

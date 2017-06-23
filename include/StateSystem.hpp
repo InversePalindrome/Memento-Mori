@@ -9,6 +9,7 @@ InversePalindrome.com
 
 #include "System.hpp"
 #include "StateComponent.hpp"
+#include "PickupComponent.hpp"
 
 
 class StateSystem : public System
@@ -22,4 +23,7 @@ public:
 
 private:
 	void changeState(EntityID entityID, EntityState entityState);
+	void addPickup(EntityID entityID);
+
+	static const std::unordered_map<PickupType, std::string> pickupFiles;
 };

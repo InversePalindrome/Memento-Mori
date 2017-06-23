@@ -21,5 +21,6 @@ public:
 	virtual void notify(const Message& message) override;
 
 private:
+	void processAttack(EntityID senderID, EntityID receiverID);
 	void applyKnockback(EntityID entityID, AttackComponent* attack);
 };

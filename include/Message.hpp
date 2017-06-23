@@ -11,7 +11,7 @@ InversePalindrome.com
 #include <unordered_map>
 
 
-enum class EntityMessage { ChangeState, StateChanged, DirectionChanged, Move, ReadyToAttack };
+enum class EntityMessage { ChangeState, StateChanged, DirectionChanged, Move, ReadyToAttack, PickedUpHeart };
 enum class DataID { State, Direction };
 
 struct Message
