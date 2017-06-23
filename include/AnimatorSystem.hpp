@@ -22,5 +22,5 @@ public:
 
 private:
 	void changeAnimation(EntityID entityID, AnimationID animationID, bool loop);
-	void changeAnimationDirection(EntityID entityID, AnimationDirection animationDirection);
+	void changeAnimationDirection(EntityID entityID, Direction animationDirection);
 };

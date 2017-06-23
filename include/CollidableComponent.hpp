@@ -23,6 +23,7 @@ public:
 	sf::FloatRect getBoundingBox() const;
 
 	void setBoundingBox(const sf::FloatRect& boundingBox);
+	void setPosition(sf::Vector2f position);
 
 private:
 	sf::FloatRect boundingBox;

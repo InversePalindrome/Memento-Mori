@@ -21,7 +21,7 @@ class StateMachine
 	using StatePtr = std::unique_ptr<State>;
 
 public:
-	enum class StateID { Undefined, Splash, Menu, Game, Settings, Leaderboard, Pause };
+	enum class StateID { Undefined, Splash, Menu, Game, Settings, Leaderboard, Pause, GameOver };
 	enum class StackAction { Undefined, Push, Pop, Clear };
 
 	StateMachine(SharedData& data);

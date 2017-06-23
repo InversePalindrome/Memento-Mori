@@ -9,6 +9,8 @@ InversePalindrome.com
 
 #include "Map.hpp"
 #include "State.hpp"
+#include "HealthBar.hpp"
+#include "SpawnManager.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
 
@@ -28,4 +30,8 @@ private:
 	EntityManager entityManager;
 	SystemManager systemManager;
 	Map map;
+	SpawnManager spawnManager;
+	HealthBar healthBar;
+
+	void updateHealth();
 };

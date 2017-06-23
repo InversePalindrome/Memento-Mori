@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2017 InversePalindrome
-Memento Mori - PauseState.hpp
+Memento Mori - GameOverState.hpp
 InversePalindrome.com
 */
 
@@ -13,10 +13,10 @@ InversePalindrome.com
 #include <SFML/Graphics/Sprite.hpp>
 
 
-class PauseState : public State
+class GameOverState : public State
 {
 public:
-	PauseState(StateMachine& stateMachine, SharedData& sharedData);
+	GameOverState(StateMachine& stateMachine, SharedData& sharedData);
 
 	virtual void handleEvent(const sf::Event& event) override;
 	virtual void update(sf::Time deltaTime) override;
@@ -25,15 +25,13 @@ public:
 	virtual bool isTransparent() override;
 
 private:
-	sf::Sprite pauseMenu;
+	sf::Sprite background;
 
-	sfg::Button::Ptr resumeButton;
-	sfg::Button::Ptr restartButton;
-	sfg::Button::Ptr settingsButton;
-	sfg::Button::Ptr quitButton;
+	sfg::Button::Ptr playButton;
+	sfg::Button::Ptr menuButton;
+	sfg::Button::Ptr leaderboardButton;
 
-	void transitionToGame();
-	void restartGame();
-	void transitionToSettings();
+	void transitionToPlay();
 	void transitionToMenu();
+	void transitionToLeaderboard();
 };

@@ -9,6 +9,7 @@ InversePalindrome.com
 
 #include "Map.hpp"
 #include "System.hpp"
+#include "AttackComponent.hpp"
 #include "PositionComponent.hpp"
 #include "CollidableComponent.hpp"
 
@@ -29,4 +30,6 @@ private:
 
 	void processEntityCollisions();
 	void checkOutOfBounds(PositionComponent* position, CollidableComponent* collidable);
+
+	bool attackDirectionIntersects(const AttackComponent* attack, const CollidableComponent* collidable) const;
 };

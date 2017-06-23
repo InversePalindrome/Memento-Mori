@@ -10,7 +10,7 @@ InversePalindrome.com
 #include "Component.hpp"
 
 
-enum class AI_ID { Goblin };
+enum class AI_ID { Goblin, AI_Count };
 
 class AIComponent : public Component
 {

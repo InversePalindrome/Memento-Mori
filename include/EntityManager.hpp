@@ -32,6 +32,8 @@ public:
 	template<typename T>
 	T* getComponent(EntityID entityID, Component::ID componentID);
 
+	std::size_t getEntityCount() const;
+
 	void addEntity(const EntityComposition& entityComposition);
 	void addEntity(const std::string& fileName);
 

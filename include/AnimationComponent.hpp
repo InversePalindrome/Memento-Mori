@@ -8,6 +8,7 @@ InversePalindrome.com
 #pragma once
 
 #include "Component.hpp"
+#include "Direction.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <Thor/Animations/Animator.hpp>
@@ -15,7 +16,6 @@ InversePalindrome.com
 
 
 enum class AnimationID { Idle, Walking, Attacking };
-enum class AnimationDirection { FaceUp, FaceDown, FaceRight, FaceLeft, None };
 
 class AnimationComponent : public Component
 {
@@ -25,10 +25,10 @@ public:
 	virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
 	AnimationID getAnimationID() const;
-	AnimationDirection getAnimationDirection() const;
+	Direction getAnimationDirection() const;
 
 	void setAnimation(AnimationID animationID);
-	void setAnimationDirection(AnimationDirection animationDirection);
+	void setAnimationDirection(Direction animationDirection);
 
 	void setAnimationsFrameFile(const std::string& fileName);
 
@@ -38,14 +38,14 @@ public:
 	void playAnimation(bool loop);
 	void stopAnimation();
 
-	void addAnimation(AnimationID animationID, AnimationDirection direction, const thor::FrameAnimation& animation, sf::Time duration);
+	void addAnimation(AnimationID animationID, Direction direction, const thor::FrameAnimation& animation, sf::Time duration);
 	void addAnimations();
 
 	bool isPlayingAnimation() const;
 
 private:
-	thor::Animator <sf::Sprite, std::pair<AnimationID, AnimationDirection>> animations;
+	thor::Animator <sf::Sprite, std::pair<AnimationID, Direction>> animations;
 	AnimationID animationID;
-	AnimationDirection animationDirection;
+	Direction animationDirection;
 	std::string animationFramesFile;
 };

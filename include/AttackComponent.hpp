@@ -8,6 +8,7 @@ InversePalindrome.com
 #pragma once
 
 #include "Component.hpp"
+#include "VelocityComponent.hpp"
 
 #include <SFML/Graphics/Rect.hpp>
 
@@ -18,16 +19,22 @@ public:
 	AttackComponent();
 
 	virtual std::istringstream& readStream(std::istringstream& iStream) override;
-
-	sf::FloatRect getAttackArea() const;
-	float getKnockback() const;
-
-	void setAttackArea(const sf::FloatRect& attackArea);
-	void setAttackPosition(sf::Vector2f attackPosition);
 	
+	sf::Vector2f getPosition() const;
+	Direction getAttackDirection() const;
+
+	float getKnockback() const;
+	bool hasAttacked() const;
+	
+	void setPosition(sf::Vector2f position);
+	void setAttackDirection(Direction direction);
+
 	void setKnockback(float knockback);
+	void setAttackStatus(bool attackStatus);
 
 private:
-	sf::FloatRect attackArea;
+	sf::Vector2f position;
+	Direction attackDirection;
 	float knockback;
+	bool attackStatus;
 };

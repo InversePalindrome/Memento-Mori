@@ -18,8 +18,8 @@ namespace Textures
 {
 	enum class ID
 	{
-		Undefined, Logo, MenuBackground, DecoAttackingSkeleton, DecoJumpingSkeleton, StarParticle, PauseMenu, TileMap, Skeleton,
-		Goblin, ObjectsSheet
+		Undefined, Logo, MenuBackground, GameOverBackground, DecoAttackingSkeleton, DecoJumpingSkeleton, StarParticle, PauseMenu, TileMap, Skeleton,
+		Goblin, ObjectsSheet, Heart
 	};
 }
 
@@ -27,7 +27,7 @@ namespace Images
 {
 	enum class ID
 	{
-		Undefined, PlayButton, SettingsButton, LeaderboardButton, BackButton, ResumeButton, RestartButton, SettingsButton2, QuitButton
+		Undefined, PlayButton, SettingsButton, LeaderboardButton, BackButton, MenuButton, ResumeButton, RestartButton, SettingsButton2, QuitButton
 	};
 }
 
