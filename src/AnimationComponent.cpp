@@ -15,7 +15,7 @@ InversePalindrome.com
 AnimationComponent::AnimationComponent() :
 	Component(Component::ID::Animation),
 	animationID(AnimationID::Idle),
-	animationDirection(AnimationDirection::FaceUp),
+	animationDirection(Direction::Up),
 	animationFramesFile()
 {
 }
@@ -34,7 +34,7 @@ AnimationID AnimationComponent::getAnimationID() const
 	return this->animationID;
 }
 
-AnimationDirection AnimationComponent::getAnimationDirection() const
+Direction AnimationComponent::getAnimationDirection() const
 {
 	return this->animationDirection;
 }
@@ -44,7 +44,7 @@ void AnimationComponent::setAnimation(AnimationID animationID)
 	this->animationID = animationID;
 }
 
-void AnimationComponent::setAnimationDirection(AnimationDirection animationDiretion)
+void AnimationComponent::setAnimationDirection(Direction animationDiretion)
 {
 	this->animationDirection = animationDiretion;
 }
@@ -74,7 +74,7 @@ void AnimationComponent::stopAnimation()
 	this->animations.stopAnimation();
 }
 
-void AnimationComponent::addAnimation(AnimationID animationID, AnimationDirection direction, const thor::FrameAnimation& animation, sf::Time duration)
+void AnimationComponent::addAnimation(AnimationID animationID, Direction direction, const thor::FrameAnimation& animation, sf::Time duration)
 {
 	this->animations.addAnimation(std::make_pair(animationID, direction), animation, duration);
 }
@@ -136,7 +136,7 @@ void AnimationComponent::addAnimations()
 			}
 		}
 
-		this->addAnimation(static_cast<AnimationID>(iAnimationID), static_cast<AnimationDirection>(iDirection), animation, sf::seconds(iAnimationTime));
+		this->addAnimation(static_cast<AnimationID>(iAnimationID), static_cast<Direction>(iDirection), animation, sf::seconds(iAnimationTime));
 	}
 }
 

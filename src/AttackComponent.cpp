@@ -10,21 +10,28 @@ InversePalindrome.com
 
 AttackComponent::AttackComponent() :
 	Component(Component::ID::Attack),
-	attackArea(),
-	knockback(0.f)
+	position(0.f, 0.f),
+	attackDirection(Direction::Up),
+	knockback(0.f),
+	attackStatus(false)
 {
 }
 
 std::istringstream& AttackComponent::readStream(std::istringstream& iStream)
 {
-	iStream >> this->attackArea.width >> this->attackArea.height >> this->knockback;
+	iStream >> this->knockback;
 
 	return iStream;
 }
 
-sf::FloatRect AttackComponent::getAttackArea() const
+sf::Vector2f AttackComponent::getPosition() const
 {
-	return this->attackArea;
+	return this->position;
+}
+
+Direction AttackComponent::getAttackDirection() const
+{
+	return this->attackDirection;
 }
 
 float AttackComponent::getKnockback() const
@@ -32,18 +39,27 @@ float AttackComponent::getKnockback() const
 	return this->knockback;
 }
 
-void AttackComponent::setAttackArea(const sf::FloatRect& attackArea)
+bool AttackComponent::hasAttacked() const
 {
-	this->attackArea = attackArea;
+	return this->attackStatus;
 }
 
-void AttackComponent::setAttackPosition(sf::Vector2f attackPosition)
+void AttackComponent::setPosition(sf::Vector2f position)
 {
-	this->attackArea.left = attackPosition.x;
-	this->attackArea.top = attackPosition.y;
+	this->position = position;
+}
+
+void AttackComponent::setAttackDirection(Direction attackDirection)
+{
+	this->attackDirection = attackDirection;
 }
 
 void AttackComponent::setKnockback(float knockback)
 {
 	this->knockback = knockback;
+}
+
+void AttackComponent::setAttackStatus(bool attackStatus)
+{
+	this->attackStatus = attackStatus;
 }

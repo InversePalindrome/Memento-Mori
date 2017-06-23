@@ -68,6 +68,11 @@ void AISystem::targetPlayer(EntityID entityID)
 	auto* playerPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>
 		(this->systemManager->getEntityManager()->getPlayerID(), Component::ID::Position);
 
+	if (!playerPosition)
+	{
+		return;
+	}
+
 	auto* AIPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entityID, Component::ID::Position);
 
 	float xDelta = playerPosition->getPosition().x - AIPosition->getPosition().x;

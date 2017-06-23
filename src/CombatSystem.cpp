@@ -29,11 +29,12 @@ CombatSystem::CombatSystem(SystemManager& systemManager) :
 	componentRequirements.push_back(entityComposition);
 
 	systemManager.getMessageHandler()->subscribe(EntityMessage::ReadyToAttack, this);
+	systemManager.getMessageHandler()->subscribe(EntityMessage::StateChanged, this);
 }
 
 void CombatSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
-
+	
 }
 
 void CombatSystem::update(sf::Time deltaTime)
@@ -43,61 +44,53 @@ void CombatSystem::update(sf::Time deltaTime)
 		auto* attack = this->systemManager->getEntityManager()->getComponent<AttackComponent>(entity, Component::ID::Attack);
 		auto position = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entity, Component::ID::Position)->getPosition();
 		auto direction = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entity, Component::ID::Velocity)->getDirection();
-		
-		auto AoA = attack->getAttackArea();
-		
-		if (direction == Direction::Up)
-		{
-			position.x += AoA.width / 2.f;
-		}
-		else if (direction == Direction::Down)
-		{
-			position += sf::Vector2f(AoA.width / 2.f, AoA.height);
-		}
-		else if (direction == Direction::Right)
-		{
-			position += sf::Vector2f(AoA.width, AoA.height / 2.f);
-		}
-		else 
-		{
-			position.x -= AoA.width / 2.f;
-			position.y += AoA.height / 2.f;
-		}
 
-		attack->setAttackPosition(position);
+		attack->setPosition(position);
+		attack->setAttackDirection(direction);
 	}
 }
 
 void CombatSystem::notify(const Message& message)
 {
-	if (this->hasEntity(message.receiverID) && this->hasEntity(message.senderID))
+	switch (message.messageType)
 	{
-		switch (message.messageType)
+	case EntityMessage::ReadyToAttack:
+	{
+		if (this->hasEntity(message.receiverID) && this->hasEntity(message.senderID))
 		{
-		case EntityMessage::ReadyToAttack:
+			auto* attack = this->systemManager->getEntityManager()->getComponent<AttackComponent>(message.senderID, Component::ID::Attack);
 			auto* state1 = this->systemManager->getEntityManager()->getComponent<StateComponent>(message.senderID, Component::ID::State);
+			auto* health = this->systemManager->getEntityManager()->getComponent<HealthComponent>(message.receiverID, Component::ID::Health);
 
-			if (state1->getState() != EntityState::Attacking)
+			if (state1->getState() != EntityState::Attacking || attack->hasAttacked())
 			{
 				return;
 			}
 
-			auto* attack = this->systemManager->getEntityManager()->getComponent<AttackComponent>(message.senderID, Component::ID::Attack);
-			auto* health = this->systemManager->getEntityManager()->getComponent<HealthComponent>(message.receiverID, Component::ID::Health);
-			
 			health->setHealth(health->getHealth() - 1);
+		    attack->setAttackStatus(true);
 
-			if (health->getHealth() == 0)
+			if (!health->getHealth())
 			{
 				auto* state2 = this->systemManager->getEntityManager()->getComponent<StateComponent>(message.receiverID, Component::ID::State);
 
 				state2->setState(EntityState::Dead);
+				this->systemManager->addEvent(message.receiverID, EntityEvent::Died);
 			}
-			
-			this->applyKnockback(message.receiverID, attack);
 
-			break;
+			this->applyKnockback(message.receiverID, attack);
 		}
+	}
+	break;
+
+	case EntityMessage::StateChanged:
+		if (this->hasEntity(message.receiverID))
+		{
+			auto* attack = this->systemManager->getEntityManager()->getComponent<AttackComponent>(message.receiverID, Component::ID::Attack);
+
+			attack->setAttackStatus(false);
+		}
+		break;
 	}
 }
  
@@ -105,22 +98,20 @@ void CombatSystem::applyKnockback(EntityID entityID, AttackComponent* attack)
 {
 	auto* velocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);
 
-	Direction direction = velocity->getDirection();
-
-	if (direction == Direction::Up)
-	{
-		velocity->setVelocity(sf::Vector2f(0.f, attack->getKnockback()));
-	}
-	else if (direction == Direction::Down)
+	if (attack->getAttackDirection() == Direction::Up)
 	{
 		velocity->setVelocity(sf::Vector2f(0.f, -attack->getKnockback()));
 	}
-	else if (direction == Direction::Right)
+	else if (attack->getAttackDirection() == Direction::Down)
 	{
-		velocity->setVelocity(sf::Vector2f(-attack->getKnockback(), 0.f));
+		velocity->setVelocity(sf::Vector2f(0.f, attack->getKnockback()));
+	}
+	else if (attack->getAttackDirection() == Direction::Right)
+	{
+		velocity->setVelocity(sf::Vector2f(attack->getKnockback(), 0.f));
 	}
 	else
 	{
-		velocity->setVelocity(sf::Vector2f(attack->getKnockback(), 0.f));
+		velocity->setVelocity(sf::Vector2f(-attack->getKnockback(), 0.f));
 	}
 }

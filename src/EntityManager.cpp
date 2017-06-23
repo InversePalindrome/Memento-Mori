@@ -42,6 +42,11 @@ EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textur
 	registerComponent<AnimationComponent>(Component::ID::Animation);
 }
 
+std::size_t EntityManager::getEntityCount() const
+{
+	return this->entityCount;
+}
+
 void EntityManager::addEntity(const EntityComposition& entityComposition)
 {
 	auto entityID = this->entityCount;

@@ -29,7 +29,12 @@ AnimatorSystem::AnimatorSystem(SystemManager& systemManager) :
 
 void AnimatorSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
-	
+	switch (event)
+	{
+	case EntityEvent::Spawned:
+		this->changeAnimation(entityID, AnimationID::Idle, true);
+		break;
+	}
 }
 
 void AnimatorSystem::update(sf::Time deltaTime)
@@ -77,7 +82,7 @@ void AnimatorSystem::notify(const Message& message)
 		    }
 
 		case EntityMessage::DirectionChanged:
-			this->changeAnimationDirection(message.receiverID, static_cast<AnimationDirection>(message.data.at(DataID::Direction)));
+			this->changeAnimationDirection(message.receiverID, static_cast<Direction>(message.data.at(DataID::Direction)));
 			break;
 		}
 	}
@@ -87,16 +92,12 @@ void AnimatorSystem::changeAnimation(EntityID entityID, AnimationID animationID,
 {
 	auto* animation = this->systemManager->getEntityManager()->getComponent<AnimationComponent>(entityID, Component::ID::Animation);
 	
-	if (animation->getAnimationID() != animationID)
-	{
-		animation->setAnimation(animationID);
+	animation->setAnimation(animationID);
 
-		animation->playAnimation(loop);
-	}
+	animation->playAnimation(loop);
 }
 
-
-void AnimatorSystem::changeAnimationDirection(EntityID entityID, AnimationDirection animationDirection)
+void AnimatorSystem::changeAnimationDirection(EntityID entityID, Direction animationDirection)
 {
 	auto* animation = this->systemManager->getEntityManager()->getComponent<AnimationComponent>(entityID, Component::ID::Animation);
 

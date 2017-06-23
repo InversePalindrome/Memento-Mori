@@ -8,8 +8,7 @@ InversePalindrome.com
 #include "CollisionSystem.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
-#include "SpriteComponent.hpp"
-#include "AttackComponent.hpp"
+#include "VelocityComponent.hpp"
 
 
 CollisionSystem::CollisionSystem(SystemManager& systemManager) :
@@ -19,7 +18,6 @@ CollisionSystem::CollisionSystem(SystemManager& systemManager) :
 
 	entityComposition[static_cast<std::size_t>(Component::ID::Collidable)] = true;
 	entityComposition[static_cast<std::size_t>(Component::ID::Position)] = true;
-	entityComposition[static_cast<std::size_t>(Component::ID::Sprite)] = true;
 
 	componentRequirements.push_back(entityComposition);
 }
@@ -35,11 +33,17 @@ void CollisionSystem::update(sf::Time deltaTime)
 	{
 		auto* position = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entity, Component::ID::Position);
 		auto* collidable = this->systemManager->getEntityManager()->getComponent<CollidableComponent>(entity, Component::ID::Collidable);
-		auto* sprite = this->systemManager->getEntityManager()->getComponent<SpriteComponent>(entity, Component::ID::Sprite);
 
-		collidable->setBoundingBox(sprite->getGlobalBounds());
+		auto collidablePosition = position->getPosition();
+		
+		collidablePosition += sf::Vector2f(collidable->getBoundingBox().width / 2.f, collidable->getBoundingBox().height / 2.f);
 
-		this->checkOutOfBounds(position, collidable);
+		collidable->setPosition(collidablePosition);
+
+		if (entity == this->systemManager->getEntityManager()->getPlayerID())
+		{
+			this->checkOutOfBounds(position, collidable);
+		}
 	}
 
 	this->processEntityCollisions();
@@ -68,32 +72,32 @@ void CollisionSystem::processEntityCollisions()
 			{
 				this->systemManager->addEvent(*entity1, EntityEvent::Collided);
 				this->systemManager->addEvent(*entity2, EntityEvent::Collided);
-			}
 
-			auto* attack1 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(*entity1, Component::ID::Attack);
-			auto* attack2 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(*entity2, Component::ID::Attack);
+				auto* attack1 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(*entity1, Component::ID::Attack);
+				auto* attack2 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(*entity2, Component::ID::Attack);
 
-			if (!attack1 && !attack2)
-			{
-				return;
-			}
+				if (!attack1 && !attack2)
+				{
+					return;
+				}
 
-			if (attack1 && attack1->getAttackArea().intersects(collidable2->getBoundingBox()))
-			{
-				Message message(EntityMessage::ReadyToAttack);
-				message.senderID = *entity1;
-				message.receiverID = *entity2;
+				if (attack1 && this->attackDirectionIntersects(attack1, collidable2))
+				{
+					Message message(EntityMessage::ReadyToAttack);
+					message.senderID = *entity1;
+					message.receiverID = *entity2;
 
-				this->systemManager->getMessageHandler()->dispatch(message);
-			}
+					this->systemManager->getMessageHandler()->dispatch(message);
+				}
 
-			if (attack2 && attack2->getAttackArea().intersects(collidable1->getBoundingBox()))
-			{
-				Message message(EntityMessage::ReadyToAttack);
-				message.senderID = *entity2;
-				message.receiverID = *entity1;
+				if (attack2 && this->attackDirectionIntersects(attack2, collidable1))
+				{
+					Message message(EntityMessage::ReadyToAttack);
+					message.senderID = *entity2;
+					message.receiverID = *entity1;
 
-				this->systemManager->getMessageHandler()->dispatch(message);
+					this->systemManager->getMessageHandler()->dispatch(message);
+				}
 			}
 		}
 	}
@@ -117,5 +121,20 @@ void CollisionSystem::checkOutOfBounds(PositionComponent* position, CollidableCo
 	else if (position->getPosition().y + collidable->getBoundingBox().height > this->map->getSize().y)
 	{
 		position->setPosition(sf::Vector2f(position->getPosition().x, this->map->getSize().y - collidable->getBoundingBox().height));
+	}
+}
+
+bool CollisionSystem::attackDirectionIntersects(const AttackComponent* attack, const CollidableComponent* collidable) const
+{
+	switch (attack->getAttackDirection())
+	{
+	case Direction::Up:
+		return attack->getPosition().y > collidable->getBoundingBox().top;
+	case Direction::Down:
+		return attack->getPosition().y < collidable->getBoundingBox().top;
+	case Direction::Right:
+		return attack->getPosition().x < collidable->getBoundingBox().left;
+	case Direction::Left:
+		return attack->getPosition().x > collidable->getBoundingBox().left;
 	}
 }

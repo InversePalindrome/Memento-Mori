@@ -9,6 +9,7 @@ InversePalindrome.com
 #include "StateMachine.hpp"
 #include "StateComponent.hpp"
 #include "CollisionSystem.hpp"
+#include "HealthComponent.hpp"
 #include "VelocityComponent.hpp"
 
 
@@ -16,14 +17,16 @@ GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
 	State(stateMachine, sharedData),
 	entityManager(systemManager, sharedData.textures),
 	systemManager(),
-	map(sharedData.textures[Textures::ID::TileMap], 18u, 32u, 32u, 6u, sf::Vector2f(2.5f, 2.5f))
+	map(sharedData.textures[Textures::ID::TileMap], 18u, 32u, 32u, 6u, sf::Vector2f(2.5f, 2.5f)),
+	spawnManager(map, entityManager),
+	healthBar(sharedData.textures[Textures::ID::Heart])
 {
 	systemManager.setEntityManager(entityManager);
 
 	systemManager.getSystem<CollisionSystem>(System::ID::Collision)->setMap(map);
 
 	entityManager.addEntity("Resources/Files/Player.txt");
-	entityManager.addEntity("Resources/Files/Goblin.txt");
+	entityManager.addEntity("Resources/Files/Cauldron.txt");
 }
 
 void GameState::handleEvent(const sf::Event& event)
@@ -81,15 +84,34 @@ void GameState::handleEvent(const sf::Event& event)
 void GameState::update(sf::Time deltaTime)
 {
 	this->systemManager.update(deltaTime);
+	this->spawnManager.update(deltaTime);
+
+	this->updateHealth();
 }
 
 void GameState::draw()
 {
 	this->sharedData.window.draw(this->map);
 	this->systemManager.draw(this->sharedData.window);
+	this->sharedData.window.draw(this->healthBar);
 }
 
 bool GameState::isTransparent()
 {
 	return true;
+}
+
+void GameState::updateHealth()
+{
+	auto* health = this->entityManager.getComponent<HealthComponent>(this->entityManager.getPlayerID(), Component::ID::Health);
+
+	if (health)
+	{
+		this->healthBar.setHealth(health->getHealth());
+	}
+	else
+	{
+		this->healthBar.setHealth(0u);
+		this->stateMachine.pushState(StateMachine::StateID::GameOver);
+	}
 }

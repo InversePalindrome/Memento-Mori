@@ -81,16 +81,16 @@ void MovementSystem::stopEntity(EntityID entityID)
 	switch (velocity->getDirection())
 	{
 	case Direction::Up:
-		velocity->setVelocity(sf::Vector2f(0.f, velocity->getSpeed()));
+		velocity->setVelocity(sf::Vector2f(0.f, velocity->getVelocity().y + velocity->getSpeed()));
 		break;
 	case Direction::Down:
-		velocity->setVelocity(sf::Vector2f(0.f, -velocity->getSpeed()));
+		velocity->setVelocity(sf::Vector2f(0.f, velocity->getVelocity().y - velocity->getSpeed()));
 		break;
 	case Direction::Right:
-		velocity->setVelocity(sf::Vector2f(-velocity->getSpeed(), 0.f));
+		velocity->setVelocity(sf::Vector2f(velocity->getVelocity().x - velocity->getSpeed(), 0.f));
 		break;
 	case Direction::Left:
-		velocity->setVelocity(sf::Vector2f(velocity->getSpeed(), 0.f));
+		velocity->setVelocity(sf::Vector2f(velocity->getVelocity().x + velocity->getSpeed(), 0.f));
 		break;
 	}
 }

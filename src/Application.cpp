@@ -93,6 +93,7 @@ void Application::loadTextures()
 {
 	this->textures.acquire(Textures::ID::Logo, thor::Resources::fromFile<sf::Texture>("Resources/Images/InversePalindromeLogo.png"));
 	this->textures.acquire(Textures::ID::MenuBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/MenuBackground.png"));
+	this->textures.acquire(Textures::ID::GameOverBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/GameOverBackground.png"));
 	this->textures.acquire(Textures::ID::DecoAttackingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/DecoAttackingSkeleton.png"));
 	this->textures.acquire(Textures::ID::DecoJumpingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/DecoJumpingSkeleton.png"));
 	this->textures.acquire(Textures::ID::StarParticle, thor::Resources::fromFile<sf::Texture>("Resources/Images/StarParticle.png"));
@@ -101,11 +102,13 @@ void Application::loadTextures()
 	this->textures.acquire(Textures::ID::ObjectsSheet, thor::Resources::fromFile<sf::Texture>("Resources/Images/ObjectsSheet.png"));
 	this->textures.acquire(Textures::ID::Skeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/Skeleton.png"));
 	this->textures.acquire(Textures::ID::Goblin, thor::Resources::fromFile<sf::Texture>("Resources/Images/Goblin.png"));
+	this->textures.acquire(Textures::ID::Heart, thor::Resources::fromFile<sf::Texture>("Resources/Images/Heart.png"));
 
 	this->images.acquire(Images::ID::PlayButton, thor::Resources::fromFile<sf::Image>("Resources/Images/PlayButton.png"));
 	this->images.acquire(Images::ID::SettingsButton, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton.png"));
 	this->images.acquire(Images::ID::LeaderboardButton, thor::Resources::fromFile<sf::Image>("Resources/Images/LeaderboardButton.png"));
 	this->images.acquire(Images::ID::BackButton, thor::Resources::fromFile<sf::Image>("Resources/Images/BackButton.png"));
+	this->images.acquire(Images::ID::MenuButton, thor::Resources::fromFile<sf::Image>("Resources/Images/MenuButton.png"));
 	this->images.acquire(Images::ID::ResumeButton, thor::Resources::fromFile<sf::Image>("Resources/Images/ResumeButton.png"));
 	this->images.acquire(Images::ID::RestartButton, thor::Resources::fromFile<sf::Image>("Resources/Images/RestartButton.png"));
 	this->images.acquire(Images::ID::SettingsButton2, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton2.png"));

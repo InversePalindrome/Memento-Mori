@@ -53,7 +53,7 @@ Map::Map(const sf::Texture& tileset, std::size_t rows, std::size_t columns, std:
 	}
 }
 
-sf::Vector2u Map::getSize() const
+sf::Vector2f Map::getSize() const
 {
 	return this->mapSize;
 }
