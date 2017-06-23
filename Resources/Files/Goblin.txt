@@ -1,9 +1,9 @@
-Composition 1111111111
+Composition 01111111111
 Component 1 50 0
 Component 3 54 96
 Component 4 0
 Component 5 0
 Component 6 1000
-Component 7 2
+Component 7 1
 Component 8 10 3 3 192 96 32 32
 Component 9 Resources/Files/CharacterAnimations.txt
