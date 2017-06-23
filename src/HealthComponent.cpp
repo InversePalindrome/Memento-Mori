@@ -14,7 +14,6 @@ HealthComponent::HealthComponent() :
 {
 }
 
-
 std::istringstream& HealthComponent::readStream(std::istringstream& iStream)
 {
 	iStream >> this->health;

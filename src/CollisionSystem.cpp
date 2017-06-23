@@ -70,37 +70,66 @@ void CollisionSystem::processEntityCollisions()
 			
 			if (collidable1->getBoundingBox().intersects(collidable2->getBoundingBox()))
 			{
-				this->systemManager->addEvent(*entity1, EntityEvent::Collided);
-				this->systemManager->addEvent(*entity2, EntityEvent::Collided);
-
-				auto* attack1 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(*entity1, Component::ID::Attack);
-				auto* attack2 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(*entity2, Component::ID::Attack);
-
-				if (!attack1 && !attack2)
+				if (this->processPickupCollisions(*entity1, *entity2, collidable1, collidable2))
 				{
 					return;
 				}
 
-				if (attack1 && this->attackDirectionIntersects(attack1, collidable2))
-				{
-					Message message(EntityMessage::ReadyToAttack);
-					message.senderID = *entity1;
-					message.receiverID = *entity2;
+				this->systemManager->addEvent(*entity1, EntityEvent::Collided);
+				this->systemManager->addEvent(*entity2, EntityEvent::Collided);
 
-					this->systemManager->getMessageHandler()->dispatch(message);
-				}
-
-				if (attack2 && this->attackDirectionIntersects(attack2, collidable1))
-				{
-					Message message(EntityMessage::ReadyToAttack);
-					message.senderID = *entity2;
-					message.receiverID = *entity1;
-
-					this->systemManager->getMessageHandler()->dispatch(message);
-				}
+				this->processCombatCollisions(*entity1, *entity2, collidable1, collidable2);
 			}
 		}
 	}
+}
+
+void CollisionSystem::processCombatCollisions(EntityID entity1, EntityID entity2, const CollidableComponent* collidable1, const CollidableComponent* collidable2)
+{
+	auto* attack1 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(entity1, Component::ID::Attack);
+	auto* attack2 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(entity2, Component::ID::Attack);
+
+	if (!attack1 && !attack2)
+	{
+		return;
+	}
+
+	if (attack1 && this->attackDirectionIntersects(attack1, collidable2))
+	{
+		Message message(EntityMessage::ReadyToAttack);
+		message.senderID = entity1;
+		message.receiverID = entity2;
+
+		this->systemManager->getMessageHandler()->dispatch(message);
+	}
+
+	if (attack2 && this->attackDirectionIntersects(attack2, collidable1))
+	{
+		Message message(EntityMessage::ReadyToAttack);
+		message.senderID = entity2;
+		message.receiverID = entity1;
+
+		this->systemManager->getMessageHandler()->dispatch(message);
+	}
+}
+
+bool CollisionSystem::processPickupCollisions(EntityID entity1, EntityID entity2, const CollidableComponent* collidable1, const CollidableComponent* collidable2)
+{
+	auto* pickup1 = this->systemManager->getEntityManager()->getComponent<PickupComponent>(entity1, Component::ID::Pickup);
+	auto* pickup2 = this->systemManager->getEntityManager()->getComponent<PickupComponent>(entity2, Component::ID::Pickup);
+
+	if (pickup1)
+	{
+		this->sendPickupMessage(entity1, entity2, pickup1->getPickupType());
+		return true;
+	}
+	else if (pickup2)
+	{
+		this->sendPickupMessage(entity2, entity1, pickup2->getPickupType());
+		return true;
+	}
+
+	return false;
 }
 
 void CollisionSystem::checkOutOfBounds(PositionComponent* position, CollidableComponent* collidable)
@@ -121,6 +150,20 @@ void CollisionSystem::checkOutOfBounds(PositionComponent* position, CollidableCo
 	else if (position->getPosition().y + collidable->getBoundingBox().height > this->map->getSize().y)
 	{
 		position->setPosition(sf::Vector2f(position->getPosition().x, this->map->getSize().y - collidable->getBoundingBox().height));
+	}
+}
+
+void CollisionSystem::sendPickupMessage(EntityID senderID, EntityID receiverID, PickupType pickupType)
+{
+	switch (pickupType)
+	{
+	case PickupType::Heart:
+		Message message(EntityMessage::PickedUpHeart);
+		message.receiverID = receiverID;
+		message.senderID = senderID;
+
+		this->systemManager->getMessageHandler()->dispatch(message);
+		break;
 	}
 }
 

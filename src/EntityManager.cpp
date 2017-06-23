@@ -12,6 +12,7 @@ InversePalindrome.com
 #include "StateComponent.hpp"
 #include "HealthComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "PickupComponent.hpp"
 #include "AttackComponent.hpp"
 #include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
@@ -25,6 +26,7 @@ InversePalindrome.com
 
 EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textures) :
 	entityCount(0),
+	currentEntityID(0),
 	entities(),
 	componentFactory(),
 	systemManager(&systemManager),
@@ -40,6 +42,7 @@ EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textur
 	registerComponent<HealthComponent>(Component::ID::Health);
 	registerComponent<SpriteComponent>(Component::ID::Sprite);
 	registerComponent<AnimationComponent>(Component::ID::Animation);
+	registerComponent<PickupComponent>(Component::ID::Pickup);
 }
 
 std::size_t EntityManager::getEntityCount() const
@@ -47,13 +50,19 @@ std::size_t EntityManager::getEntityCount() const
 	return this->entityCount;
 }
 
+std::size_t EntityManager::getCurrentEntityID() const
+{
+	return this->currentEntityID;
+}
+
 void EntityManager::addEntity(const EntityComposition& entityComposition)
 {
-	auto entityID = this->entityCount;
+	auto entityID = this->currentEntityID;
 
 	this->entities.emplace(entityID, EntityData(EntityComposition(), std::vector<ComponentPtr>()));
 
 	++this->entityCount;
+	++this->currentEntityID;
 
 	for (std::size_t i = 0; i < entityComposition.size(); ++i)
 	{
@@ -72,7 +81,7 @@ void EntityManager::addEntity(const std::string& fileName)
 	std::ifstream inFile(fileName);
 	std::string line;
 
-	auto entityID = this->entityCount;
+	auto entityID = this->currentEntityID;
 
 	while (std::getline(inFile, line))
 	{
@@ -140,6 +149,7 @@ void EntityManager::removeEntity(EntityID entityID)
 		this->entities.erase(entityItr);
 	}
 
+	--this->entityCount;
 	this->systemManager->removeEntity(entityID);
 }
 

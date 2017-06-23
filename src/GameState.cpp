@@ -10,7 +10,6 @@ InversePalindrome.com
 #include "StateComponent.hpp"
 #include "CollisionSystem.hpp"
 #include "HealthComponent.hpp"
-#include "VelocityComponent.hpp"
 
 
 GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
@@ -37,35 +36,19 @@ void GameState::handleEvent(const sf::Event& event)
 	}
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveUp))
 	{
-		Message message(EntityMessage::Move);
-		message.receiverID = this->entityManager.getPlayerID();
-		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Up);
-
-		this->systemManager.getMessageHandler()->dispatch(message);
+		this->movePlayer(Direction::Up);
 	}
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveDown))
 	{
-		Message message(EntityMessage::Move);
-		message.receiverID = this->entityManager.getPlayerID();
-		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Down);
-
-		this->systemManager.getMessageHandler()->dispatch(message);
+		this->movePlayer(Direction::Down);
 	}
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveRight))
 	{
-		Message message(EntityMessage::Move);
-		message.receiverID = this->entityManager.getPlayerID();
-		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Right);
-
-		this->systemManager.getMessageHandler()->dispatch(message);
+		this->movePlayer(Direction::Right);
 	}
     else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveLeft))
 	{
-		Message message(EntityMessage::Move);
-		message.receiverID = this->entityManager.getPlayerID();
-		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Left);
-
-		this->systemManager.getMessageHandler()->dispatch(message);
+		this->movePlayer(Direction::Left);
 	}
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::Attack))
 	{
@@ -114,4 +97,13 @@ void GameState::updateHealth()
 		this->healthBar.setHealth(0u);
 		this->stateMachine.pushState(StateMachine::StateID::GameOver);
 	}
+}
+
+void GameState::movePlayer(Direction direction)
+{
+	Message message(EntityMessage::Move);
+	message.receiverID = this->entityManager.getPlayerID();
+	message.data[DataID::Direction] = static_cast<std::size_t>(direction);
+
+	this->systemManager.getMessageHandler()->dispatch(message);
 }

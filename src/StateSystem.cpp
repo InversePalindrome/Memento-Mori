@@ -9,7 +9,12 @@ InversePalindrome.com
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
 #include "ControllerSystem.hpp"
+#include "PositionComponent.hpp"
 
+#include <Thor/Math/Random.hpp>
+
+
+const std::unordered_map<PickupType, std::string> StateSystem::pickupFiles = { { PickupType::Heart, "Resources/Files/Heart.txt" } };
 
 StateSystem::StateSystem(SystemManager& systemManager) :
 	System(System::ID::State, systemManager)
@@ -32,6 +37,7 @@ void StateSystem::handleEvent(EntityID entityID, EntityEvent event)
 		this->changeState(entityID, EntityState::Idle);
 		break;
 	case EntityEvent::Died:
+		this->addPickup(entityID);
 		this->systemManager->getEntityManager()->removeEntity(entityID);
 		break;
 	case EntityEvent::BecameIdle:
@@ -98,5 +104,26 @@ void StateSystem::changeState(EntityID entityID, EntityState entityState)
 		message.data[DataID::State] = static_cast<std::size_t>(entityState);
 
 		this->systemManager->getMessageHandler()->dispatch(message);
+	}
+}
+
+void StateSystem::addPickup(EntityID entityID)
+{
+	float dropProbability = thor::random(0.f, 1.f);
+
+	if (dropProbability <= 0.2f)
+	{
+		std::size_t pickupType = thor::random(0u, static_cast<std::size_t>(PickupType::PickupCount) - 1u);
+
+		this->systemManager->getEntityManager()->addEntity(this->pickupFiles.at(static_cast<PickupType>(pickupType)));
+
+		auto deathPosition = this->systemManager->getEntityManager()->getComponent
+			<PositionComponent>(entityID, Component::ID::Position)->getPosition();
+
+		auto* pickupPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>
+			(this->systemManager->getEntityManager()->getCurrentEntityID() - 1u, Component::ID::Position);
+
+
+		pickupPosition->setPosition(deathPosition);
 	}
 }

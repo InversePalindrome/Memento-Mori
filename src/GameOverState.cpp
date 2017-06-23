@@ -21,15 +21,15 @@ GameOverState::GameOverState(StateMachine& stateMachine, SharedData& sharedData)
 	background.setPosition(sf::Vector2f(840.f, 420.f));
 
 	playButton->SetImage(sfg::Image::Create(sharedData.images[Images::ID::PlayButton]));
-	playButton->SetPosition(sf::Vector2f(1180.f, 700.f));
+	playButton->SetPosition(sf::Vector2f(1180.f, 680.f));
 	playButton->GetSignal(sfg::Widget::OnLeftClick).Connect([this] { transitionToPlay(); });
 
 	menuButton->SetImage(sfg::Image::Create(sharedData.images[Images::ID::MenuButton]));
-	menuButton->SetPosition(sf::Vector2f(960.f, 700.f));
+	menuButton->SetPosition(sf::Vector2f(940.f, 680.f));
 	menuButton->GetSignal(sfg::Widget::OnLeftClick).Connect([this] { transitionToMenu(); });
 
 	leaderboardButton->SetImage(sfg::Image::Create(sharedData.images[Images::ID::LeaderboardButton]));
-	leaderboardButton->SetPosition(sf::Vector2f(1400.f, 700.f));
+	leaderboardButton->SetPosition(sf::Vector2f(1420.f, 680.f));
 	leaderboardButton->GetSignal(sfg::Widget::OnLeftClick).Connect([this] { transitionToLeaderboard(); });
 
 	sharedData.hud.Add(playButton);
