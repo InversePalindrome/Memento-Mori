@@ -30,11 +30,17 @@ public:
 	void setAttackDirection(Direction direction);
 
 	void setKnockback(float knockback);
+
 	void setAttackStatus(bool attackStatus);
+	void setProjectileStatus(bool projectileStatus);
+
+	bool isProjectile() const;
 
 private:
 	sf::Vector2f position;
 	Direction attackDirection;
 	float knockback;
+
 	bool attackStatus;
+	bool projectileStatus;
 };

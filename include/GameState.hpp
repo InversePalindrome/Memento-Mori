@@ -11,6 +11,7 @@ InversePalindrome.com
 #include "State.hpp"
 #include "HealthBar.hpp"
 #include "Direction.hpp"
+#include "RoundNumber.hpp"
 #include "SpawnManager.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
@@ -33,7 +34,9 @@ private:
 	Map map;
 	SpawnManager spawnManager;
 	HealthBar healthBar;
+	RoundNumber roundNumber;
 
 	void updateHealth();
 	void movePlayer(Direction direction);
+	void attack();
 };

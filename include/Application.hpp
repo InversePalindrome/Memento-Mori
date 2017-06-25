@@ -32,6 +32,7 @@ private:
 	TextureHolder textures;
 	ImageHolder images;
 	SoundHolder sounds;
+	FontHolder fonts;
 
 	KeyBindings keyBindings;
 

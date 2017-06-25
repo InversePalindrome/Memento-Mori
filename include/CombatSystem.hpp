@@ -23,4 +23,6 @@ public:
 private:
 	void processAttack(EntityID senderID, EntityID receiverID);
 	void applyKnockback(EntityID entityID, AttackComponent* attack);
+
+	void shootProjectile(EntityID entityID);
 };

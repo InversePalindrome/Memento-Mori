@@ -34,6 +34,7 @@ public:
 
 	std::size_t getEntityCount() const;
 	std::size_t getCurrentEntityID() const;
+	std::size_t getDeadEntityCount() const;
 
 	void addEntity(const EntityComposition& entityComposition);
 	void addEntity(const std::string& fileName);
@@ -43,11 +44,14 @@ public:
 	void removeEntity(EntityID entityID);
 	void removeComponent(EntityID entityID, Component::ID componentID);
 
+	void setDeadEntityCount(std::size_t deadEntityCount);
+
 	static EntityID getPlayerID();
 	
 private:
 	std::size_t entityCount;
 	std::size_t currentEntityID;
+	std::size_t deadEntityCount;
 	std::unordered_map<EntityID, EntityData> entities;
 	std::unordered_map<Component::ID, std::function<ComponentPtr()>> componentFactory;
 

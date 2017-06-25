@@ -22,14 +22,21 @@ public:
 
 	void update(sf::Time deltaTime);
 
+	std::size_t getRoundNumber() const;
+
 private:
 	EntityManager& entityManager;
 	sf::Time spawnInterval;
+	std::size_t entitiesPerRound;
+	std::size_t entityCount;
+	std::size_t roundNumber;
+
 	const sf::Vector2f spawnZonePerimeter;
 
-	static constexpr std::size_t maxNumOfEntities = 24u;
 	static constexpr float spawnOffset = 100.f;
 	static const std::unordered_map<AI_ID, std::string> entityFiles;
 
 	void spawnEntity(AI_ID entity, Direction direction);
+	void determineEntitiesPerRound();
+	void determineSpawnInterval();
 };

@@ -19,7 +19,7 @@ InversePalindrome.com
 struct SharedData
 {
 	SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& hud, TextureHolder& textures,
-		ImageHolder& images, SoundHolder& sounds, KeyBindings& keyBindings);
+		ImageHolder& images, SoundHolder& sounds, FontHolder& fonts, KeyBindings& keyBindings);
 
 	sf::RenderWindow& window;
 	sfg::SFGUI& gui;
@@ -27,5 +27,6 @@ struct SharedData
 	TextureHolder& textures;
 	ImageHolder& images;
 	SoundHolder& sounds;
+	FontHolder& fonts;
 	KeyBindings& keyBindings;
 };

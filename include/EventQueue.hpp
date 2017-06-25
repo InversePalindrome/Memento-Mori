@@ -12,7 +12,8 @@ InversePalindrome.com
 
 enum class EntityEvent 
 {
-	Spawned, Died, MoveUp, MoveDown, MoveRight, MoveLeft, Moved, BecameIdle, Collided
+	Spawned, Died, OutOfMap, MoveUp, MoveDown, MoveRight, MoveLeft, Moved, BecameIdle, Collided, 
+	ShootProjectile, ReachedTarget
 };
 
 class EventQueue

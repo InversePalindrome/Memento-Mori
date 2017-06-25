@@ -19,7 +19,7 @@ namespace Textures
 	enum class ID
 	{
 		Undefined, Logo, MenuBackground, GameOverBackground, DecoAttackingSkeleton, DecoJumpingSkeleton, StarParticle, PauseMenu, TileMap, Skeleton,
-		Goblin, ObjectsSheet, Heart
+		Goblin, Wizard, ObjectsSheet, Heart, Fireball 
 	};
 }
 
@@ -43,7 +43,7 @@ namespace Fonts
 {
 	enum class ID
 	{
-		Undefined
+		Undefined, WolfsBane
 	};
 }
 
