@@ -40,6 +40,8 @@ void CollisionSystem::update(sf::Time deltaTime)
 
 		collidable->setPosition(collidablePosition);
 
+		this->despawnOutOfMapEntity(entity, position->getPosition());
+
 		if (entity == this->systemManager->getEntityManager()->getPlayerID())
 		{
 			this->checkOutOfBounds(position, collidable);
@@ -153,6 +155,17 @@ void CollisionSystem::checkOutOfBounds(PositionComponent* position, CollidableCo
 	}
 }
 
+void CollisionSystem::despawnOutOfMapEntity(EntityID entityID, sf::Vector2f position)
+{
+	const float mapOffset = 250.f;
+
+	if (position.x < -mapOffset || position.x > this->map->getSize().x + mapOffset ||
+		position.y < -mapOffset || position.y > this->map->getSize().y + mapOffset)
+	{
+		this->systemManager->addEvent(entityID, EntityEvent::OutOfMap);
+	}
+}
+
 void CollisionSystem::sendPickupMessage(EntityID senderID, EntityID receiverID, PickupType pickupType)
 {
 	switch (pickupType)
@@ -172,11 +185,11 @@ bool CollisionSystem::attackDirectionIntersects(const AttackComponent* attack, c
 	switch (attack->getAttackDirection())
 	{
 	case Direction::Up:
-		return attack->getPosition().y > collidable->getBoundingBox().top;
+		return attack->getPosition().y >= collidable->getBoundingBox().top;
 	case Direction::Down:
 		return attack->getPosition().y < collidable->getBoundingBox().top;
 	case Direction::Right:
-		return attack->getPosition().x < collidable->getBoundingBox().left;
+		return attack->getPosition().x <= collidable->getBoundingBox().left;
 	case Direction::Left:
 		return attack->getPosition().x > collidable->getBoundingBox().left;
 	}

@@ -18,7 +18,8 @@ GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
 	systemManager(),
 	map(sharedData.textures[Textures::ID::TileMap], 18u, 32u, 32u, 6u, sf::Vector2f(2.5f, 2.5f)),
 	spawnManager(map, entityManager),
-	healthBar(sharedData.textures[Textures::ID::Heart])
+	healthBar(sharedData.textures[Textures::ID::Heart]),
+	roundNumber(sharedData.fonts[Fonts::ID::WolfsBane])
 {
 	systemManager.setEntityManager(entityManager);
 
@@ -52,11 +53,7 @@ void GameState::handleEvent(const sf::Event& event)
 	}
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::Attack))
 	{
-		Message message(EntityMessage::ChangeState);
-		message.receiverID = this->entityManager.getPlayerID();
-		message.data[DataID::State] = static_cast<std::size_t>(EntityState::Attacking);
-
-		this->systemManager.getMessageHandler()->dispatch(message);
+		this->attack();
 	}
 	else
 	{
@@ -70,6 +67,7 @@ void GameState::update(sf::Time deltaTime)
 	this->spawnManager.update(deltaTime);
 
 	this->updateHealth();
+	this->roundNumber.update(this->spawnManager.getRoundNumber());
 }
 
 void GameState::draw()
@@ -77,6 +75,7 @@ void GameState::draw()
 	this->sharedData.window.draw(this->map);
 	this->systemManager.draw(this->sharedData.window);
 	this->sharedData.window.draw(this->healthBar);
+	this->sharedData.window.draw(this->roundNumber);
 }
 
 bool GameState::isTransparent()
@@ -106,4 +105,15 @@ void GameState::movePlayer(Direction direction)
 	message.data[DataID::Direction] = static_cast<std::size_t>(direction);
 
 	this->systemManager.getMessageHandler()->dispatch(message);
+}
+
+void GameState::attack()
+{
+	Message message(EntityMessage::ChangeState);
+	message.receiverID = this->entityManager.getPlayerID();
+	message.data[DataID::State] = static_cast<std::size_t>(EntityState::Attacking);
+
+	this->systemManager.getMessageHandler()->dispatch(message);
+
+	this->systemManager.addEvent(this->entityManager.getPlayerID(), EntityEvent::ShootProjectile);
 }

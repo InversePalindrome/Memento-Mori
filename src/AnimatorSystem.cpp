@@ -32,7 +32,11 @@ void AnimatorSystem::handleEvent(EntityID entityID, EntityEvent event)
 	switch (event)
 	{
 	case EntityEvent::Spawned:
-		this->changeAnimation(entityID, AnimationID::Idle, true);
+	{
+		auto* animation = this->systemManager->getEntityManager()->getComponent<AnimationComponent>(entityID, Component::ID::Animation);
+
+		this->changeAnimation(entityID, animation->getAnimationID(), true);
+	}
 		break;
 	}
 }
@@ -103,5 +107,5 @@ void AnimatorSystem::changeAnimationDirection(EntityID entityID, Direction anima
 
 	animation->setAnimationDirection(animationDirection);
 
-	animation->playAnimation(true);
+	animation->playAnimation(false);
 }

@@ -13,13 +13,15 @@ AttackComponent::AttackComponent() :
 	position(0.f, 0.f),
 	attackDirection(Direction::Up),
 	knockback(0.f),
-	attackStatus(false)
+	attackStatus(false),
+	projectileStatus(false)
 {
 }
 
 std::istringstream& AttackComponent::readStream(std::istringstream& iStream)
 {
 	iStream >> this->knockback;
+	iStream >> this->projectileStatus;
 
 	return iStream;
 }
@@ -62,4 +64,14 @@ void AttackComponent::setKnockback(float knockback)
 void AttackComponent::setAttackStatus(bool attackStatus)
 {
 	this->attackStatus = attackStatus;
+}
+
+void AttackComponent::setProjectileStatus(bool projectileStatus)
+{
+	this->projectileStatus = projectileStatus;
+}
+
+bool AttackComponent::isProjectile() const
+{
+	return this->projectileStatus;
 }

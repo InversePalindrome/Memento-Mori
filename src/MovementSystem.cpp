@@ -32,6 +32,12 @@ void MovementSystem::handleEvent(EntityID entityID, EntityEvent event)
 	case EntityEvent::Collided:
 		this->stopEntity(entityID);
 		break;
+	case EntityEvent::OutOfMap:
+		this->systemManager->getEntityManager()->removeEntity(entityID);
+		break;
+	case EntityEvent::ReachedTarget:
+		this->systemManager->getEntityManager()->removeEntity(entityID);
+		break;
 	}
 }
 

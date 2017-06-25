@@ -25,8 +25,9 @@ InversePalindrome.com
 
 
 EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textures) :
-	entityCount(0),
-	currentEntityID(0),
+	entityCount(0u),
+	currentEntityID(0u),
+	deadEntityCount(0u),
 	entities(),
 	componentFactory(),
 	systemManager(&systemManager),
@@ -53,6 +54,11 @@ std::size_t EntityManager::getEntityCount() const
 std::size_t EntityManager::getCurrentEntityID() const
 {
 	return this->currentEntityID;
+}
+
+std::size_t EntityManager::getDeadEntityCount() const
+{
+	return this->deadEntityCount;
 }
 
 void EntityManager::addEntity(const EntityComposition& entityComposition)
@@ -169,6 +175,11 @@ void EntityManager::removeComponent(EntityID entityID, Component::ID componentID
 	}
 
 	this->systemManager->adaptEntityChanges(entityID, entityItr->second.first);
+}
+
+void EntityManager::setDeadEntityCount(std::size_t deadEntityCount)
+{
+	this->deadEntityCount = deadEntityCount;
 }
 
 EntityID EntityManager::getPlayerID()

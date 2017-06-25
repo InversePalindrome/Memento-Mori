@@ -33,12 +33,10 @@ void StateSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
 	switch (event)
 	{
-	case EntityEvent::Spawned:
-		this->changeState(entityID, EntityState::Idle);
-		break;
 	case EntityEvent::Died:
 		this->addPickup(entityID);
 		this->systemManager->getEntityManager()->removeEntity(entityID);
+		this->systemManager->getEntityManager()->setDeadEntityCount(this->systemManager->getEntityManager()->getDeadEntityCount() + 1u);
 		break;
 	case EntityEvent::BecameIdle:
 		this->changeState(entityID, EntityState::Idle);
@@ -94,7 +92,7 @@ void StateSystem::notify(const Message& message)
 void StateSystem::changeState(EntityID entityID, EntityState entityState)
 {
 	auto* state = this->systemManager->getEntityManager()->getComponent<StateComponent>(entityID, Component::ID::State);
-
+	
 	if (state->getState() != entityState)
 	{
 		state->setState(entityState);

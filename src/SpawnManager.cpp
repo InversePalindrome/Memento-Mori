@@ -11,11 +11,15 @@ InversePalindrome.com
 #include <Thor/Math/Random.hpp>
 
 
-const std::unordered_map<AI_ID, std::string> SpawnManager::entityFiles = { { AI_ID::Goblin, "Resources/Files/Goblin.txt" } };
+const std::unordered_map<AI_ID, std::string> SpawnManager::entityFiles = 
+{ { AI_ID::Goblin, "Resources/Files/Goblin.txt" }, { AI_ID::Skeleton, "Resources/Files/Skeleton.txt" } };
 
 SpawnManager::SpawnManager(const Map& map, EntityManager& entityManager) :
 	entityManager(entityManager),
 	spawnInterval(sf::seconds(1.f)),
+	entitiesPerRound(0u),
+	entityCount(0u),
+	roundNumber(0u),
 	spawnZonePerimeter(map.getSize())
 {
 }
@@ -24,20 +28,38 @@ void SpawnManager::update(sf::Time deltaTime)
 {
 	this->spawnInterval -= deltaTime;
 
-	if (this->spawnInterval <= sf::seconds(0.f) && this->entityManager.getEntityCount() <= this->maxNumOfEntities)
+	if (this->entitiesPerRound == this->entityManager.getDeadEntityCount())
+	{
+		++this->roundNumber;
+		this->determineEntitiesPerRound();
+
+		this->entityCount = 0u;
+		this->entityManager.setDeadEntityCount(0u);
+
+		this->spawnInterval = sf::seconds(12.f);
+	}
+
+	if (this->spawnInterval <= sf::seconds(0.f) && this->entityCount <= this->entitiesPerRound)
 	{
 		AI_ID entity = static_cast<AI_ID>(thor::random(0u, static_cast<std::size_t>(AI_ID::AI_Count) - 1u));
 		Direction spawnDirection = static_cast<Direction>(thor::random(0u, 3u));
 
 		this->spawnEntity(entity, spawnDirection);
 
-		this->spawnInterval = sf::seconds(thor::random(3.f, 10.f));
+		this->determineSpawnInterval();
 	}
+}
+
+std::size_t SpawnManager::getRoundNumber() const
+{
+	return this->roundNumber;
 }
 
 void SpawnManager::spawnEntity(AI_ID entity, Direction direction)
 {
 	this->entityManager.addEntity(this->entityFiles.at(entity));
+
+	++this->entityCount;
 
 	auto* position = this->entityManager.getComponent<PositionComponent>
 		(static_cast<EntityID>(this->entityManager.getCurrentEntityID() - 1u), Component::ID::Position);
@@ -80,4 +102,14 @@ void SpawnManager::spawnEntity(AI_ID entity, Direction direction)
 	}
 		break;
 	}
+}
+
+void SpawnManager::determineEntitiesPerRound()
+{
+	this->entitiesPerRound = (this->roundNumber * thor::random(3u, 5u)) + 5u;
+}
+
+void SpawnManager::determineSpawnInterval()
+{
+	this->spawnInterval = sf::seconds(thor::random(4.f / this->roundNumber, 6.f));
 }

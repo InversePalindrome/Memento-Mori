@@ -24,6 +24,9 @@ CombatSystem::CombatSystem(SystemManager& systemManager) :
 	entityComposition[static_cast<std::size_t>(Component::ID::Position)] = true;
 	entityComposition[static_cast<std::size_t>(Component::ID::Velocity)] = true;
 	entityComposition[static_cast<std::size_t>(Component::ID::State)] = true;
+
+	componentRequirements.push_back(entityComposition);
+
 	entityComposition[static_cast<std::size_t>(Component::ID::Health)] = true;
 
 	componentRequirements.push_back(entityComposition);
@@ -35,7 +38,15 @@ CombatSystem::CombatSystem(SystemManager& systemManager) :
 
 void CombatSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
-	
+	switch (event)
+	{
+	case EntityEvent::ShootProjectile:
+		if (this->hasEntity(entityID))
+		{
+			this->shootProjectile(entityID);
+		}
+		break;
+	}
 }
 
 void CombatSystem::update(sf::Time deltaTime)
@@ -73,7 +84,10 @@ void CombatSystem::notify(const Message& message)
 		{
 			auto* health = this->systemManager->getEntityManager()->getComponent<HealthComponent>(message.receiverID, Component::ID::Health);
 
-			health->setHealth(health->getHealth() + 1u);
+			if (health)
+			{
+				health->setHealth(health->getHealth() + 1u);
+			}
 
 			this->systemManager->getEntityManager()->removeEntity(message.senderID);
 		}
@@ -89,9 +103,17 @@ void CombatSystem::processAttack(EntityID senderID, EntityID receiverID)
 		auto* state1 = this->systemManager->getEntityManager()->getComponent<StateComponent>(senderID, Component::ID::State);
 		auto* health = this->systemManager->getEntityManager()->getComponent<HealthComponent>(receiverID, Component::ID::Health);
 
-		if (state1->getState() != EntityState::Attacking || attack->hasAttacked())
+		if (state1->getState() != EntityState::Attacking || attack->hasAttacked() || !health)
 		{
 			return;
+		}
+
+		if (attack->isProjectile())
+		{
+			auto* state2 = this->systemManager->getEntityManager()->getComponent<StateComponent>(senderID, Component::ID::State);
+
+			state2->setState(EntityState::Dead);
+			this->systemManager->addEvent(senderID, EntityEvent::ReachedTarget);
 		}
 
 		health->setHealth(health->getHealth() - 1);
@@ -129,4 +151,56 @@ void CombatSystem::applyKnockback(EntityID entityID, AttackComponent* attack)
 	{
 		velocity->setVelocity(sf::Vector2f(-attack->getKnockback(), 0.f));
 	}
+}
+
+void CombatSystem::shootProjectile(EntityID entityID)
+{
+	this->systemManager->getEntityManager()->addEntity("Resources/Files/Fireball.txt");
+
+	auto entityDirection = this->systemManager->getEntityManager()->getComponent<VelocityComponent>
+		(entityID, Component::ID::Velocity)->getDirection();
+
+	auto entityPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entityID, Component::ID::Position)->getPosition();
+
+	auto* projectileDirection = this->systemManager->getEntityManager()->getComponent<VelocityComponent>
+		(this->systemManager->getEntityManager()->getCurrentEntityID() - 1u, Component::ID::Velocity);
+
+	auto* projectilePosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>
+		(this->systemManager->getEntityManager()->getCurrentEntityID() - 1u, Component::ID::Position);
+
+	const float xProjectileOffset = 100.f;
+	const float yProjectileOffset = 140.f;
+
+	Message message(EntityMessage::DirectionChanged);
+	message.receiverID = this->systemManager->getEntityManager()->getCurrentEntityID() - 1u;
+	
+	switch (entityDirection)
+	{
+	case Direction::Up:
+		projectilePosition->setPosition(entityPosition - sf::Vector2f(0.f, yProjectileOffset));
+		projectileDirection->setDirection(Direction::Down);
+
+		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Up);
+		break;
+	case Direction::Down:
+		projectilePosition->setPosition(entityPosition + sf::Vector2f(0.f, yProjectileOffset));
+		projectileDirection->setDirection(Direction::Up);
+
+		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Down);
+		break;
+	case Direction::Right:
+		projectilePosition->setPosition(entityPosition + sf::Vector2f(xProjectileOffset, 0.f));
+		projectileDirection->setDirection(Direction::Left);
+
+		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Right);
+		break;
+	case Direction::Left:
+		projectilePosition->setPosition(entityPosition - sf::Vector2f(xProjectileOffset, 0.f));
+		projectileDirection->setDirection(Direction::Right);
+
+		message.data[DataID::Direction] = static_cast<std::size_t>(Direction::Left);
+		break;
+	}
+
+	this->systemManager->getMessageHandler()->dispatch(message);
 }

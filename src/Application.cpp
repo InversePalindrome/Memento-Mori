@@ -22,7 +22,7 @@ Application::Application() :
 	images(),
 	sounds(),
 	keyBindings(),
-	sharedData(window, gui, hud, textures, images, sounds, keyBindings),
+	sharedData(window, gui, hud, textures, images, sounds, fonts, keyBindings),
 	stateMachine(sharedData)
 {
 	loadTextures();
@@ -102,7 +102,9 @@ void Application::loadTextures()
 	this->textures.acquire(Textures::ID::ObjectsSheet, thor::Resources::fromFile<sf::Texture>("Resources/Images/ObjectsSheet.png"));
 	this->textures.acquire(Textures::ID::Skeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/Skeleton.png"));
 	this->textures.acquire(Textures::ID::Goblin, thor::Resources::fromFile<sf::Texture>("Resources/Images/Goblin.png"));
+	this->textures.acquire(Textures::ID::Wizard, thor::Resources::fromFile<sf::Texture>("Resources/Images/Wizard.png"));
 	this->textures.acquire(Textures::ID::Heart, thor::Resources::fromFile<sf::Texture>("Resources/Images/Heart.png"));
+	this->textures.acquire(Textures::ID::Fireball, thor::Resources::fromFile<sf::Texture>("Resources/Images/Fireball.png"));
 
 	this->images.acquire(Images::ID::PlayButton, thor::Resources::fromFile<sf::Image>("Resources/Images/PlayButton.png"));
 	this->images.acquire(Images::ID::SettingsButton, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton.png"));
@@ -113,4 +115,6 @@ void Application::loadTextures()
 	this->images.acquire(Images::ID::RestartButton, thor::Resources::fromFile<sf::Image>("Resources/Images/RestartButton.png"));
 	this->images.acquire(Images::ID::SettingsButton2, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton2.png"));
 	this->images.acquire(Images::ID::QuitButton, thor::Resources::fromFile<sf::Image>("Resources/Images/QuitButton.png"));
+
+	this->fonts.acquire(Fonts::ID::WolfsBane, thor::Resources::fromFile<sf::Font>("Resources/Fonts/WolfsBane.ttf"));
 }
