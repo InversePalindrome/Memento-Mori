@@ -3,7 +3,7 @@ Component 0 1320 800
 Component 1 500 0
 Component 3 54 96
 Component 4 0
-Component 6 1000
+Component 6 1000 0
 Component 7 5
-Component 8 9 3 3 192 96 32 32
+Component 8 11 3 3 192 96 32 32
 Component 9 Resources/Files/CharacterAnimations.txt
