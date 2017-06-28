@@ -9,6 +9,7 @@ InversePalindrome.com
 #include "EntityManager.hpp"
 #include "AISystem.hpp"
 #include "StateSystem.hpp"
+#include "SoundSystem.hpp"
 #include "RenderSystem.hpp"
 #include "CombatSystem.hpp"
 #include "MovementSystem.hpp"
@@ -30,6 +31,7 @@ SystemManager::SystemManager() :
 	systems[System::ID::AI] = std::make_unique<AISystem>(*this);
 	systems[System::ID::Combat] = std::make_unique<CombatSystem>(*this);
 	systems[System::ID::Animator] = std::make_unique<AnimatorSystem>(*this);
+	systems[System::ID::Sound] = std::make_unique<SoundSystem>(*this);
 	systems[System::ID::Render] = std::make_unique<RenderSystem>(*this);
 }
 

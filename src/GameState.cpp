@@ -7,6 +7,7 @@ InversePalindrome.com
 
 #include "GameState.hpp"
 #include "StateMachine.hpp"
+#include "SoundSystem.hpp"
 #include "StateComponent.hpp"
 #include "CollisionSystem.hpp"
 #include "HealthComponent.hpp"
@@ -18,12 +19,14 @@ GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
 	systemManager(),
 	map(sharedData.textures[Textures::ID::TileMap], 18u, 32u, 32u, 6u, sf::Vector2f(2.5f, 2.5f)),
 	spawnManager(map, entityManager),
+	soundManager(sharedData.sounds),
 	healthBar(sharedData.textures[Textures::ID::Heart]),
-	roundNumber(sharedData.fonts[Fonts::ID::WolfsBane])
+	roundNumber(sharedData.fonts[Fonts::ID::WolfsBane], systemManager)
 {
 	systemManager.setEntityManager(entityManager);
 
 	systemManager.getSystem<CollisionSystem>(System::ID::Collision)->setMap(map);
+	systemManager.getSystem<SoundSystem>(System::ID::Sound)->setSoundManager(soundManager);
 
 	entityManager.addEntity("Resources/Files/Player.txt");
 	entityManager.addEntity("Resources/Files/Cauldron.txt");
@@ -33,7 +36,7 @@ void GameState::handleEvent(const sf::Event& event)
 {
 	if (sharedData.keyBindings.isActive(KeyBindings::ActionID::Escape))
 	{
-		this->stateMachine.pushState(StateMachine::StateID::Pause);
+		this->transitionToPause();
 	}
 	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveUp))
 	{
@@ -116,4 +119,11 @@ void GameState::attack()
 	this->systemManager.getMessageHandler()->dispatch(message);
 
 	this->systemManager.addEvent(this->entityManager.getPlayerID(), EntityEvent::ShootProjectile);
+}
+
+void GameState::transitionToPause()
+{
+	this->soundManager.stopAllSounds();
+
+	this->stateMachine.pushState(StateMachine::StateID::Pause);
 }

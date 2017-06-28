@@ -10,6 +10,7 @@ InversePalindrome.com
 #include "Component.hpp"
 #include "AIComponent.hpp"
 #include "StateComponent.hpp"
+#include "SoundComponent.hpp"
 #include "HealthComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "PickupComponent.hpp"
@@ -36,13 +37,14 @@ EntityManager::EntityManager(SystemManager& systemManager, TextureHolder& textur
 	registerComponent<PositionComponent>(Component::ID::Position);
 	registerComponent<VelocityComponent>(Component::ID::Velocity);
 	registerComponent<ControlComponent>(Component::ID::Control);
+	registerComponent<AIComponent>(Component::ID::AI);
 	registerComponent<CollidableComponent>(Component::ID::Collidable);
 	registerComponent<StateComponent>(Component::ID::State);
-	registerComponent<AIComponent>(Component::ID::AI);
 	registerComponent<AttackComponent>(Component::ID::Attack);
 	registerComponent<HealthComponent>(Component::ID::Health);
 	registerComponent<SpriteComponent>(Component::ID::Sprite);
 	registerComponent<AnimationComponent>(Component::ID::Animation);
+	registerComponent<SoundComponent>(Component::ID::Sound);
 	registerComponent<PickupComponent>(Component::ID::Pickup);
 }
 

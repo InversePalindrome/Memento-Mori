@@ -117,4 +117,9 @@ void Application::loadTextures()
 	this->images.acquire(Images::ID::QuitButton, thor::Resources::fromFile<sf::Image>("Resources/Images/QuitButton.png"));
 
 	this->fonts.acquire(Fonts::ID::WolfsBane, thor::Resources::fromFile<sf::Font>("Resources/Fonts/WolfsBane.ttf"));
+
+	this->sounds.acquire(SoundBuffers::ID::Footstep, thor::Resources::fromFile<sf::SoundBuffer>("Resources/Sounds/Footsteps.wav"));
+	this->sounds.acquire(SoundBuffers::ID::Fireball, thor::Resources::fromFile<sf::SoundBuffer>("Resources/Sounds/Fireball.wav"));
+	this->sounds.acquire(SoundBuffers::ID::RoundStarted, thor::Resources::fromFile<sf::SoundBuffer>("Resources/Sounds/RoundStarted.wav"));
+	this->sounds.acquire(SoundBuffers::ID::Pickup, thor::Resources::fromFile<sf::SoundBuffer>("Resources/Sounds/Pickup.ogg"));
 }

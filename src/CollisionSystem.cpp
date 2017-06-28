@@ -176,6 +176,7 @@ void CollisionSystem::sendPickupMessage(EntityID senderID, EntityID receiverID, 
 		message.senderID = senderID;
 
 		this->systemManager->getMessageHandler()->dispatch(message);
+		this->systemManager->addEvent(receiverID, EntityEvent::PickedUp);
 		break;
 	}
 }

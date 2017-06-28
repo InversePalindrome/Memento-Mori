@@ -11,8 +11,10 @@ InversePalindrome.com
 #include <Thor/Math/Random.hpp>
 
 
-const std::unordered_map<AI_ID, std::string> SpawnManager::entityFiles = 
-{ { AI_ID::Goblin, "Resources/Files/Goblin.txt" }, { AI_ID::Skeleton, "Resources/Files/Skeleton.txt" } };
+const std::unordered_map<AI_ID, std::string> SpawnManager::entityFiles =
+{
+	{ AI_ID::Goblin, "Resources/Files/Goblin.txt" }, { AI_ID::Skeleton, "Resources/Files/Skeleton.txt" } ,
+	{ AI_ID::GiantGoblin, "Resources/Files/GiantGoblin.txt" }, { AI_ID::GiantSkeleton, "Resources/Files/GiantSkeleton.txt" } };
 
 SpawnManager::SpawnManager(const Map& map, EntityManager& entityManager) :
 	entityManager(entityManager),
@@ -36,12 +38,20 @@ void SpawnManager::update(sf::Time deltaTime)
 		this->entityCount = 0u;
 		this->entityManager.setDeadEntityCount(0u);
 
-		this->spawnInterval = sf::seconds(12.f);
+		this->spawnInterval = sf::seconds(8.f);
+
+		if (this->roundNumber % 5u == 0u)
+		{
+			AI_ID entity = this->selectSpecialEntity();
+			Direction spawnDirection = static_cast<Direction>(thor::random(0u, 3u));
+
+			this->spawnEntity(entity, spawnDirection);
+		}
 	}
 
 	if (this->spawnInterval <= sf::seconds(0.f) && this->entityCount <= this->entitiesPerRound)
 	{
-		AI_ID entity = static_cast<AI_ID>(thor::random(0u, static_cast<std::size_t>(AI_ID::AI_Count) - 1u));
+		AI_ID entity = this->selectEntity();
 		Direction spawnDirection = static_cast<Direction>(thor::random(0u, 3u));
 
 		this->spawnEntity(entity, spawnDirection);
@@ -101,6 +111,34 @@ void SpawnManager::spawnEntity(AI_ID entity, Direction direction)
 		position->setPosition(sf::Vector2f(xPosition, yPosition));
 	}
 		break;
+	}
+}
+
+AI_ID SpawnManager::selectEntity() const
+{
+	float spawnChance = thor::random(0.f, 1.f);
+
+	if (spawnChance <= 0.6f)
+	{
+		return AI_ID::Skeleton;
+	}
+	else
+	{
+		return AI_ID::Goblin;
+	}
+}
+
+AI_ID SpawnManager::selectSpecialEntity() const
+{
+	float spawnChance = thor::random(0.f, 1.f);
+
+	if (spawnChance <= 0.8f)
+	{
+		return AI_ID::GiantSkeleton;
+	}
+	else
+	{
+		return AI_ID::GiantGoblin;
 	}
 }
 
