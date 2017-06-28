@@ -1,0 +1,5 @@
+Name DefaultSoundProperty
+Volume 100
+Pitch 1
+Distance 200
+Attenuation 8

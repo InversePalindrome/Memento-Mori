@@ -1,4 +1,4 @@
-Composition 01101011011
+Composition 001101011011
 Component 1 1000 0
 Component 3 84 84
 Component 4 2
