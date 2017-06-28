@@ -13,7 +13,7 @@ InversePalindrome.com
 class Component
 {
 public:
-	enum class ID { Position, Velocity, Control, Collidable, State, AI, Attack, Health, Sprite, Animation, Pickup };
+	enum class ID { Position, Velocity, Control, Collidable, State, AI, Attack, Health, Sprite, Animation, Sound, Pickup };
 
 	Component(ID componentID);
 

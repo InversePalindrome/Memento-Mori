@@ -37,6 +37,10 @@ private:
 	static const std::unordered_map<AI_ID, std::string> entityFiles;
 
 	void spawnEntity(AI_ID entity, Direction direction);
+
+	AI_ID selectEntity() const;
+	AI_ID selectSpecialEntity() const;
+
 	void determineEntitiesPerRound();
 	void determineSpawnInterval();
 };

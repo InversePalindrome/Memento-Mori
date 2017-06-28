@@ -13,6 +13,7 @@ InversePalindrome.com
 #include "Direction.hpp"
 #include "RoundNumber.hpp"
 #include "SpawnManager.hpp"
+#include "SoundManager.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
 
@@ -32,6 +33,7 @@ private:
 	EntityManager entityManager;
 	SystemManager systemManager;
 	Map map;
+	SoundManager soundManager;
 	SpawnManager spawnManager;
 	HealthBar healthBar;
 	RoundNumber roundNumber;
@@ -39,4 +41,6 @@ private:
 	void updateHealth();
 	void movePlayer(Direction direction);
 	void attack();
+
+	void transitionToPause();
 };

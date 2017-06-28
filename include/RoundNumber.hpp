@@ -7,6 +7,8 @@ InversePalindrome.com
 
 #pragma once
 
+#include "SystemManager.hpp"
+
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -18,11 +20,12 @@ InversePalindrome.com
 class RoundNumber : public sf::Drawable
 {
 public:
-	RoundNumber(const sf::Font& font);
+	RoundNumber(const sf::Font& font, SystemManager& systemManager);
 
 	void update(std::size_t roundNumber);
 
 private:
+	SystemManager& systemManager;
 	sf::Text roundNumberText;
 	std::size_t roundNumber;
 

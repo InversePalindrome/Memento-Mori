@@ -22,8 +22,8 @@ public:
 	virtual void notify(const Message& message) override;
 
 private:
+	static const std::unordered_map<PickupType, std::string> pickupFiles;
+
 	void changeState(EntityID entityID, EntityState entityState);
 	void addPickup(EntityID entityID);
-
-	static const std::unordered_map<PickupType, std::string> pickupFiles;
 };

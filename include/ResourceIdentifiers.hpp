@@ -31,11 +31,11 @@ namespace Images
 	};
 }
 
-namespace Sounds
+namespace SoundBuffers
 {
 	enum class ID
 	{
-		Undefined
+		Undefined, Footstep, Fireball, Pickup, RoundStarted
 	};
 }
 
@@ -50,5 +50,5 @@ namespace Fonts
 
 using TextureHolder = thor::ResourceHolder<sf::Texture, Textures::ID>;
 using ImageHolder = thor::ResourceHolder<sf::Image, Images::ID>;
-using SoundHolder = thor::ResourceHolder<sf::SoundBuffer, Sounds::ID>;
+using SoundHolder = thor::ResourceHolder<sf::SoundBuffer, SoundBuffers::ID>;
 using FontHolder = thor::ResourceHolder<sf::Font, Fonts::ID>;
