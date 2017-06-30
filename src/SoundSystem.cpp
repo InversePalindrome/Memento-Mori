@@ -12,10 +12,6 @@ InversePalindrome.com
 #include "PositionComponent.hpp"
 
 
-const std::unordered_map<SoundBuffers::ID, std::string> SoundSystem::soundNames =
-{ { SoundBuffers::ID::Footstep, "DefaultSoundProperty"}, { SoundBuffers::ID::Fireball, "DefaultSoundProperty" },
-  { SoundBuffers::ID::Pickup, "DefaultSoundProperty"}, { SoundBuffers::ID::RoundStarted, "DefaultSoundProperty"} };
-
 SoundSystem::SoundSystem(SystemManager& systemManager) :
 	System(System::ID::Sound, systemManager),
 	soundManager(nullptr)
@@ -107,12 +103,12 @@ void SoundSystem::emitEntitySound(EntityID entityID, SoundBuffers::ID soundBuffe
 
 	sound->setSoundID(this->soundManager->getCurrentSoundID());
 
-	this->soundManager->playSound(this->soundNames.at(soundBufferID), soundBufferID, sf::Vector3f(position.x, 0.f, position.y), loop);
+	this->soundManager->playSound(soundBufferID, sf::Vector3f(position.x, 0.f, position.y), loop);
 }
 
 void SoundSystem::emitExternalSound(SoundBuffers::ID soundBufferID, bool loop)
 {
-	this->soundManager->playSound(this->soundNames.at(soundBufferID), soundBufferID, sf::Vector3f(1330.f, 0.f, 720.f), loop);
+	this->soundManager->playSound(soundBufferID, sf::Vector3f(1330.f, 0.f, 720.f), loop);
 }
 
 void SoundSystem::stopSound(EntityID entityID)

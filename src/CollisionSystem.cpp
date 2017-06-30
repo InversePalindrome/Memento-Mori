@@ -8,6 +8,8 @@ InversePalindrome.com
 #include "CollisionSystem.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
+#include "AIComponent.hpp"
+#include "StateComponent.hpp"
 #include "VelocityComponent.hpp"
 
 
@@ -91,7 +93,10 @@ void CollisionSystem::processCombatCollisions(EntityID entity1, EntityID entity2
 	auto* attack1 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(entity1, Component::ID::Attack);
 	auto* attack2 = this->systemManager->getEntityManager()->getComponent<AttackComponent>(entity2, Component::ID::Attack);
 
-	if (!attack1 && !attack2)
+	auto* AI1 = this->systemManager->getEntityManager()->getComponent<AIComponent>(entity1, Component::ID::AI);
+	auto* AI2 = this->systemManager->getEntityManager()->getComponent<AIComponent>(entity2, Component::ID::AI);
+
+	if ((!attack1 && !attack2) || (AI1 && AI2))
 	{
 		return;
 	}

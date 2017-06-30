@@ -9,7 +9,7 @@ InversePalindrome.com
 
 
 SharedData::SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& hud, TextureHolder& textures,
-	ImageHolder& images, SoundHolder& sounds, FontHolder& fonts, KeyBindings& keyBindings) :
+	ImageHolder& images, SoundHolder& sounds, FontHolder& fonts, SoundManager& soundManager, KeyBindings& keyBindings) :
 	window(window),
 	gui(gui),
 	hud(hud),
@@ -17,6 +17,7 @@ SharedData::SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& 
 	images(images),
 	sounds(sounds),
 	fonts(fonts),
+	soundManager(soundManager),
 	keyBindings(keyBindings)
 {
 }

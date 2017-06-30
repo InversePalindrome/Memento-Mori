@@ -9,6 +9,7 @@ InversePalindrome.com
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
 #include "ControlComponent.hpp"
+#include "VelocityComponent.hpp"
 #include "PositionComponent.hpp"
 
 

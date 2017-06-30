@@ -12,6 +12,8 @@ InversePalindrome.com
 #include "CollisionSystem.hpp"
 #include "HealthComponent.hpp"
 
+#include <fstream>
+
 
 GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
 	State(stateMachine, sharedData),
@@ -19,42 +21,40 @@ GameState::GameState(StateMachine& stateMachine, SharedData& sharedData) :
 	systemManager(),
 	map(sharedData.textures[Textures::ID::TileMap], 18u, 32u, 32u, 6u, sf::Vector2f(2.5f, 2.5f)),
 	spawnManager(map, entityManager),
-	soundManager(sharedData.sounds),
 	healthBar(sharedData.textures[Textures::ID::Heart]),
-	roundNumber(sharedData.fonts[Fonts::ID::WolfsBane], systemManager)
+	roundNumber(sharedData.fonts[Fonts::ID::WolfsBane], &systemManager)
 {
 	systemManager.setEntityManager(entityManager);
 
 	systemManager.getSystem<CollisionSystem>(System::ID::Collision)->setMap(map);
-	systemManager.getSystem<SoundSystem>(System::ID::Sound)->setSoundManager(soundManager);
+	systemManager.getSystem<SoundSystem>(System::ID::Sound)->setSoundManager(sharedData.soundManager);
 
-	entityManager.addEntity("Resources/Files/Player.txt");
-	entityManager.addEntity("Resources/Files/Cauldron.txt");
+	buildScene();
 }
 
 void GameState::handleEvent(const sf::Event& event)
 {
-	if (sharedData.keyBindings.isActive(KeyBindings::ActionID::Escape))
+	if (sharedData.keyBindings.isActive(ActionID::Pause))
 	{
 		this->transitionToPause();
 	}
-	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveUp))
+	else if (sharedData.keyBindings.isActive(ActionID::MoveUp))
 	{
 		this->movePlayer(Direction::Up);
 	}
-	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveDown))
+	else if (sharedData.keyBindings.isActive(ActionID::MoveDown))
 	{
 		this->movePlayer(Direction::Down);
 	}
-	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveRight))
+	else if (sharedData.keyBindings.isActive(ActionID::MoveRight))
 	{
 		this->movePlayer(Direction::Right);
 	}
-    else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::MoveLeft))
+    else if (sharedData.keyBindings.isActive(ActionID::MoveLeft))
 	{
 		this->movePlayer(Direction::Left);
 	}
-	else if (sharedData.keyBindings.isActive(KeyBindings::ActionID::Attack))
+	else if (sharedData.keyBindings.isActive(ActionID::Attack))
 	{
 		this->attack();
 	}
@@ -86,6 +86,20 @@ bool GameState::isTransparent()
 	return true;
 }
 
+void GameState::buildScene()
+{
+	entityManager.addEntity("Resources/Files/Player.txt");
+	entityManager.addEntity("Resources/Files/BlueCauldron.txt");
+	entityManager.addEntity("Resources/Files/GreenCauldron.txt");
+	entityManager.addEntity("Resources/Files/RedCauldron.txt");
+	entityManager.addEntity("Resources/Files/PurpleCauldron.txt");
+	entityManager.addEntity("Resources/Files/SmallEmptyChest.txt");
+	entityManager.addEntity("Resources/Files/SmallLoadedChest.txt");
+	entityManager.addEntity("Resources/Files/BigEmptyChest.txt");
+	entityManager.addEntity("Resources/Files/BigLoadedChest.txt");
+	entityManager.addEntity("Resources/Files/Barrel.txt");
+}
+
 void GameState::updateHealth()
 {
 	auto* health = this->entityManager.getComponent<HealthComponent>(this->entityManager.getPlayerID(), Component::ID::Health);
@@ -97,7 +111,8 @@ void GameState::updateHealth()
 	else
 	{
 		this->healthBar.setHealth(0u);
-		this->stateMachine.pushState(StateMachine::StateID::GameOver);
+		this->saveScore();
+		this->transitionToGameOver();
 	}
 }
 
@@ -121,9 +136,37 @@ void GameState::attack()
 	this->systemManager.addEvent(this->entityManager.getPlayerID(), EntityEvent::ShootProjectile);
 }
 
+void GameState::saveScore()
+{
+	std::ifstream inFile("Resources/Files/HighScores.txt");
+
+	std::size_t score1 = 1u, score2 = 1u, score3 = 1u;
+
+	inFile >> score1 >> score2 >> score3;
+
+	std::array<std::size_t, 4u> scores = { score1, score2, score3, this->spawnManager.getRoundNumber() };
+
+	inFile.close();
+
+	std::sort(std::rbegin(scores), std::rend(scores));
+
+	std::ofstream outFile("Resources/Files/HighScores.txt", std::ios::out | std::ios::trunc);
+
+	outFile << scores.at(0) << std::endl << scores.at(1) << std::endl << scores.at(2);
+
+	outFile.close();
+}
+
 void GameState::transitionToPause()
 {
-	this->soundManager.stopAllSounds();
+	this->sharedData.soundManager.stopAllSounds();
 
 	this->stateMachine.pushState(StateMachine::StateID::Pause);
+}
+
+void GameState::transitionToGameOver()
+{
+	this->sharedData.soundManager.stopAllSounds();
+
+	this->stateMachine.pushState(StateMachine::StateID::GameOver);
 }

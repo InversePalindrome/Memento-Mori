@@ -33,7 +33,12 @@ AISystem::AISystem(SystemManager& systemManager) :
 
 void AISystem::handleEvent(EntityID entityID, EntityEvent event)
 {
-	
+	switch (event)
+	{
+	case EntityEvent::Collided:
+		this->targetPlayer(entityID, true);
+		break;
+	}
 }
 
 void AISystem::update(sf::Time deltaTime)
@@ -45,7 +50,7 @@ void AISystem::update(sf::Time deltaTime)
 
 		if(state->getState() != EntityState::Attacking)
 		{
-			this->targetPlayer(entity);
+			this->targetPlayer(entity, false);
 		}
 	}
 }
@@ -66,7 +71,7 @@ void AISystem::notify(const Message& message)
 	}
 }
 
-void AISystem::targetPlayer(EntityID entityID)
+void AISystem::targetPlayer(EntityID entityID, bool forceDirectionChange)
 {
 	auto* playerPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>
 		(this->systemManager->getEntityManager()->getPlayerID(), Component::ID::Position);
@@ -82,7 +87,7 @@ void AISystem::targetPlayer(EntityID entityID)
 	switch (AIVelocity->getDirection())
 	{
 	case Direction::Up:
-		if (AIPosition.y < playerPosition->getPosition().y)
+		if (AIPosition.y < playerPosition->getPosition().y || forceDirectionChange)
 		{
 			Direction directionChoice1 = Direction::Down;
 			Direction directionChoice2 = AIPosition.x < playerPosition->getPosition().x ?
@@ -98,7 +103,7 @@ void AISystem::targetPlayer(EntityID entityID)
 		break;
 
 	case Direction::Down:
-		if (AIPosition.y > playerPosition->getPosition().y)
+		if (AIPosition.y > playerPosition->getPosition().y || forceDirectionChange)
 		{
 			Direction directionChoice1 = Direction::Up;
 			Direction directionChoice2 = AIPosition.x < playerPosition->getPosition().x ?

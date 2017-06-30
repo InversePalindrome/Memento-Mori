@@ -38,14 +38,14 @@ CombatSystem::CombatSystem(SystemManager& systemManager) :
 
 void CombatSystem::handleEvent(EntityID entityID, EntityEvent event)
 {
-	switch (event)
+	if (this->hasEntity(entityID))
 	{
-	case EntityEvent::ShootProjectile:
-		if (this->hasEntity(entityID))
+		switch (event)
 		{
+		case EntityEvent::ShootProjectile:
 			this->shootProjectile(entityID);
+			break;
 		}
-		break;
 	}
 }
 
@@ -67,7 +67,10 @@ void CombatSystem::notify(const Message& message)
 	switch (message.messageType)
 	{
 	case EntityMessage::ReadyToAttack:
-		this->processAttack(message.senderID, message.receiverID);
+		if (this->hasEntity(message.senderID))
+		{
+			this->processAttack(message.senderID, message.receiverID);
+		}
 	    break;
 
 	case EntityMessage::StateChanged:
@@ -82,14 +85,7 @@ void CombatSystem::notify(const Message& message)
 	case EntityMessage::PickedUpHeart:
 		if (this->hasEntity(message.receiverID))
 		{
-			auto* health = this->systemManager->getEntityManager()->getComponent<HealthComponent>(message.receiverID, Component::ID::Health);
-
-			if (health)
-			{
-				health->setHealth(health->getHealth() + 1u);
-			}
-
-			this->systemManager->getEntityManager()->removeEntity(message.senderID);
+			this->processHeartPickup(message.senderID, message.receiverID);
 		}
 		break;
 	}
@@ -97,40 +93,49 @@ void CombatSystem::notify(const Message& message)
 
 void CombatSystem::processAttack(EntityID senderID, EntityID receiverID)
 {
-	if (this->hasEntity(receiverID) && this->hasEntity(senderID))
+	auto* attack = this->systemManager->getEntityManager()->getComponent<AttackComponent>(senderID, Component::ID::Attack);
+	auto* state1 = this->systemManager->getEntityManager()->getComponent<StateComponent>(senderID, Component::ID::State);
+	auto* health = this->systemManager->getEntityManager()->getComponent<HealthComponent>(receiverID, Component::ID::Health);
+
+	if (state1->getState() != EntityState::Attacking || attack->hasAttacked() || !health)
 	{
-		auto* attack = this->systemManager->getEntityManager()->getComponent<AttackComponent>(senderID, Component::ID::Attack);
-		auto* state1 = this->systemManager->getEntityManager()->getComponent<StateComponent>(senderID, Component::ID::State);
-		auto* health = this->systemManager->getEntityManager()->getComponent<HealthComponent>(receiverID, Component::ID::Health);
-
-		if (state1->getState() != EntityState::Attacking || attack->hasAttacked() || !health)
-		{
-			return;
-		}
-
-		if (attack->isProjectile())
-		{
-			auto* state2 = this->systemManager->getEntityManager()->getComponent<StateComponent>(senderID, Component::ID::State);
-
-			state2->setState(EntityState::Dead);
-			this->systemManager->addEvent(senderID, EntityEvent::ReachedTarget);
-		}
-
-		health->setHealth(health->getHealth() - 1);
-		attack->setAttackStatus(true);
-
-		if (!health->getHealth())
-		{
-			auto* state2 = this->systemManager->getEntityManager()->getComponent<StateComponent>(receiverID, Component::ID::State);
-
-			state2->setState(EntityState::Dead);
-			this->systemManager->addEvent(receiverID, EntityEvent::Died);
-		}
-
-		this->applyKnockback(receiverID, attack);
+		return;
 	}
+
+	if (attack->isProjectile())
+	{
+		auto* state2 = this->systemManager->getEntityManager()->getComponent<StateComponent>(senderID, Component::ID::State);
+
+		state2->setState(EntityState::Dead);
+		this->systemManager->addEvent(senderID, EntityEvent::ReachedTarget);
+	}
+
+	health->setHealth(health->getHealth() - 1);
+	attack->setAttackStatus(true);
+
+	if (!health->getHealth())
+	{
+		auto* state2 = this->systemManager->getEntityManager()->getComponent<StateComponent>(receiverID, Component::ID::State);
+
+		state2->setState(EntityState::Dead);
+		this->systemManager->addEvent(receiverID, EntityEvent::Died);
+	}
+
+	this->applyKnockback(receiverID, attack);
 }
  
+void CombatSystem::processHeartPickup(EntityID senderID, EntityID receiverID)
+{
+	auto* health = this->systemManager->getEntityManager()->getComponent<HealthComponent>(receiverID, Component::ID::Health);
+
+	if (health)
+	{
+		health->setHealth(health->getHealth() + 1u);
+	}
+
+	this->systemManager->getEntityManager()->removeEntity(senderID);
+}
+
 void CombatSystem::applyKnockback(EntityID entityID, AttackComponent* attack)
 {
 	auto* velocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);

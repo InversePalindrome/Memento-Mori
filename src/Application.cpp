@@ -21,8 +21,10 @@ Application::Application() :
 	textures(),
 	images(),
 	sounds(),
+	fonts(),
+	soundManager(sounds),
 	keyBindings(),
-	sharedData(window, gui, hud, textures, images, sounds, fonts, keyBindings),
+	sharedData(window, gui, hud, textures, images, sounds, fonts, soundManager, keyBindings),
 	stateMachine(sharedData)
 {
 	loadTextures();
@@ -92,7 +94,10 @@ void Application::render()
 void Application::loadTextures()
 {
 	this->textures.acquire(Textures::ID::Logo, thor::Resources::fromFile<sf::Texture>("Resources/Images/InversePalindromeLogo.png"));
+	this->textures.acquire(Textures::ID::MainBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/MainBackground.png"));
 	this->textures.acquire(Textures::ID::MenuBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/MenuBackground.png"));
+	this->textures.acquire(Textures::ID::SettingsBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/SettingsBackground.png"));
+	this->textures.acquire(Textures::ID::LeaderboardBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/HighScoresBackground.png"));
 	this->textures.acquire(Textures::ID::GameOverBackground, thor::Resources::fromFile<sf::Texture>("Resources/Images/GameOverBackground.png"));
 	this->textures.acquire(Textures::ID::DecoAttackingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/DecoAttackingSkeleton.png"));
 	this->textures.acquire(Textures::ID::DecoJumpingSkeleton, thor::Resources::fromFile<sf::Texture>("Resources/Images/DecoJumpingSkeleton.png"));
@@ -115,6 +120,14 @@ void Application::loadTextures()
 	this->images.acquire(Images::ID::RestartButton, thor::Resources::fromFile<sf::Image>("Resources/Images/RestartButton.png"));
 	this->images.acquire(Images::ID::SettingsButton2, thor::Resources::fromFile<sf::Image>("Resources/Images/SettingsButton2.png"));
 	this->images.acquire(Images::ID::QuitButton, thor::Resources::fromFile<sf::Image>("Resources/Images/QuitButton.png"));
+	this->images.acquire(Images::ID::ToggleButtonOn, thor::Resources::fromFile<sf::Image>("Resources/Images/ToggleButtonOn.png"));
+	this->images.acquire(Images::ID::ToggleButtonOff, thor::Resources::fromFile<sf::Image>("Resources/Images/ToggleButtonOff.png"));
+	this->images.acquire(Images::ID::MoveUp, thor::Resources::fromFile<sf::Image>("Resources/Images/MoveUp.png"));
+	this->images.acquire(Images::ID::MoveDown, thor::Resources::fromFile<sf::Image>("Resources/Images/MoveDown.png"));
+	this->images.acquire(Images::ID::MoveRight, thor::Resources::fromFile<sf::Image>("Resources/Images/MoveRight.png"));
+	this->images.acquire(Images::ID::MoveLeft, thor::Resources::fromFile<sf::Image>("Resources/Images/MoveLeft.png"));
+
+	this->images.acquire(Images::ID::Attack, thor::Resources::fromFile<sf::Image>("Resources/Images/AttackButton.png"));
 
 	this->fonts.acquire(Fonts::ID::WolfsBane, thor::Resources::fromFile<sf::Font>("Resources/Fonts/WolfsBane.ttf"));
 

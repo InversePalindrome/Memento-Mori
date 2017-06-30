@@ -8,8 +8,7 @@ InversePalindrome.com
 #include "SoundProperties.hpp"
 
 
-SoundProperties::SoundProperties(const std::string& name) :
-	name(name),
+SoundProperties::SoundProperties() :
 	volume(100.f),
 	pitch(1.f),
 	attenuation(8.f),
@@ -17,8 +16,7 @@ SoundProperties::SoundProperties(const std::string& name) :
 {
 }
 
-SoundProperties::SoundProperties(const std::string& name, float volume, float pitch, float attenuation, float minDistance) :
-	name(name),
+SoundProperties::SoundProperties(float volume, float pitch, float attenuation, float minDistance) :
 	volume(volume),
 	pitch(pitch),
 	attenuation(attenuation),

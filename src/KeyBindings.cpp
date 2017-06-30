@@ -11,7 +11,7 @@ InversePalindrome.com
 KeyBindings::KeyBindings() :
 	keyBindings()
 {
-	keyBindings[ActionID::Escape] = thor::Action(sf::Keyboard::Escape);
+	keyBindings[ActionID::Pause] = thor::Action(sf::Keyboard::Escape);
 	keyBindings[ActionID::MoveUp] = thor::Action(sf::Keyboard::W);
 	keyBindings[ActionID::MoveDown] = thor::Action(sf::Keyboard::S);
 	keyBindings[ActionID::MoveRight] = thor::Action(sf::Keyboard::D);

@@ -18,7 +18,6 @@ InversePalindrome.com
 
 MenuState::MenuState(StateMachine& stateMachine, SharedData& sharedData) :
 	State(stateMachine, sharedData),
-	soundManager(sharedData.sounds),
 	background(sharedData.textures[Textures::ID::MenuBackground]),
 	attackingSkeleton(sharedData.textures[Textures::ID::DecoAttackingSkeleton]),
 	jumpingSkeleton(sharedData.textures[Textures::ID::DecoJumpingSkeleton]),
@@ -91,7 +90,7 @@ MenuState::MenuState(StateMachine& stateMachine, SharedData& sharedData) :
 	sharedData.hud.Add(settingsButton);
 	sharedData.hud.Add(leaderboardButton);
 
-	soundManager.playMusic("SpookyMusic.wav", 100.f, true);
+	sharedData.soundManager.playMusic("SpookyMusic.wav", true);
 }
 
 void MenuState::handleEvent(const sf::Event& event)
@@ -146,7 +145,7 @@ void MenuState::transitionToGame()
 	this->settingsButton->Show(false);
 	this->leaderboardButton->Show(false);
 
-	this->soundManager.stopAllMusic();
+	this->sharedData.soundManager.stopAllMusic();
 
 	this->stateMachine.popState();
 	this->stateMachine.pushState(StateMachine::StateID::Game);

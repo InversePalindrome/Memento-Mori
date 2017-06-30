@@ -16,11 +16,12 @@ InversePalindrome.com
 
 SoundManager::SoundManager(SoundHolder& soundHolder) :
 	soundHolder(soundHolder),
+	soundProperties(),
 	currentSoundID(0),
 	sounds(),
-	soundProperties()
+	soundStatus(true),
+	musicStatus(true)
 {
-	this->loadProperties("DefaultSoundProperty");
 }
 
 SoundID SoundManager::getCurrentSoundID() const
@@ -28,18 +29,29 @@ SoundID SoundManager::getCurrentSoundID() const
 	return this->currentSoundID;
 }
 
-SoundProperties* SoundManager::getSoundProperty(const std::string& name)
+SoundProperties& SoundManager::getSoundProperties()
 {
-	auto& soundProperty = this->soundProperties.find(name);
+	return this->soundProperties;
+}
 
-	if (soundProperty != std::end(this->soundProperties))
-	{
-		return &soundProperty->second;
-	}
-	else
-	{
-		return nullptr;
-	}	
+bool SoundManager::isSoundEnabled() const
+{
+	return this->soundStatus;
+}
+
+bool SoundManager::isMusicEnabled() const
+{
+	return this->musicStatus;
+}
+
+void SoundManager::setSoundStatus(bool soundStatus)
+{
+	this->soundStatus = soundStatus;
+}
+
+void SoundManager::setMusicStatus(bool musicStatus)
+{
+	this->musicStatus = musicStatus;
 }
 
 void SoundManager::setPosition(SoundID soundID, sf::Vector3f position)
@@ -68,19 +80,20 @@ void SoundManager::update()
 	this->removeStoppedSounds<decltype(this->music)>(this->music);
 }
 
-void SoundManager::playSound(const std::string& name, SoundBuffers::ID bufferID, sf::Vector3f position, bool loop)
+void SoundManager::playSound(SoundBuffers::ID bufferID, sf::Vector3f position, bool loop)
 {
-	auto* soundProperty = this->getSoundProperty(name);
+	if (this->isSoundEnabled())
+	{
+		auto sound = this->createSound(bufferID);
 
-	auto& sound = this->createSound(bufferID);
-	
-	this->setSoundProperties(sound, *soundProperty, loop);
+		this->applySoundProperties(sound, loop);
 
-	sound->setPosition(position);
+		sound->setPosition(position);
 
-	this->sounds.emplace(this->currentSoundID - 1u, std::move(sound));
+		this->sounds.emplace(this->currentSoundID - 1u, std::move(sound));
 
-	this->sounds.at(this->currentSoundID - 1u)->play();
+		this->sounds.at(this->currentSoundID - 1u)->play();
+	}
 }
 
 void SoundManager::stopSound(SoundID soundID)
@@ -103,11 +116,30 @@ void SoundManager::pauseSound(SoundID soundID)
 	}
 }
 
+void SoundManager::playAllSounds()
+{
+	for (auto& sound : this->sounds)
+	{
+		if (sound.second->getStatus() == sf::Sound::Paused)
+		{
+			sound.second->play();
+		}
+	}
+}
+
 void SoundManager::stopAllSounds()
 {
 	for (auto& sound : this->sounds)
 	{
 		sound.second->stop();
+	}
+}
+
+void SoundManager::pauseAllSounds()
+{
+	for (auto& sound : this->sounds)
+	{
+		sound.second->pause();
 	}
 }
 
@@ -125,20 +157,23 @@ bool SoundManager::isPlayingSound(SoundID soundID) const
 	}
 }
 
-void SoundManager::playMusic(const std::string& name, float volume, bool loop)
+void SoundManager::playMusic(const std::string& name, bool loop)
 {
-	auto music = std::make_unique<sf::Music>();
-
-	if (!music->openFromFile("Resources/Sounds/" + name))
+	if (this->isMusicEnabled())
 	{
-		std::cerr << "Failed to open Music: " + name << std::endl;
+		auto music = std::make_unique<sf::Music>();
+
+		if (!music->openFromFile("Resources/Sounds/" + name))
+		{
+			std::cerr << "Failed to open Music: " + name << std::endl;
+		}
+
+		music->setVolume(this->soundProperties.volume);
+		music->setLoop(loop);
+
+		this->music.emplace(name, std::move(music));
+		this->music.at(name)->play();
 	}
-
-	music->setVolume(volume);
-	music->setLoop(loop);
-
-	this->music.emplace(name, std::move(music));
-	this->music.at(name)->play();
 }
 
 void SoundManager::stopMusic(const std::string& name)
@@ -161,11 +196,40 @@ void SoundManager::pauseMusic(const std::string& name)
 	}
 }
 
+void SoundManager::playAllMusic()
+{
+	for (auto& music : this->music)
+	{
+		if (music.second->getStatus() == sf::Music::Paused)
+		{
+			music.second->play();
+		}
+	}
+}
+
 void SoundManager::stopAllMusic()
 {
 	for (auto& music : this->music)
 	{
 		music.second->stop();
+	}
+}
+
+void SoundManager::pauseAllMusic()
+{
+	for (auto& music : this->music)
+	{
+		music.second->pause();
+	}
+}
+
+void SoundManager::changeVolume(float volume)
+{
+	this->soundProperties.volume = volume;
+
+	for (auto& music : this->music)
+	{
+		music.second->setVolume(volume);
 	}
 }
 
@@ -176,51 +240,11 @@ SoundManager::SoundPtr SoundManager::createSound(SoundBuffers::ID bufferID)
 	return std::make_unique<sf::Sound>(this->soundHolder[bufferID]);
 }
 
-void SoundManager::loadProperties(const std::string& name)
+void SoundManager::applySoundProperties(SoundPtr& sound, bool loop)
 {
-	std::ifstream inFile("Resources/Files/" + name + ".txt");
-	std::string line;
-
-	SoundProperties soundProperty("");
-
-	while (std::getline(inFile, line))
-	{
-		std::istringstream iStream(line);
-
-		std::string category;
-
-		iStream >> category;
-
-		if (category == "Name")
-		{
-			iStream >> soundProperty.name;
-		}
-		else if (category == "Volume")
-		{
-			iStream >> soundProperty.volume;
-		}
-		else if (category == "Pitch")
-		{
-			iStream >> soundProperty.pitch;
-		}
-		else if (category == "Distance")
-		{
-			iStream >> soundProperty.minDistance;
-		}
-		else if (category == "Attenuation")
-		{
-			iStream >> soundProperty.attenuation;
-		}
-	}
-
-	this->soundProperties.emplace(name, soundProperty);
-}
-
-void SoundManager::setSoundProperties(SoundPtr& sound, const SoundProperties& soundProperty, bool loop)
-{
-	sound->setVolume(soundProperty.volume);
-	sound->setPitch(soundProperty.pitch);
-	sound->setAttenuation(soundProperty.attenuation);
-	sound->setMinDistance(soundProperty.minDistance);
+	sound->setVolume(soundProperties.volume);
+	sound->setPitch(soundProperties.pitch);
+	sound->setAttenuation(soundProperties.attenuation);
+	sound->setMinDistance(soundProperties.minDistance);
 	sound->setLoop(loop);
 }
