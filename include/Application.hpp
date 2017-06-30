@@ -9,6 +9,7 @@ InversePalindrome.com
 
 #include "SharedData.hpp"
 #include "StateMachine.hpp"
+#include "SoundManager.hpp"
 #include "ResourceIdentifiers.hpp"
 
 #include <SFML/System/Time.hpp>
@@ -33,6 +34,8 @@ private:
 	ImageHolder images;
 	SoundHolder sounds;
 	FontHolder fonts;
+
+	SoundManager soundManager;
 
 	KeyBindings keyBindings;
 

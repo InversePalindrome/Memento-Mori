@@ -8,7 +8,6 @@ InversePalindrome.com
 #pragma once
 
 #include "State.hpp"
-#include "SoundManager.hpp"
 
 #include <SFGUI/Button.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -28,8 +27,6 @@ public:
 	virtual bool isTransparent() override;
 
 private:
-	SoundManager soundManager;
-
 	sf::Sprite background;
 	sf::Sprite attackingSkeleton;
 	sf::Sprite jumpingSkeleton;

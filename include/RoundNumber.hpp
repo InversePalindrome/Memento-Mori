@@ -20,12 +20,16 @@ InversePalindrome.com
 class RoundNumber : public sf::Drawable
 {
 public:
-	RoundNumber(const sf::Font& font, SystemManager& systemManager);
+	RoundNumber(const sf::Font& font);
+	RoundNumber(const sf::Font& font, SystemManager* systemManager);
 
 	void update(std::size_t roundNumber);
 
+	void setRoundNumber(std::size_t roundNumber);
+	void setPosition(sf::Vector2f position);
+
 private:
-	SystemManager& systemManager;
+	SystemManager* systemManager;
 	sf::Text roundNumberText;
 	std::size_t roundNumber;
 

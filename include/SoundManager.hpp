@@ -26,11 +26,16 @@ class SoundManager
 	using MusicPtr = std::unique_ptr<sf::Music>;
 
 public:
-	SoundManager();
 	SoundManager(SoundHolder& soundHolder);
 
 	SoundID getCurrentSoundID() const;
-	SoundProperties* getSoundProperty(const std::string& name);
+	SoundProperties& getSoundProperties();
+
+	bool isSoundEnabled() const;
+	bool isMusicEnabled() const;
+
+	void setSoundStatus(bool soundStatus);
+	void setMusicStatus(bool musicStatus);
 
 	void setPosition(SoundID soundID, sf::Vector3f position);
 	void setListenerPosition(sf::Vector3f position);
@@ -38,31 +43,39 @@ public:
 
 	void update();
 
-	void playSound(const std::string& name, SoundBuffers::ID bufferID, sf::Vector3f position, bool loop);
+	void playSound(SoundBuffers::ID bufferID, sf::Vector3f position, bool loop);
 	void stopSound(SoundID soundID);
 	void pauseSound(SoundID soundID);
 
+	void playAllSounds();
 	void stopAllSounds();
+	void pauseAllSounds();
 
 	bool isPlayingSound(SoundID soundID) const;
 
-	void playMusic(const std::string& name, float volume, bool loop);
+	void playMusic(const std::string& name, bool loop);
 	void stopMusic(const std::string& name);
 	void pauseMusic(const std::string& name);
 
+	void playAllMusic();
 	void stopAllMusic();
+	void pauseAllMusic();
+
+	void changeVolume(float volume);
 
 private:
 	SoundHolder& soundHolder;
+	SoundProperties soundProperties;
 	SoundID currentSoundID;
 	std::unordered_map<SoundID, SoundPtr> sounds;
 	std::unordered_map<std::string, MusicPtr> music;
-	std::unordered_map<std::string, SoundProperties> soundProperties;
+
+	bool soundStatus;
+	bool musicStatus;
 
 	SoundPtr createSound(SoundBuffers::ID bufferID);
 
-	void loadProperties(const std::string& name);
-	void setSoundProperties(SoundPtr& sound, const SoundProperties& soundProperty, bool loop);
+	void applySoundProperties(SoundPtr& sound, bool loop);
 
 	template<typename Map>
 	void removeStoppedSounds(Map& map);

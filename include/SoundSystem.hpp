@@ -28,8 +28,6 @@ public:
 
 private:
 	SoundManager* soundManager;
-	
-	static const std::unordered_map<SoundBuffers::ID, std::string> soundNames;
 
 	void emitEntitySound(EntityID entityID, SoundBuffers::ID soundBufferID, bool loop);
 	void emitExternalSound(SoundBuffers::ID soundBufferID, bool loop);

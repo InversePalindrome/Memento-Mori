@@ -10,11 +10,11 @@ InversePalindrome.com
 #include <Thor/Input/ActionMap.hpp>
 
 
+enum class ActionID { Pause, MoveUp, MoveDown, MoveRight, MoveLeft, Attack };
+
 class KeyBindings
 {
 public:
-	enum class ActionID { Escape, MoveUp, MoveDown, MoveRight, MoveLeft, Attack };
-
 	KeyBindings();
 
 	void update(sf::Window& window);

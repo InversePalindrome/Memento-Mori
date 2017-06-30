@@ -21,7 +21,7 @@ public:
 	virtual void notify(const Message& message) override;
 
 private:
-	void targetPlayer(EntityID entityID);
+	void targetPlayer(EntityID entityID, bool forceDirectionChange);
 	void moveAI(EntityID entityID, Direction direction);
 	void moveAI(EntityID entityID, Direction directionChoice1, Direction directionChoice2);
 };

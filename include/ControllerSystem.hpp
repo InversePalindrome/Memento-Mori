@@ -8,7 +8,7 @@ InversePalindrome.com
 #pragma once
 
 #include "System.hpp"
-#include "VelocityComponent.hpp"
+#include "Direction.hpp"
 
 
 class ControllerSystem : public System

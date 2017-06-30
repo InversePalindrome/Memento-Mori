@@ -33,14 +33,18 @@ private:
 	EntityManager entityManager;
 	SystemManager systemManager;
 	Map map;
-	SoundManager soundManager;
 	SpawnManager spawnManager;
 	HealthBar healthBar;
 	RoundNumber roundNumber;
+
+	void buildScene();
 
 	void updateHealth();
 	void movePlayer(Direction direction);
 	void attack();
 
+	void saveScore();
+
 	void transitionToPause();
+	void transitionToGameOver();
 };

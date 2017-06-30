@@ -32,6 +32,7 @@ private:
 	void processEntityCollisions();
 	void processCombatCollisions(EntityID entity1, EntityID entity2, const CollidableComponent* collidable1, const CollidableComponent* collidable2);
 	bool processPickupCollisions(EntityID entity1, EntityID entity2, const CollidableComponent* collidable1, const CollidableComponent* collidable2);
+
 	void checkOutOfBounds(PositionComponent* position, CollidableComponent* collidable);
 	void despawnOutOfMapEntity(EntityID entityID, sf::Vector2f position);
 
