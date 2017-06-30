@@ -1,0 +1,6 @@
+Composition 001100011001
+Component 0 1800 980
+Component 3 130 120
+Component 4 0
+Component 8 12 3 3 8 966 46 42
+Component 9 Resources/Files/GreenCauldronAnimations.txt

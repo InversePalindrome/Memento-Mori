@@ -1,6 +1,6 @@
 Composition 001101011011
 Component 1 1000 0
-Component 3 84 84
+Component 3 84 96
 Component 4 2
 Component 6 2000 1
 Component 8 14 3 3 2 96 28 28

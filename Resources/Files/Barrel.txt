@@ -1,0 +1,4 @@
+Composition 000100001001
+Component 0 250 980
+Component 3 84 108
+Component 8 12 3 3 2 158 28 36
