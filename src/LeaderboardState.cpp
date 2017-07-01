@@ -11,6 +11,7 @@ InversePalindrome.com
 #include <SFGUI/Image.hpp>
 
 #include <fstream>
+#include <sstream>
 
 
 LeaderboardState::LeaderboardState(StateMachine& stateMachine, SharedData& sharedData) :
@@ -20,7 +21,8 @@ LeaderboardState::LeaderboardState(StateMachine& stateMachine, SharedData& share
 	backButton(sfg::Button::Create()),
 	score1(sharedData.fonts[Fonts::ID::WolfsBane]),
 	score2(sharedData.fonts[Fonts::ID::WolfsBane]),
-	score3(sharedData.fonts[Fonts::ID::WolfsBane])
+	score3(sharedData.fonts[Fonts::ID::WolfsBane]),
+	scores()
 {
 	background.setScale(static_cast<float>(sharedData.window.getSize().x) / background.getLocalBounds().width,
 		static_cast<float>(sharedData.window.getSize().y) / background.getLocalBounds().height);
@@ -33,6 +35,10 @@ LeaderboardState::LeaderboardState(StateMachine& stateMachine, SharedData& share
 	score1.setPosition(sf::Vector2f(1150.f, 490.f));
 	score2.setPosition(sf::Vector2f(1150.f, 640.f));
 	score3.setPosition(sf::Vector2f(1150.f, 790.f));
+
+	scores.push_back(&score1);
+	scores.push_back(&score2);
+	scores.push_back(&score3);
 
 	loadScores();
 
@@ -67,17 +73,21 @@ void LeaderboardState::loadScores()
 {
 	std::ifstream inFile("Resources/Files/HighScores.txt");
 
-	std::size_t score1 = 1u, score2 = 1u, score3 = 1u;
+	std::size_t i = 0;
 
-	if (inFile.peek() != std::ifstream::traits_type::eof())
+	std::string line;
+
+	while (std::getline(inFile, line))
 	{
-		inFile >> score1 >> score2 >> score3;
+		std::istringstream iStream(line);
+		std::size_t score = 1u;
+
+		while (iStream >> score)
+		{
+			this->scores.at(i)->setRoundNumber(score);
+			i++;
+		}
 	}
-
-
-	this->score1.setRoundNumber(score1);
-	this->score2.setRoundNumber(score2);
-	this->score3.setRoundNumber(score3);
 }
 
 void LeaderboardState::transitionToMenu()
