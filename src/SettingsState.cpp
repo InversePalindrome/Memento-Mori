@@ -37,6 +37,7 @@ SettingsState::SettingsState(StateMachine& stateMachine, SharedData& sharedData)
 	controlCenter.setScale(1.1f, 1.1f);
 	controlCenter.setPosition(690.f, 200.f);
 
+	backButton->SetPosition(sf::Vector2f(30.f, 70.f));
 	backButton->SetImage(sfg::Image::Create(sharedData.images[Images::ID::BackButton]));
 	backButton->GetSignal(sfg::Widget::OnLeftClick).Connect([this] { transitionToMenu(); });
 

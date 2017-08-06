@@ -15,6 +15,7 @@ HealthBar::HealthBar(sf::Texture& texture) :
 
 	hearts.setTexture(texture);
 	hearts.setScale(0.5f, 0.5f);
+	hearts.setPosition(sf::Vector2f(30.f, 70.f));
 }
 
 void HealthBar::setHealth(Health health)

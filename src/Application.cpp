@@ -40,6 +40,7 @@ void Application::run()
 	while (this->window.isOpen())
 	{
 		sf::Time deltaTime = clock.restart();
+
 		elapsedTime += deltaTime;
 
 		while (elapsedTime > timePerFrame)

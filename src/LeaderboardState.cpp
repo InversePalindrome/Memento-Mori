@@ -29,6 +29,7 @@ LeaderboardState::LeaderboardState(StateMachine& stateMachine, SharedData& share
 
 	highScores.setPosition(880.f, 250.f);
 
+	backButton->SetPosition(sf::Vector2f(30.f, 70.f));
 	backButton->SetImage(sfg::Image::Create(sharedData.images[Images::ID::BackButton]));
 	backButton->GetSignal(sfg::Widget::OnLeftClick).Connect([this] { transitionToMenu(); });
 

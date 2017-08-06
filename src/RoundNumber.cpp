@@ -30,7 +30,7 @@ RoundNumber::RoundNumber(const sf::Font& font, SystemManager* systemManager) :
 	roundNumberText.setOutlineThickness(5.f);
 	roundNumberText.setOutlineColor(sf::Color::Black);
 	roundNumberText.setStyle(sf::Text::Bold);
-	roundNumberText.setPosition(sf::Vector2f(2350.f, -10.f));
+	roundNumberText.setPosition(sf::Vector2f(2350.f, 50.f));
 }
 
 void RoundNumber::update(std::size_t roundNumber)
