@@ -9,11 +9,11 @@ InversePalindrome.com
 
 
 ControlComponent::ControlComponent() :
-	Component(Component::ID::Control)
+    Component(Component::ID::Control)
 {
 }
 
 std::istringstream& ControlComponent::readStream(std::istringstream& iStream)
 {
-	return iStream;
+    return iStream;
 }

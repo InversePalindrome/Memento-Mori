@@ -22,43 +22,43 @@ class EntityManager;
 
 class SystemManager
 {
-	using SystemPtr = std::unique_ptr<System>;
+    using SystemPtr = std::unique_ptr<System>;
 
 public:
-	SystemManager();
+    SystemManager();
 
-	template<typename T>
-	T* getSystem(System::ID systemID);
+    template<typename T>
+    T* getSystem(System::ID systemID);
 
-	EntityManager* getEntityManager();
+    EntityManager* getEntityManager();
 
-	MessageHandler* getMessageHandler();
+    MessageHandler* getMessageHandler();
 
-	void setEntityManager(EntityManager& entityManager);
+    void setEntityManager(EntityManager& entityManager);
 
-	void update(sf::Time deltaTime);
-	void handleEvent();
-	void draw(sf::RenderWindow& window);
+    void update(sf::Time deltaTime);
+    void handleEvent();
+    void draw(sf::RenderWindow& window);
 
-	void addEvent(EntityID entityID, EntityEvent event);
+    void addEvent(EntityID entityID, EntityEvent event);
 
-	void removeEntity(EntityID entityID);
-	void adaptEntityChanges(EntityID entityID, const EntityComposition& entityComposition);
+    void removeEntity(EntityID entityID);
+    void adaptEntityChanges(EntityID entityID, const EntityComposition& entityComposition);
 
 private:
-	std::unordered_map<System::ID, SystemPtr> systems;
-	std::unordered_map<EntityID, EventQueue> events;
-	MessageHandler messageHandler;
+    std::unordered_map<System::ID, SystemPtr> systems;
+    std::unordered_map<EntityID, EventQueue> events;
+    MessageHandler messageHandler;
 
-	EntityManager* entityManager;
+    EntityManager* entityManager;
 };
 
 
 template<typename T>
 T* SystemManager::getSystem(System::ID systemID)
 {
-	auto system = this->systems.find(systemID);
+    auto system = this->systems.find(systemID);
 
-	return (system != std::end(this->systems) ? 
-		dynamic_cast<T*>(system->second.get()) : nullptr);
+    return (system != std::end(this->systems) ?
+        dynamic_cast<T*>(system->second.get()) : nullptr);
 }

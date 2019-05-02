@@ -17,14 +17,14 @@ enum class PickupType { Heart, PickupCount };
 class PickupComponent : public Component
 {
 public:
-	PickupComponent();
+    PickupComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	PickupType getPickupType() const;
+    PickupType getPickupType() const;
 
-	void setPickupType(PickupType pickupType);
+    void setPickupType(PickupType pickupType);
 
 private:
-	PickupType pickupType;
+    PickupType pickupType;
 };

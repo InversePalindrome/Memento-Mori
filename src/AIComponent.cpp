@@ -9,28 +9,28 @@ InversePalindrome.com
 
 
 AIComponent::AIComponent() :
-	Component(Component::ID::AI)
+    Component(Component::ID::AI)
 {
 
 }
 
 std::istringstream& AIComponent::readStream(std::istringstream& iStream)
 {
-	std::size_t iID = 0;
+    std::size_t iID = 0;
 
-	iStream >> iID;
+    iStream >> iID;
 
-	this->ID = static_cast<AI_ID>(iID);
+    this->ID = static_cast<AI_ID>(iID);
 
-	return iStream;
+    return iStream;
 }
 
 AI_ID AIComponent::getID() const
 {
-	return this->ID;
+    return this->ID;
 }
 
 void AIComponent::setID(AI_ID ID)
 {
-	this->ID = ID;
+    this->ID = ID;
 }

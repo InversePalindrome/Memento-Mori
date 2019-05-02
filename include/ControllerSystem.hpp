@@ -14,12 +14,12 @@ InversePalindrome.com
 class ControllerSystem : public System
 {
 public:
-	ControllerSystem(SystemManager& systemManager);
+    ControllerSystem(SystemManager& systemManager);
 
-	virtual void handleEvent(EntityID entityID, EntityEvent event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void notify(const Message& message) override;
+    virtual void handleEvent(EntityID entityID, EntityEvent event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void notify(const Message& message) override;
 
 private:
-	void directEntity(EntityID entityID, Direction direction);
+    void directEntity(EntityID entityID, Direction direction);
 };

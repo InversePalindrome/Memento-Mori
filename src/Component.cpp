@@ -9,16 +9,16 @@ InversePalindrome.com
 
 
 Component::Component(ID componentID) :
-	componentID(componentID)
+    componentID(componentID)
 {
 }
 
 Component::ID Component::getID() const
 {
-	return this->componentID;
+    return this->componentID;
 }
 
 std::istringstream& operator>>(std::istringstream& iStream, Component& component)
 {
-	return component.readStream(iStream);
+    return component.readStream(iStream);
 }

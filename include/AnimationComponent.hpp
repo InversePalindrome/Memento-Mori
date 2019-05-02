@@ -20,32 +20,32 @@ enum class AnimationID { Idle, Walking, Attacking };
 class AnimationComponent : public Component
 {
 public:
-	AnimationComponent();
+    AnimationComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	AnimationID getAnimationID() const;
-	Direction getAnimationDirection() const;
+    AnimationID getAnimationID() const;
+    Direction getAnimationDirection() const;
 
-	void setAnimation(AnimationID animationID);
-	void setAnimationDirection(Direction animationDirection);
+    void setAnimation(AnimationID animationID);
+    void setAnimationDirection(Direction animationDirection);
 
-	void setAnimationsFrameFile(const std::string& fileName);
+    void setAnimationsFrameFile(const std::string& fileName);
 
-	void update(sf::Time deltaTime);
-	void animate(sf::Sprite& sprite) const;
+    void update(sf::Time deltaTime);
+    void animate(sf::Sprite& sprite) const;
 
-	void playAnimation(bool loop);
-	void stopAnimation();
+    void playAnimation(bool loop);
+    void stopAnimation();
 
-	void addAnimation(AnimationID animationID, Direction direction, const thor::FrameAnimation& animation, sf::Time duration);
-	void addAnimations();
+    void addAnimation(AnimationID animationID, Direction direction, const thor::FrameAnimation& animation, sf::Time duration);
+    void addAnimations();
 
-	bool isPlayingAnimation() const;
+    bool isPlayingAnimation() const;
 
 private:
-	thor::Animator <sf::Sprite, std::pair<AnimationID, Direction>> animations;
-	AnimationID animationID;
-	Direction animationDirection;
-	std::string animationFramesFile;
+    thor::Animator <sf::Sprite, std::pair<AnimationID, Direction>> animations;
+    AnimationID animationID;
+    Direction animationDirection;
+    std::string animationFramesFile;
 };

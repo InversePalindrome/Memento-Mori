@@ -10,21 +10,21 @@ InversePalindrome.com
 #include <queue>
 
 
-enum class EntityEvent 
+enum class EntityEvent
 {
-	Spawned, Died, OutOfMap, MoveUp, MoveDown, MoveRight, MoveLeft, Moved, BecameIdle, Collided, 
-	ProjectileCollision, ShootProjectile, ReachedTarget, PickedUp, RoundStarted
+    Spawned, Died, OutOfMap, MoveUp, MoveDown, MoveRight, MoveLeft, Moved, BecameIdle, Collided,
+    ProjectileCollision, ShootProjectile, ReachedTarget, PickedUp, RoundStarted
 };
 
 class EventQueue
 {
 public:
-	void addEvent(EntityEvent event);
+    void addEvent(EntityEvent event);
 
-	bool processEvent(EntityEvent& event);
+    bool processEvent(EntityEvent& event);
 
-	void clearEvents();
+    void clearEvents();
 
 private:
-	std::queue<EntityEvent> events;
+    std::queue<EntityEvent> events;
 };

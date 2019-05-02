@@ -26,41 +26,41 @@ InversePalindrome.com
 class SettingsState : public State
 {
 public:
-	SettingsState(StateMachine& stateMachine, SharedData& sharedData);
+    SettingsState(StateMachine& stateMachine, SharedData& sharedData);
 
-	virtual void handleEvent(const sf::Event& event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void draw() override;
+    virtual void handleEvent(const sf::Event& event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void draw() override;
 
-	virtual bool isTransparent() override;
+    virtual bool isTransparent() override;
 
 private:
-	sf::Sprite background;
-	sf::Sprite controlCenter;
+    sf::Sprite background;
+    sf::Sprite controlCenter;
 
-	sfg::Button::Ptr backButton;
-	sfg::Label::Ptr volumeLabel;
-	sfg::Label::Ptr soundLabel;
-	sfg::Label::Ptr musicLabel;
-	sfg::ToggleButton::Ptr soundSwitch;
-	sfg::ToggleButton::Ptr musicSwitch;
-	sfg::ToggleButton::Ptr moveUpButton;
-	sfg::ToggleButton::Ptr moveDownButton;
-	sfg::ToggleButton::Ptr moveRightButton;
-	sfg::ToggleButton::Ptr moveLeftButton;
-	sfg::ToggleButton::Ptr attackButton;
-	sfg::Scrollbar::Ptr volumeBar;
-	sfg::Scale::Ptr volumeScale;
-	sfg::Adjustment::Ptr volumeAdjustment;
+    sfg::Button::Ptr backButton;
+    sfg::Label::Ptr volumeLabel;
+    sfg::Label::Ptr soundLabel;
+    sfg::Label::Ptr musicLabel;
+    sfg::ToggleButton::Ptr soundSwitch;
+    sfg::ToggleButton::Ptr musicSwitch;
+    sfg::ToggleButton::Ptr moveUpButton;
+    sfg::ToggleButton::Ptr moveDownButton;
+    sfg::ToggleButton::Ptr moveRightButton;
+    sfg::ToggleButton::Ptr moveLeftButton;
+    sfg::ToggleButton::Ptr attackButton;
+    sfg::Scrollbar::Ptr volumeBar;
+    sfg::Scale::Ptr volumeScale;
+    sfg::Adjustment::Ptr volumeAdjustment;
 
-	std::unordered_map<ActionID, sfg::ToggleButton::Ptr> actionKeys;
+    std::unordered_map<ActionID, sfg::ToggleButton::Ptr> actionKeys;
 
-	void switchSounds();
-	void switchMusic();
-	
-	void adjustVolume();
+    void switchSounds();
+    void switchMusic();
 
-	void changeKey(sf::Keyboard::Key key);
+    void adjustVolume();
 
-	void transitionToMenu();
+    void changeKey(sf::Keyboard::Key key);
+
+    void transitionToMenu();
 };

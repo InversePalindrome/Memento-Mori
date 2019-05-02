@@ -15,12 +15,12 @@ InversePalindrome.com
 class Subject
 {
 public:
-	void addObserver(Observer* observer);
+    void addObserver(Observer* observer);
 
-	void removeObserver(Observer* observer);
+    void removeObserver(Observer* observer);
 
-	void broadcast(const Message& message);
+    void broadcast(const Message& message);
 
 private:
-	std::unordered_set<Observer*> observers;
+    std::unordered_set<Observer*> observers;
 };

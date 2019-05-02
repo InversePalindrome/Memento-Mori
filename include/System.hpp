@@ -20,28 +20,28 @@ class SystemManager;
 
 class System : public Observer
 {
-	using ComponentsBitMasks = std::vector<EntityComposition>;
+    using ComponentsBitMasks = std::vector<EntityComposition>;
 
 public:
-	enum class ID { Movement, Controller , Collision, State, AI, Combat, Render, Animator, Sound };
+    enum class ID { Movement, Controller, Collision, State, AI, Combat, Render, Animator, Sound };
 
-	System(ID systemID, SystemManager& systemManager);
+    System(ID systemID, SystemManager& systemManager);
 
-	virtual void handleEvent(EntityID entityID, EntityEvent event) = 0;
-	virtual void update(sf::Time deltaTime) = 0;
+    virtual void handleEvent(EntityID entityID, EntityEvent event) = 0;
+    virtual void update(sf::Time deltaTime) = 0;
 
-	ID getID() const;
+    ID getID() const;
 
-	void addEntity(EntityID entityID);
-	void removeEntity(EntityID entityID);
+    void addEntity(EntityID entityID);
+    void removeEntity(EntityID entityID);
 
-	bool hasEntity(EntityID entityID) const;
-	bool passesRequirements(const EntityComposition& entityComposition) const;
+    bool hasEntity(EntityID entityID) const;
+    bool passesRequirements(const EntityComposition& entityComposition) const;
 
 protected:
-	ID systemID;
-	std::vector<EntityID> entitiesIDs;
-	ComponentsBitMasks componentRequirements;
+    ID systemID;
+    std::vector<EntityID> entitiesIDs;
+    ComponentsBitMasks componentRequirements;
 
-	SystemManager* systemManager;
+    SystemManager* systemManager;
 };

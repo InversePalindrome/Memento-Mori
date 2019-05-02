@@ -16,31 +16,31 @@ InversePalindrome.com
 class AttackComponent : public Component
 {
 public:
-	AttackComponent();
+    AttackComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
-	
-	sf::Vector2f getPosition() const;
-	Direction getAttackDirection() const;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	float getKnockback() const;
-	bool hasAttacked() const;
-	
-	void setPosition(sf::Vector2f position);
-	void setAttackDirection(Direction direction);
+    sf::Vector2f getPosition() const;
+    Direction getAttackDirection() const;
 
-	void setKnockback(float knockback);
+    float getKnockback() const;
+    bool hasAttacked() const;
 
-	void setAttackStatus(bool attackStatus);
-	void setProjectileStatus(bool projectileStatus);
+    void setPosition(sf::Vector2f position);
+    void setAttackDirection(Direction direction);
 
-	bool isProjectile() const;
+    void setKnockback(float knockback);
+
+    void setAttackStatus(bool attackStatus);
+    void setProjectileStatus(bool projectileStatus);
+
+    bool isProjectile() const;
 
 private:
-	sf::Vector2f position;
-	Direction attackDirection;
-	float knockback;
+    sf::Vector2f position;
+    Direction attackDirection;
+    float knockback;
 
-	bool attackStatus;
-	bool projectileStatus;
+    bool attackStatus;
+    bool projectileStatus;
 };

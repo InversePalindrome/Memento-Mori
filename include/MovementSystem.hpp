@@ -14,13 +14,13 @@ InversePalindrome.com
 class MovementSystem : public System
 {
 public:
-	MovementSystem(SystemManager& systemManager);
+    MovementSystem(SystemManager& systemManager);
 
-	virtual void handleEvent(EntityID entityID, EntityEvent event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void notify(const Message& message) override;
+    virtual void handleEvent(EntityID entityID, EntityEvent event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void notify(const Message& message) override;
 
 private:
-	void moveEntity(EntityID entityID);
-	void stopEntity(EntityID entityID);
+    void moveEntity(EntityID entityID);
+    void stopEntity(EntityID entityID);
 };

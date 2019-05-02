@@ -16,15 +16,15 @@ InversePalindrome.com
 class CollidableComponent : public Component
 {
 public:
-	CollidableComponent();
+    CollidableComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	sf::FloatRect getBoundingBox() const;
+    sf::FloatRect getBoundingBox() const;
 
-	void setBoundingBox(const sf::FloatRect& boundingBox);
-	void setPosition(sf::Vector2f position);
+    void setBoundingBox(const sf::FloatRect& boundingBox);
+    void setPosition(sf::Vector2f position);
 
 private:
-	sf::FloatRect boundingBox;
+    sf::FloatRect boundingBox;
 };

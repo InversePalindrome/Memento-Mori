@@ -14,13 +14,13 @@ InversePalindrome.com
 class AnimatorSystem : public System
 {
 public:
-	AnimatorSystem(SystemManager& systemManager);
+    AnimatorSystem(SystemManager& systemManager);
 
-	virtual void handleEvent(EntityID entityID, EntityEvent event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void notify(const Message& message) override;
+    virtual void handleEvent(EntityID entityID, EntityEvent event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void notify(const Message& message) override;
 
 private:
-	void changeAnimation(EntityID entityID, AnimationID animationID, bool loop);
-	void changeAnimationDirection(EntityID entityID, Direction animationDirection);
+    void changeAnimation(EntityID entityID, AnimationID animationID, bool loop);
+    void changeAnimationDirection(EntityID entityID, Direction animationDirection);
 };

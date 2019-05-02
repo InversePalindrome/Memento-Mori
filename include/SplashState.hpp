@@ -16,15 +16,15 @@ InversePalindrome.com
 class SplashState : public State
 {
 public:
-	SplashState(StateMachine& stateMachine, SharedData& sharedData);
+    SplashState(StateMachine& stateMachine, SharedData& sharedData);
 
-	virtual void handleEvent(const sf::Event& event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void draw() override;
+    virtual void handleEvent(const sf::Event& event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void draw() override;
 
-	virtual bool isTransparent() override;
+    virtual bool isTransparent() override;
 
 private:
-	sf::Sprite logo;
-	sf::Time introTime;
+    sf::Sprite logo;
+    sf::Time introTime;
 };

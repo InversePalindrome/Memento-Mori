@@ -17,29 +17,29 @@ InversePalindrome.com
 class SpriteComponent : public Component
 {
 public:
-	SpriteComponent();
+    SpriteComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	sf::Sprite& getSprite();
+    sf::Sprite& getSprite();
 
-	sf::Vector2f getPosition() const;
-	sf::Vector2f getOrigin() const;
+    sf::Vector2f getPosition() const;
+    sf::Vector2f getOrigin() const;
 
-	sf::FloatRect getLocalBounds() const;
-	sf::FloatRect getGlobalBounds() const;
+    sf::FloatRect getLocalBounds() const;
+    sf::FloatRect getGlobalBounds() const;
 
-	void setPosition(sf::Vector2f position);
-	void setOrigin(sf::Vector2f origin);
+    void setPosition(sf::Vector2f position);
+    void setOrigin(sf::Vector2f origin);
 
-	void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window);
 
-	void setTexture(const TextureHolder& textures);
-	void setTextureRect(const sf::IntRect& rect);
+    void setTexture(const TextureHolder& textures);
+    void setTextureRect(const sf::IntRect& rect);
 
-	void setScale(sf::Vector2f scale);
+    void setScale(sf::Vector2f scale);
 
 private:
-	sf::Sprite sprite;
-	Textures::ID textureID;
+    sf::Sprite sprite;
+    Textures::ID textureID;
 };

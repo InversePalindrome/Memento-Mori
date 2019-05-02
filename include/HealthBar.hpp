@@ -18,15 +18,15 @@ InversePalindrome.com
 
 class HealthBar : public sf::Drawable
 {
-	using Health = std::size_t;
+    using Health = std::size_t;
 
 public:
-	HealthBar(sf::Texture& texture);
+    HealthBar(sf::Texture& texture);
 
-	void setHealth(Health health);
+    void setHealth(Health health);
 
 private:
-	sf::Sprite hearts;
+    sf::Sprite hearts;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

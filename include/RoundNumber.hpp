@@ -20,22 +20,22 @@ InversePalindrome.com
 class RoundNumber : public sf::Drawable
 {
 public:
-	RoundNumber(const sf::Font& font);
-	RoundNumber(const sf::Font& font, SystemManager* systemManager);
+    RoundNumber(const sf::Font& font);
+    RoundNumber(const sf::Font& font, SystemManager* systemManager);
 
-	void update(std::size_t roundNumber);
+    void update(std::size_t roundNumber);
 
-	void setRoundNumber(std::size_t roundNumber);
-	void setPosition(sf::Vector2f position);
+    void setRoundNumber(std::size_t roundNumber);
+    void setPosition(sf::Vector2f position);
 
 private:
-	SystemManager* systemManager;
-	sf::Text roundNumberText;
-	std::size_t roundNumber;
+    SystemManager* systemManager;
+    sf::Text roundNumberText;
+    std::size_t roundNumber;
 
-	static const std::array<std::pair<std::size_t, std::string>, 13u> romanNumerals;
+    static const std::array<std::pair<std::size_t, std::string>, 13u> romanNumerals;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	std::string toRomanNumeral(std::size_t roundNumber);
+    std::string toRomanNumeral(std::size_t roundNumber);
 };

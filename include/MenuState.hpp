@@ -18,30 +18,30 @@ InversePalindrome.com
 class MenuState : public State
 {
 public:
-	MenuState(StateMachine& stateMachine, SharedData& sharedData);
+    MenuState(StateMachine& stateMachine, SharedData& sharedData);
 
-	virtual void handleEvent(const sf::Event& event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void draw() override;
+    virtual void handleEvent(const sf::Event& event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void draw() override;
 
-	virtual bool isTransparent() override;
+    virtual bool isTransparent() override;
 
 private:
-	sf::Sprite background;
-	sf::Sprite attackingSkeleton;
-	sf::Sprite jumpingSkeleton;
+    sf::Sprite background;
+    sf::Sprite attackingSkeleton;
+    sf::Sprite jumpingSkeleton;
 
-	sfg::Button::Ptr playButton;
-	sfg::Button::Ptr settingsButton;
-	sfg::Button::Ptr leaderboardButton;
+    sfg::Button::Ptr playButton;
+    sfg::Button::Ptr settingsButton;
+    sfg::Button::Ptr leaderboardButton;
 
-	thor::Animator<sf::Sprite, std::string> attackAnimator;
-	thor::Animator<sf::Sprite, std::string> jumpAnimator;
-	thor::ParticleSystem particleSystem;
+    thor::Animator<sf::Sprite, std::string> attackAnimator;
+    thor::Animator<sf::Sprite, std::string> jumpAnimator;
+    thor::ParticleSystem particleSystem;
 
-	sf::Time animationCountdown;
+    sf::Time animationCountdown;
 
-	void transitionToGame();
-	void transitionToSettings();
-	void transitionToLeaderboard();
+    void transitionToGame();
+    void transitionToSettings();
+    void transitionToLeaderboard();
 };

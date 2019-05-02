@@ -17,154 +17,154 @@ InversePalindrome.com
 
 
 AISystem::AISystem(SystemManager& systemManager) :
-	System(System::ID::AI, systemManager)
+    System(System::ID::AI, systemManager)
 {
-	EntityComposition entityComposition;
+    EntityComposition entityComposition;
 
-	entityComposition[static_cast<std::size_t>(Component::ID::AI)] = true;
-	entityComposition[static_cast<std::size_t>(Component::ID::State)] = true;
-	entityComposition[static_cast<std::size_t>(Component::ID::Position)] = true;
-	entityComposition[static_cast<std::size_t>(Component::ID::Velocity)] = true;
+    entityComposition[static_cast<std::size_t>(Component::ID::AI)] = true;
+    entityComposition[static_cast<std::size_t>(Component::ID::State)] = true;
+    entityComposition[static_cast<std::size_t>(Component::ID::Position)] = true;
+    entityComposition[static_cast<std::size_t>(Component::ID::Velocity)] = true;
 
-	componentRequirements.push_back(entityComposition);
+    componentRequirements.push_back(entityComposition);
 
-	systemManager.getMessageHandler()->subscribe(EntityMessage::ReadyToAttack, this);
+    systemManager.getMessageHandler()->subscribe(EntityMessage::ReadyToAttack, this);
 }
 
 void AISystem::handleEvent(EntityID entityID, EntityEvent event)
 {
-	switch (event)
-	{
-	case EntityEvent::Collided:
-		this->targetPlayer(entityID, true);
-		break;
-	}
+    switch (event)
+    {
+    case EntityEvent::Collided:
+        this->targetPlayer(entityID, true);
+        break;
+    }
 }
 
 void AISystem::update(sf::Time deltaTime)
 {
-	for (auto& entity : this->entitiesIDs)
-	{
-		auto* AI = this->systemManager->getEntityManager()->getComponent<AIComponent>(entity, Component::ID::AI);
-		auto* state = this->systemManager->getEntityManager()->getComponent<StateComponent>(entity, Component::ID::State);
+    for (auto& entity : this->entitiesIDs)
+    {
+        auto* AI = this->systemManager->getEntityManager()->getComponent<AIComponent>(entity, Component::ID::AI);
+        auto* state = this->systemManager->getEntityManager()->getComponent<StateComponent>(entity, Component::ID::State);
 
-		if(state->getState() != EntityState::Attacking)
-		{
-			this->targetPlayer(entity, false);
-		}
-	}
+        if (state->getState() != EntityState::Attacking)
+        {
+            this->targetPlayer(entity, false);
+        }
+    }
 }
 
 void AISystem::notify(const Message& message)
 {
-	if (this->hasEntity(message.senderID))
-	{
-		switch (message.messageType)
-		{
-		case EntityMessage::ReadyToAttack:
-			Message message2(EntityMessage::ChangeState);
-			message2.receiverID = message.senderID;
+    if (this->hasEntity(message.senderID))
+    {
+        switch (message.messageType)
+        {
+        case EntityMessage::ReadyToAttack:
+            Message message2(EntityMessage::ChangeState);
+            message2.receiverID = message.senderID;
 
-			message2.data[DataID::State] = static_cast<std::size_t>(EntityState::Attacking);
-			this->systemManager->getMessageHandler()->dispatch(message2);
-		}
-	}
+            message2.data[DataID::State] = static_cast<std::size_t>(EntityState::Attacking);
+            this->systemManager->getMessageHandler()->dispatch(message2);
+        }
+    }
 }
 
 void AISystem::targetPlayer(EntityID entityID, bool forceDirectionChange)
 {
-	auto* playerPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>
-		(this->systemManager->getEntityManager()->getPlayerID(), Component::ID::Position);
+    auto* playerPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>
+        (this->systemManager->getEntityManager()->getPlayerID(), Component::ID::Position);
 
-	if (!playerPosition)
-	{
-		return;
-	}
+    if (!playerPosition)
+    {
+        return;
+    }
 
-	auto AIPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entityID, Component::ID::Position)->getPosition();
-	auto* AIVelocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);
+    auto AIPosition = this->systemManager->getEntityManager()->getComponent<PositionComponent>(entityID, Component::ID::Position)->getPosition();
+    auto* AIVelocity = this->systemManager->getEntityManager()->getComponent<VelocityComponent>(entityID, Component::ID::Velocity);
 
-	switch (AIVelocity->getDirection())
-	{
-	case Direction::Up:
-		if (AIPosition.y < playerPosition->getPosition().y || forceDirectionChange)
-		{
-			Direction directionChoice1 = Direction::Down;
-			Direction directionChoice2 = AIPosition.x < playerPosition->getPosition().x ?
-				Direction::Right : Direction::Left;
-			
-			this->moveAI(entityID, directionChoice1, directionChoice2);
-		}
-		else
-		{
-			this->moveAI(entityID, Direction::Up);
-		}
+    switch (AIVelocity->getDirection())
+    {
+    case Direction::Up:
+        if (AIPosition.y < playerPosition->getPosition().y || forceDirectionChange)
+        {
+            Direction directionChoice1 = Direction::Down;
+            Direction directionChoice2 = AIPosition.x < playerPosition->getPosition().x ?
+                Direction::Right : Direction::Left;
 
-		break;
+            this->moveAI(entityID, directionChoice1, directionChoice2);
+        }
+        else
+        {
+            this->moveAI(entityID, Direction::Up);
+        }
 
-	case Direction::Down:
-		if (AIPosition.y > playerPosition->getPosition().y || forceDirectionChange)
-		{
-			Direction directionChoice1 = Direction::Up;
-			Direction directionChoice2 = AIPosition.x < playerPosition->getPosition().x ?
-				Direction::Right : Direction::Left;
+        break;
 
-			this->moveAI(entityID, directionChoice1, directionChoice2);
-		}
-		else
-		{
-			this->moveAI(entityID, Direction::Down);
-		}
+    case Direction::Down:
+        if (AIPosition.y > playerPosition->getPosition().y || forceDirectionChange)
+        {
+            Direction directionChoice1 = Direction::Up;
+            Direction directionChoice2 = AIPosition.x < playerPosition->getPosition().x ?
+                Direction::Right : Direction::Left;
 
-		break;
+            this->moveAI(entityID, directionChoice1, directionChoice2);
+        }
+        else
+        {
+            this->moveAI(entityID, Direction::Down);
+        }
 
-	case Direction::Right:
-		if (AIPosition.x > playerPosition->getPosition().x)
-		{
-			Direction directionChoice1 = Direction::Left;
-			Direction directionChoice2 = AIPosition.y > playerPosition->getPosition().y ?
-				Direction::Up : Direction::Down;
+        break;
 
-			this->moveAI(entityID, directionChoice1, directionChoice2);
-		}
-		else 
-		{
-			this->moveAI(entityID, Direction::Right);
-		}
+    case Direction::Right:
+        if (AIPosition.x > playerPosition->getPosition().x)
+        {
+            Direction directionChoice1 = Direction::Left;
+            Direction directionChoice2 = AIPosition.y > playerPosition->getPosition().y ?
+                Direction::Up : Direction::Down;
 
-		break;
+            this->moveAI(entityID, directionChoice1, directionChoice2);
+        }
+        else
+        {
+            this->moveAI(entityID, Direction::Right);
+        }
 
-	case Direction::Left:
-		if (AIPosition.x < playerPosition->getPosition().x)
-		{
-			Direction directionChoice1 = Direction::Right;
-			Direction directionChoice2 = AIPosition.y > playerPosition->getPosition().y ?
-				Direction::Up : Direction::Down;
+        break;
 
-			this->moveAI(entityID, directionChoice1, directionChoice2);
-		}
-		else
-		{
-			this->moveAI(entityID, Direction::Left);
-		}
+    case Direction::Left:
+        if (AIPosition.x < playerPosition->getPosition().x)
+        {
+            Direction directionChoice1 = Direction::Right;
+            Direction directionChoice2 = AIPosition.y > playerPosition->getPosition().y ?
+                Direction::Up : Direction::Down;
 
-		break;
-	}
+            this->moveAI(entityID, directionChoice1, directionChoice2);
+        }
+        else
+        {
+            this->moveAI(entityID, Direction::Left);
+        }
+
+        break;
+    }
 }
 
 
 void AISystem::moveAI(EntityID entityID, Direction direction)
 {
-	Message message(EntityMessage::Move);
-	message.receiverID = entityID;
-	message.data[DataID::Direction] = static_cast<std::size_t>(direction);
+    Message message(EntityMessage::Move);
+    message.receiverID = entityID;
+    message.data[DataID::Direction] = static_cast<std::size_t>(direction);
 
-	this->systemManager->getMessageHandler()->dispatch(message);
+    this->systemManager->getMessageHandler()->dispatch(message);
 }
 
 void AISystem::moveAI(EntityID entityID, Direction directionChoice1, Direction directionChoice2)
 {
-	Direction selectedDirection = thor::random(0u, 1u) == 0u ? directionChoice1 : directionChoice2;
-	
-	this->moveAI(entityID, selectedDirection);
+    Direction selectedDirection = thor::random(0u, 1u) == 0u ? directionChoice1 : directionChoice2;
+
+    this->moveAI(entityID, selectedDirection);
 }

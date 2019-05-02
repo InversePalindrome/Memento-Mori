@@ -16,22 +16,22 @@ InversePalindrome.com
 class GameOverState : public State
 {
 public:
-	GameOverState(StateMachine& stateMachine, SharedData& sharedData);
+    GameOverState(StateMachine& stateMachine, SharedData& sharedData);
 
-	virtual void handleEvent(const sf::Event& event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void draw() override;
+    virtual void handleEvent(const sf::Event& event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void draw() override;
 
-	virtual bool isTransparent() override;
+    virtual bool isTransparent() override;
 
 private:
-	sf::Sprite background;
+    sf::Sprite background;
 
-	sfg::Button::Ptr playButton;
-	sfg::Button::Ptr menuButton;
-	sfg::Button::Ptr leaderboardButton;
+    sfg::Button::Ptr playButton;
+    sfg::Button::Ptr menuButton;
+    sfg::Button::Ptr leaderboardButton;
 
-	void transitionToPlay();
-	void transitionToMenu();
-	void transitionToLeaderboard();
+    void transitionToPlay();
+    void transitionToMenu();
+    void transitionToLeaderboard();
 };

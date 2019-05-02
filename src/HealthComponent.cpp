@@ -9,24 +9,24 @@ InversePalindrome.com
 
 
 HealthComponent::HealthComponent() :
-	Component(Component::ID::Health),
-	health(0)
+    Component(Component::ID::Health),
+    health(0)
 {
 }
 
 std::istringstream& HealthComponent::readStream(std::istringstream& iStream)
 {
-	iStream >> this->health;
+    iStream >> this->health;
 
-	return iStream;
+    return iStream;
 }
 
 HealthComponent::Health HealthComponent::getHealth() const
 {
-	return this->health;
+    return this->health;
 }
 
 void HealthComponent::setHealth(Health health)
 {
-	this->health = health;
+    this->health = health;
 }

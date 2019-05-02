@@ -9,17 +9,17 @@ InversePalindrome.com
 
 
 SoundProperties::SoundProperties() :
-	volume(100.f),
-	pitch(1.f),
-	attenuation(8.f),
-	minDistance(200.f)
+    volume(100.f),
+    pitch(1.f),
+    attenuation(8.f),
+    minDistance(200.f)
 {
 }
 
 SoundProperties::SoundProperties(float volume, float pitch, float attenuation, float minDistance) :
-	volume(volume),
-	pitch(pitch),
-	attenuation(attenuation),
-	minDistance(minDistance)
+    volume(volume),
+    pitch(pitch),
+    attenuation(attenuation),
+    minDistance(minDistance)
 {
 }

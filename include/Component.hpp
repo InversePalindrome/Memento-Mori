@@ -13,17 +13,17 @@ InversePalindrome.com
 class Component
 {
 public:
-	enum class ID { Position, Velocity, Control, Collidable, State, AI, Attack, Health, Sprite, Animation, Sound, Pickup };
+    enum class ID { Position, Velocity, Control, Collidable, State, AI, Attack, Health, Sprite, Animation, Sound, Pickup };
 
-	Component(ID componentID);
+    Component(ID componentID);
 
     ID getID() const;
 
-	friend std::istringstream& operator>>(std::istringstream& iStream, Component& component);
+    friend std::istringstream& operator>>(std::istringstream& iStream, Component& component);
 
 protected:
-	virtual std::istringstream& readStream(std::istringstream& iStream) = 0;
+    virtual std::istringstream& readStream(std::istringstream& iStream) = 0;
 
 private:
-	ID componentID;
+    ID componentID;
 };

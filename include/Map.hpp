@@ -16,15 +16,15 @@ InversePalindrome.com
 class Map : public sf::Drawable, sf::Transformable
 {
 public:
-	Map(const sf::Texture& tileset, std::size_t rows, std::size_t columns, std::size_t tileSize, std::size_t numOfTiles, sf::Vector2f tileScale);
+    Map(const sf::Texture& tileset, std::size_t rows, std::size_t columns, std::size_t tileSize, std::size_t numOfTiles, sf::Vector2f tileScale);
 
-	sf::Vector2f getSize() const;
+    sf::Vector2f getSize() const;
 
 private:
-	sf::VertexArray vertices;
-	const sf::Texture tileset;
-	const sf::Vector2f tileScale;
-	const sf::Vector2f mapSize;
+    sf::VertexArray vertices;
+    const sf::Texture tileset;
+    const sf::Vector2f tileScale;
+    const sf::Vector2f mapSize;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

@@ -10,27 +10,27 @@ InversePalindrome.com
 
 void EventQueue::addEvent(EntityEvent event)
 {
-	this->events.push(event);
+    this->events.push(event);
 }
 
 bool EventQueue::processEvent(EntityEvent& event)
 {
-	if (this->events.empty())
-	{
-		return false;
-	}
-	else
-	{
-		event = this->events.front();
-		this->events.pop();
-		return true;
-	}
+    if (this->events.empty())
+    {
+        return false;
+    }
+    else
+    {
+        event = this->events.front();
+        this->events.pop();
+        return true;
+    }
 }
 
 void EventQueue::clearEvents()
 {
-	while (!this->events.empty())
-	{
-		this->events.pop();
-	}
+    while (!this->events.empty())
+    {
+        this->events.pop();
+    }
 }

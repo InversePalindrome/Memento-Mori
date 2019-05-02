@@ -13,7 +13,7 @@ InversePalindrome.com
 class ControlComponent : public Component
 {
 public:
-	ControlComponent();
+    ControlComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 };

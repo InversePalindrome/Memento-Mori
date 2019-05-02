@@ -9,27 +9,27 @@ InversePalindrome.com
 
 
 PickupComponent::PickupComponent() :
-	Component(Component::ID::Pickup)
+    Component(Component::ID::Pickup)
 {
 }
 
 std::istringstream& PickupComponent::readStream(std::istringstream& iStream)
 {
-	std::size_t pickup = 0u;
+    std::size_t pickup = 0u;
 
-	iStream >> pickup;
+    iStream >> pickup;
 
-	this->pickupType = static_cast<PickupType>(pickup);
+    this->pickupType = static_cast<PickupType>(pickup);
 
-	return iStream;
+    return iStream;
 }
 
 PickupType PickupComponent::getPickupType() const
 {
-	return this->pickupType;
+    return this->pickupType;
 }
 
 void PickupComponent::setPickupType(PickupType pickupType)
 {
-	this->pickupType = pickupType;
+    this->pickupType = pickupType;
 }

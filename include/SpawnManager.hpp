@@ -18,29 +18,29 @@ InversePalindrome.com
 class SpawnManager
 {
 public:
-	SpawnManager(const Map& map, EntityManager& entityManager);
+    SpawnManager(const Map& map, EntityManager& entityManager);
 
-	void update(sf::Time deltaTime);
+    void update(sf::Time deltaTime);
 
-	std::size_t getRoundNumber() const;
+    std::size_t getRoundNumber() const;
 
 private:
-	EntityManager& entityManager;
-	sf::Time spawnInterval;
-	std::size_t entitiesPerRound;
-	std::size_t entityCount;
-	std::size_t roundNumber;
+    EntityManager& entityManager;
+    sf::Time spawnInterval;
+    std::size_t entitiesPerRound;
+    std::size_t entityCount;
+    std::size_t roundNumber;
 
-	const sf::Vector2f spawnZonePerimeter;
+    const sf::Vector2f spawnZonePerimeter;
 
-	static constexpr float spawnOffset = 100.f;
-	static const std::unordered_map<AI_ID, std::string> entityFiles;
+    static constexpr float spawnOffset = 100.f;
+    static const std::unordered_map<AI_ID, std::string> entityFiles;
 
-	void spawnEntity(AI_ID entity, Direction direction);
+    void spawnEntity(AI_ID entity, Direction direction);
 
-	AI_ID selectEntity() const;
-	AI_ID selectSpecialEntity() const;
+    AI_ID selectEntity() const;
+    AI_ID selectSpecialEntity() const;
 
-	void determineEntitiesPerRound();
-	void determineSpawnInterval();
+    void determineEntitiesPerRound();
+    void determineSpawnInterval();
 };

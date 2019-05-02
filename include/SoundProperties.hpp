@@ -12,11 +12,11 @@ InversePalindrome.com
 
 struct SoundProperties
 {
-	SoundProperties();
-	SoundProperties(float volume, float pitch, float attenuation, float minDistance);
+    SoundProperties();
+    SoundProperties(float volume, float pitch, float attenuation, float minDistance);
 
-	float volume;
-	float pitch;
-	float attenuation;
-	float minDistance;
+    float volume;
+    float pitch;
+    float attenuation;
+    float minDistance;
 };

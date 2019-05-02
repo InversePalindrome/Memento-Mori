@@ -10,7 +10,7 @@ InversePalindrome.com
 
 int main()
 {
-	Application app;
+    Application app;
 
-	app.run();
+    app.run();
 }

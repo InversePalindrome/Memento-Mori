@@ -15,14 +15,14 @@ enum class AI_ID { Goblin, Skeleton, GiantGoblin, GiantSkeleton, AI_Count };
 class AIComponent : public Component
 {
 public:
-	AIComponent();
+    AIComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	AI_ID getID() const;
+    AI_ID getID() const;
 
-	void setID(AI_ID ID);
+    void setID(AI_ID ID);
 
 private:
-	AI_ID ID;
+    AI_ID ID;
 };

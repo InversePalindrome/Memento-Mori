@@ -19,16 +19,16 @@ InversePalindrome.com
 
 struct SharedData
 {
-	SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& hud, TextureHolder& textures,
-		ImageHolder& images, SoundHolder& sounds, FontHolder& fonts, SoundManager& soundManager, KeyBindings& keyBindings);
+    SharedData(sf::RenderWindow& window, sfg::SFGUI& gui, sfg::Desktop& hud, TextureHolder& textures,
+        ImageHolder& images, SoundHolder& sounds, FontHolder& fonts, SoundManager& soundManager, KeyBindings& keyBindings);
 
-	sf::RenderWindow& window;
-	sfg::SFGUI& gui;
-	sfg::Desktop& hud;
-	TextureHolder& textures;
-	ImageHolder& images;
-	SoundHolder& sounds;
-	FontHolder& fonts;
-	SoundManager& soundManager;
-	KeyBindings& keyBindings;
+    sf::RenderWindow& window;
+    sfg::SFGUI& gui;
+    sfg::Desktop& hud;
+    TextureHolder& textures;
+    ImageHolder& images;
+    SoundHolder& sounds;
+    FontHolder& fonts;
+    SoundManager& soundManager;
+    KeyBindings& keyBindings;
 };

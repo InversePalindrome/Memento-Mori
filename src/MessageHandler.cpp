@@ -10,20 +10,20 @@ InversePalindrome.com
 
 void MessageHandler::subscribe(EntityMessage message, Observer* observer)
 {
-	this->subjects[message].addObserver(observer);
+    this->subjects[message].addObserver(observer);
 }
 
 void MessageHandler::unsubscribe(EntityMessage message, Observer* observer)
 {
-	this->subjects[message].removeObserver(observer);
+    this->subjects[message].removeObserver(observer);
 }
 
 void MessageHandler::dispatch(const Message& message)
 {
-	auto messageItr = this->subjects.find(message.messageType);
+    auto messageItr = this->subjects.find(message.messageType);
 
-	if (messageItr != std::end(this->subjects))
-	{
-		messageItr->second.broadcast(message);
-	}
+    if (messageItr != std::end(this->subjects))
+    {
+        messageItr->second.broadcast(message);
+    }
 }

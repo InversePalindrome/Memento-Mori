@@ -9,9 +9,9 @@ InversePalindrome.com
 
 
 Message::Message(EntityMessage messageType) :
-	messageType(messageType),
-	senderID(0),
-	receiverID(0),
-	data()
+    messageType(messageType),
+    senderID(0),
+    receiverID(0),
+    data()
 {
 }

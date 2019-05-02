@@ -19,32 +19,32 @@ InversePalindrome.com
 class Application
 {
 public:
-	Application();
+    Application();
 
-	void run();
-	
+    void run();
+
 private:
-	static const sf::Time timePerFrame;
+    static const sf::Time timePerFrame;
 
-	sf::RenderWindow window;
-	sfg::SFGUI gui;
-	sfg::Desktop hud;
+    sf::RenderWindow window;
+    sfg::SFGUI gui;
+    sfg::Desktop hud;
 
-	TextureHolder textures;
-	ImageHolder images;
-	SoundHolder sounds;
-	FontHolder fonts;
+    TextureHolder textures;
+    ImageHolder images;
+    SoundHolder sounds;
+    FontHolder fonts;
 
-	SoundManager soundManager;
+    SoundManager soundManager;
 
-	KeyBindings keyBindings;
+    KeyBindings keyBindings;
 
-	SharedData sharedData;
-	StateMachine stateMachine;
+    SharedData sharedData;
+    StateMachine stateMachine;
 
-	void processInput();
-	void update(sf::Time deltaTime);
-	void render();
+    void processInput();
+    void update(sf::Time deltaTime);
+    void render();
 
-	void loadTextures();
+    void loadTextures();
 };

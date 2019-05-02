@@ -13,134 +13,134 @@ InversePalindrome.com
 
 
 AnimationComponent::AnimationComponent() :
-	Component(Component::ID::Animation),
-	animationID(AnimationID::Idle),
-	animationDirection(Direction::Up),
-	animationFramesFile()
+    Component(Component::ID::Animation),
+    animationID(AnimationID::Idle),
+    animationDirection(Direction::Up),
+    animationFramesFile()
 {
 }
 
 std::istringstream& AnimationComponent::readStream(std::istringstream& iStream)
 {
-	iStream >> this->animationFramesFile;
+    iStream >> this->animationFramesFile;
 
-	this->addAnimations();
+    this->addAnimations();
 
-	return iStream;
+    return iStream;
 }
 
 AnimationID AnimationComponent::getAnimationID() const
 {
-	return this->animationID;
+    return this->animationID;
 }
 
 Direction AnimationComponent::getAnimationDirection() const
 {
-	return this->animationDirection;
+    return this->animationDirection;
 }
 
 void AnimationComponent::setAnimation(AnimationID animationID)
 {
-	this->animationID = animationID;
+    this->animationID = animationID;
 }
 
 void AnimationComponent::setAnimationDirection(Direction animationDiretion)
 {
-	this->animationDirection = animationDiretion;
+    this->animationDirection = animationDiretion;
 }
 
 void AnimationComponent::setAnimationsFrameFile(const std::string& fileName)
 {
-	this->animationFramesFile = fileName;
+    this->animationFramesFile = fileName;
 }
 
 void AnimationComponent::update(sf::Time deltaTime)
 {
-	this->animations.update(deltaTime);
+    this->animations.update(deltaTime);
 }
 
 void AnimationComponent::animate(sf::Sprite& sprite) const
 {
-	this->animations.animate(sprite);
+    this->animations.animate(sprite);
 }
 
 void AnimationComponent::playAnimation(bool loop)
 {
-	this->animations.playAnimation(std::make_pair(this->getAnimationID(), this->getAnimationDirection()), loop);
+    this->animations.playAnimation(std::make_pair(this->getAnimationID(), this->getAnimationDirection()), loop);
 }
 
 void AnimationComponent::stopAnimation()
 {
-	this->animations.stopAnimation();
+    this->animations.stopAnimation();
 }
 
 void AnimationComponent::addAnimation(AnimationID animationID, Direction direction, const thor::FrameAnimation& animation, sf::Time duration)
 {
-	this->animations.addAnimation(std::make_pair(animationID, direction), animation, duration);
+    this->animations.addAnimation(std::make_pair(animationID, direction), animation, duration);
 }
 
 void AnimationComponent::addAnimations()
 {
-	std::ifstream inFile(this->animationFramesFile);
-	std::string line;
+    std::ifstream inFile(this->animationFramesFile);
+    std::string line;
 
-	std::getline(inFile, line);
+    std::getline(inFile, line);
 
-	std::istringstream iStream(line);
+    std::istringstream iStream(line);
 
-	std::size_t iNumOfAnimations = 0;
+    std::size_t iNumOfAnimations = 0;
 
-	iStream >> iNumOfAnimations;
+    iStream >> iNumOfAnimations;
 
-	for (std::size_t i = 0; i < iNumOfAnimations; ++i)
-	{
-		thor::FrameAnimation animation;
+    for (std::size_t i = 0; i < iNumOfAnimations; ++i)
+    {
+        thor::FrameAnimation animation;
 
-		std::getline(inFile, line);
-		iStream.str(line);
-		iStream.clear();
-		
-		std::string iCategory;
-		
-		iStream >> iCategory;
+        std::getline(inFile, line);
+        iStream.str(line);
+        iStream.clear();
+
+        std::string iCategory;
+
+        iStream >> iCategory;
 
         if (iCategory != "Animation")
-		{
-			break;
-		}
+        {
+            break;
+        }
 
-		std::size_t iAnimationID, iDirection, iNumOfFrames = 0;
-		float iAnimationTime = 0.f;
+        std::size_t iAnimationID, iDirection, iNumOfFrames = 0;
+        float iAnimationTime = 0.f;
 
-		iStream >> iAnimationID >> iDirection >> iNumOfFrames >> iAnimationTime;
-		
-		for (std::size_t j = 0; j < iNumOfFrames; ++j)
-		{
-			std::getline(inFile, line);
-			iStream.str(line);
-			iStream.clear();
+        iStream >> iAnimationID >> iDirection >> iNumOfFrames >> iAnimationTime;
 
-			iStream >> iCategory;
+        for (std::size_t j = 0; j < iNumOfFrames; ++j)
+        {
+            std::getline(inFile, line);
+            iStream.str(line);
+            iStream.clear();
 
-			if (iCategory == "Frame")
-			{
-				float iDuration = 0.f;
+            iStream >> iCategory;
 
-				iStream >> iDuration;
-				
-				std::size_t iLeft, iTop, iWidth, iHeight = 0u;
+            if (iCategory == "Frame")
+            {
+                float iDuration = 0.f;
 
-				iStream >> iLeft >> iTop >> iWidth >> iHeight;
+                iStream >> iDuration;
 
-				animation.addFrame(iDuration, sf::IntRect(iLeft, iTop, iWidth, iHeight));
-			}
-		}
+                std::size_t iLeft, iTop, iWidth, iHeight = 0u;
 
-		this->addAnimation(static_cast<AnimationID>(iAnimationID), static_cast<Direction>(iDirection), animation, sf::seconds(iAnimationTime));
-	}
+                iStream >> iLeft >> iTop >> iWidth >> iHeight;
+
+                animation.addFrame(iDuration, sf::IntRect(iLeft, iTop, iWidth, iHeight));
+            }
+        }
+
+        this->addAnimation(static_cast<AnimationID>(iAnimationID), static_cast<Direction>(iDirection), animation, sf::seconds(iAnimationTime));
+    }
 }
 
 bool AnimationComponent::isPlayingAnimation() const
 {
-	return this->animations.isPlayingAnimation();
+    return this->animations.isPlayingAnimation();
 }

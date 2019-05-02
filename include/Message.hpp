@@ -16,11 +16,11 @@ enum class DataID { State, Direction };
 
 struct Message
 {
-	Message(EntityMessage messageType);
+    Message(EntityMessage messageType);
 
-	EntityMessage messageType;
+    EntityMessage messageType;
 
-	std::size_t senderID;
-	std::size_t receiverID;
-	std::unordered_map<DataID, std::size_t> data;
+    std::size_t senderID;
+    std::size_t receiverID;
+    std::unordered_map<DataID, std::size_t> data;
 };

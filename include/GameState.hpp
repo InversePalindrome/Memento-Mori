@@ -21,30 +21,30 @@ InversePalindrome.com
 class GameState : public State
 {
 public:
-	GameState(StateMachine& stateMachine, SharedData& sharedData);
+    GameState(StateMachine& stateMachine, SharedData& sharedData);
 
-	virtual void handleEvent(const sf::Event& event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void draw() override;
+    virtual void handleEvent(const sf::Event& event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void draw() override;
 
-	virtual bool isTransparent() override;
+    virtual bool isTransparent() override;
 
 private:
-	EntityManager entityManager;
-	SystemManager systemManager;
-	Map map;
-	SpawnManager spawnManager;
-	HealthBar healthBar;
-	RoundNumber roundNumber;
+    EntityManager entityManager;
+    SystemManager systemManager;
+    Map map;
+    SpawnManager spawnManager;
+    HealthBar healthBar;
+    RoundNumber roundNumber;
 
-	void buildScene();
+    void buildScene();
 
-	void updateHealth();
-	void movePlayer(Direction direction);
-	void attack();
+    void updateHealth();
+    void movePlayer(Direction direction);
+    void attack();
 
-	void saveScore();
+    void saveScore();
 
-	void transitionToPause();
-	void transitionToGameOver();
+    void transitionToPause();
+    void transitionToGameOver();
 };

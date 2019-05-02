@@ -15,12 +15,12 @@ InversePalindrome.com
 class MessageHandler
 {
 public:
-	void subscribe(EntityMessage message, Observer* observer);
+    void subscribe(EntityMessage message, Observer* observer);
 
-	void unsubscribe(EntityMessage message, Observer* observer);
-	
-	void dispatch(const Message& message);
+    void unsubscribe(EntityMessage message, Observer* observer);
+
+    void dispatch(const Message& message);
 
 private:
-	std::unordered_map<EntityMessage, Subject> subjects;
+    std::unordered_map<EntityMessage, Subject> subjects;
 };

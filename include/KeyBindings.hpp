@@ -15,18 +15,18 @@ enum class ActionID { Pause, MoveUp, MoveDown, MoveRight, MoveLeft, Attack };
 class KeyBindings
 {
 public:
-	KeyBindings();
+    KeyBindings();
 
-	void update(sf::Window& window);
+    void update(sf::Window& window);
 
-	void pushEvent(const sf::Event& event);
+    void pushEvent(const sf::Event& event);
 
-	bool isActive(ActionID actionID);
+    bool isActive(ActionID actionID);
 
-	void changeKey(ActionID actionID, thor::Action action);
+    void changeKey(ActionID actionID, thor::Action action);
 
-	void clearEvents();
+    void clearEvents();
 
 private:
-	thor::ActionMap<ActionID> keyBindings;
+    thor::ActionMap<ActionID> keyBindings;
 };

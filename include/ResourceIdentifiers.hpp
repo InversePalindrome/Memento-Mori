@@ -16,36 +16,36 @@ InversePalindrome.com
 
 namespace Textures
 {
-	enum class ID
-	{
-		Undefined, Logo, MenuBackground, GameOverBackground, DecoAttackingSkeleton, DecoJumpingSkeleton, StarParticle, PauseMenu, TileMap, Skeleton,
-		Goblin, Wizard, ObjectsSheet, Heart, Fireball, MainBackground, SettingsBackground, LeaderboardBackground
-	};
+    enum class ID
+    {
+        Undefined, Logo, MenuBackground, GameOverBackground, DecoAttackingSkeleton, DecoJumpingSkeleton, StarParticle, PauseMenu, TileMap, Skeleton,
+        Goblin, Wizard, ObjectsSheet, Heart, Fireball, MainBackground, SettingsBackground, LeaderboardBackground
+    };
 }
 
 namespace Images
 {
-	enum class ID
-	{
-		Undefined, PlayButton, SettingsButton, LeaderboardButton, BackButton, MenuButton, ResumeButton, RestartButton, 
-		SettingsButton2, QuitButton, ToggleButtonOn, ToggleButtonOff, MoveUp, MoveDown, MoveRight, MoveLeft, Attack
-	};
+    enum class ID
+    {
+        Undefined, PlayButton, SettingsButton, LeaderboardButton, BackButton, MenuButton, ResumeButton, RestartButton,
+        SettingsButton2, QuitButton, ToggleButtonOn, ToggleButtonOff, MoveUp, MoveDown, MoveRight, MoveLeft, Attack
+    };
 }
 
 namespace SoundBuffers
 {
-	enum class ID
-	{
-		Undefined, Footstep, Fireball, Pickup, RoundStarted
-	};
+    enum class ID
+    {
+        Undefined, Footstep, Fireball, Pickup, RoundStarted
+    };
 }
 
 namespace Fonts
 {
-	enum class ID
-	{
-		Undefined, WolfsBane
-	};
+    enum class ID
+    {
+        Undefined, WolfsBane
+    };
 }
 
 

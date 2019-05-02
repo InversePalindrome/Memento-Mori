@@ -9,7 +9,7 @@ InversePalindrome.com
 
 
 State::State(StateMachine& stateMachine, SharedData& sharedData) :
-	stateMachine(stateMachine),
-	sharedData(sharedData)
+    stateMachine(stateMachine),
+    sharedData(sharedData)
 {
 }

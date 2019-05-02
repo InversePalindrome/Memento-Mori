@@ -16,24 +16,24 @@ InversePalindrome.com
 class VelocityComponent : public Component
 {
 public:
-	VelocityComponent();
+    VelocityComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	sf::Vector2f getVelocity() const;
+    sf::Vector2f getVelocity() const;
 
-	float getSpeed() const;
+    float getSpeed() const;
 
-	Direction getDirection() const;
+    Direction getDirection() const;
 
-	void setVelocity(sf::Vector2f velocity);
+    void setVelocity(sf::Vector2f velocity);
 
-	void setSpeed(float speed);
+    void setSpeed(float speed);
 
-	void setDirection(Direction direction);
+    void setDirection(Direction direction);
 
 private:
-	sf::Vector2f velocity;
-	float speed;
-	Direction direction;
+    sf::Vector2f velocity;
+    float speed;
+    Direction direction;
 };

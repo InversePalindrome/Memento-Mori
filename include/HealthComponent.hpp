@@ -12,17 +12,17 @@ InversePalindrome.com
 
 class HealthComponent : public Component
 {
-	using Health = std::size_t;
+    using Health = std::size_t;
 
 public:
-	HealthComponent();
+    HealthComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	Health getHealth() const;
+    Health getHealth() const;
 
-	void setHealth(Health health);
+    void setHealth(Health health);
 
 private:
-	Health health;
+    Health health;
 };

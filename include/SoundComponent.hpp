@@ -15,14 +15,14 @@ InversePalindrome.com
 class SoundComponent : public Component
 {
 public:
-	SoundComponent();
+    SoundComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	SoundID getSoundID() const;
+    SoundID getSoundID() const;
 
-	void setSoundID(SoundID soundID);
+    void setSoundID(SoundID soundID);
 
 private:
-	SoundID soundID;
+    SoundID soundID;
 };

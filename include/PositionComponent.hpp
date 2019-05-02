@@ -15,15 +15,15 @@ InversePalindrome.com
 class PositionComponent : public Component
 {
 public:
-	PositionComponent();
+    PositionComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	sf::Vector2f getPosition() const;
-	void setPosition(sf::Vector2f position);
+    sf::Vector2f getPosition() const;
+    void setPosition(sf::Vector2f position);
 
-	void move(sf::Vector2f displacement);
+    void move(sf::Vector2f displacement);
 
 private:
-	sf::Vector2f position;
+    sf::Vector2f position;
 };

@@ -9,22 +9,22 @@ InversePalindrome.com
 
 
 SoundComponent::SoundComponent() :
-	Component(Component::ID::Sound),
-	soundID(-1)
+    Component(Component::ID::Sound),
+    soundID(-1)
 {
 }
 
 std::istringstream& SoundComponent::readStream(std::istringstream& iStream)
 {
-	return iStream;
+    return iStream;
 }
 
 SoundID SoundComponent::getSoundID() const
 {
-	return this->soundID;
+    return this->soundID;
 }
 
 void SoundComponent::setSoundID(SoundID soundID)
 {
-	this->soundID = soundID;
+    this->soundID = soundID;
 }

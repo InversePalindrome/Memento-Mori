@@ -15,15 +15,15 @@ InversePalindrome.com
 class StateSystem : public System
 {
 public:
-	StateSystem(SystemManager& systemManager);
+    StateSystem(SystemManager& systemManager);
 
-	virtual void handleEvent(EntityID entityID, EntityEvent event) override;
-	virtual void update(sf::Time deltaTime) override;
-	virtual void notify(const Message& message) override;
+    virtual void handleEvent(EntityID entityID, EntityEvent event) override;
+    virtual void update(sf::Time deltaTime) override;
+    virtual void notify(const Message& message) override;
 
 private:
-	static const std::unordered_map<PickupType, std::string> pickupFiles;
+    static const std::unordered_map<PickupType, std::string> pickupFiles;
 
-	void changeState(EntityID entityID, EntityState entityState);
-	void addPickup(EntityID entityID);
+    void changeState(EntityID entityID, EntityState entityState);
+    void addPickup(EntityID entityID);
 };

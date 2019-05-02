@@ -15,14 +15,14 @@ enum class EntityState { Idle, Walking, Attacking, Dead };
 class StateComponent : public Component
 {
 public:
-	StateComponent();
+    StateComponent();
 
-	virtual std::istringstream& readStream(std::istringstream& iStream) override;
+    virtual std::istringstream& readStream(std::istringstream& iStream) override;
 
-	EntityState getState() const;
+    EntityState getState() const;
 
-	void setState(EntityState state);
+    void setState(EntityState state);
 
 private:
-	EntityState state;
+    EntityState state;
 };

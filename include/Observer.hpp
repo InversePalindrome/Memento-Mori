@@ -13,5 +13,5 @@ InversePalindrome.com
 class Observer
 {
 public:
-	virtual void notify(const Message& message) = 0;
+    virtual void notify(const Message& message) = 0;
 };
